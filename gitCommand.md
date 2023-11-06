@@ -79,3 +79,11 @@
     Ví dụ: `git fetch`
 
     Lưu ý rằng các ví dụ trên chỉ mang tính chất minh họa và giả sử bạn đã cấu hình môi trường Git đúng. Bạn cần thay đổi các đối số như URL repository, tên nhánh hoặc tên tệp tin để phù hợp với dự án của bạn.
+
+
+
+
+
+sửa file , -> git add -> (thay đổi) -> git commit -m "tên thay đổi" -> () -> git push origin main 
+
+git push origin dev 
