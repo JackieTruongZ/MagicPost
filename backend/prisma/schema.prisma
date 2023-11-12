@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  username  String     @unique
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userRoles UserRole[]
+  userOrders UserOrder[]
+
+  @@map("users")
+}
+
+model Role {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userRoles UserRole[]
+}
+
+model UserRole {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  role      Role     @relation(fields: [roleId], references: [id])
+  roleId    Int
+}
+
+model Product {
+  id        Int        @id @default(autoincrement())
+  name      String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model UserProduct {
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  productId Int
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  @@unique([userId, productId])
+}
+
+
+model Order {
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  receiverName String
+  phoneNumber  String
+  address      String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  userOrders UserOrder[]
+  orderItems   OrderItem[]
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  orderId    Int
+  productId  Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  quantity   Int
+  order      Order    @relation(fields: [orderId], references: [id])
+}
+
+model UserOrder {
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId Int
+
+  @@id([userId, orderId])
+}
