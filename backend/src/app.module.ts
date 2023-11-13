@@ -3,8 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { BookmarkModule } from './bookmark/bookmark.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { RoleModule } from "./Role/role.module";
+import { ProductModule } from "./product/product.module";
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { PrismaModule } from './prisma/prisma.module';
     }),
     AuthModule,
     UserModule,
-    BookmarkModule,
+    RoleModule,
+    ProductModule,
     PrismaModule,
   ],
 })
