@@ -8,6 +8,7 @@ import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { User } from "@prisma/client";
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,7 @@ export class AuthService {
     const hash = await argon.hash(dto.password);
     // save the new user in the db
     try {
-      const user = await this.prisma.user.create({
+      const user: User = await this.prisma.user.create({
         data: {
           email: dto.email,
           hash,

@@ -23,8 +23,9 @@ const userFindProductById = () => {
 
 const userDeleteProductById = () => {
   const query =
-    `DELETE from "UserProduct" ` +
-    `WHERE "userId" = $1 AND "productId" = $2;`;
+    `DELETE FROM "UserProduct"` +
+    `WHERE "userId" = $1 AND "productId" = $2` +
+    `RETURNING *`;
   return query;
 };
 
