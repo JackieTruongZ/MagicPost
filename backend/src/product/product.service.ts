@@ -1,8 +1,9 @@
-import { ProductDto } from './dto';
+import { ProductDto, ProductResponseDto } from "./dto";
 import { User } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { json } from 'express';
+import { publish } from "rxjs";
 
 const pool = require('../db');
 const queries = require('./query');
@@ -13,80 +14,116 @@ export class ProductService {
     dto: ProductDto,
     user: User,
   ) {
-    const createProduct =
-      await this.prisma.product.create({
-        data: {
-          name: dto.productName,
-        },
-      });
-    // insert user product table
-    const createUserProduct =
-      await this.prisma.userProduct.create({
-        data: {
-          userId: user.id,
-          productId: createProduct.id,
-        },
-      });
-    return createProduct;
+    const productResponseDto = new ProductResponseDto();
+    try {
+      const createProduct =
+        await this.prisma.product.create({
+          data: {
+            name: dto.productName,
+          },
+        });
+      // insert user product table
+      const createUserProduct =
+        await this.prisma.userProduct.create({
+          data: {
+            userId: user.id,
+            productId: createProduct.id,
+          },
+        });
+      productResponseDto.setStatusOK();
+      productResponseDto.setData(createProduct);
+    } catch (err) {
+      productResponseDto.setStatusFail();
+    }
+
+    return productResponseDto;
   }
 
   async userFindAllProduct(user: User) {
     const userId: number = user.id;
-    //------------- Method 1 : use query pool pg ---------------//
-    const listProduct = await pool.query(
-      queries.userFindAllProduct(),
-      [userId],
-    );
-    if (listProduct.rowCount == 0) {
-      return 'No Product Found!';
+    const productResponseDto = new ProductResponseDto();
+
+    try {
+
+      //------------- Method 1 : use query pool pg ---------------//
+      // const result = await pool.query(queries.userFindAllProduct(), [userId]);
+
+      //------------ Method 2 : use query prisma ----------------//
+      const result = await this.prisma.userProduct.findMany({
+        where: {
+          userId,
+        },
+        include: {
+          product: true,
+        },
+      });
+
+      productResponseDto.setStatusOK();
+
+      //------- Use with Method 1 ---------------------------//
+      // productResponseDto.setData(result.rows);
+
+      //------- Use with Method 2 ---------------------------//
+      productResponseDto.setData(result)
+    } catch (err) {
+      console.log("find all products ERROR: ", err);
+      productResponseDto.setStatusFail();
     }
-    const res = listProduct.rows;
 
-    //------------ Method 2 : use query prisma ----------------//
-    // const userProducts = await this.prisma.userProduct.findMany({
-    //   where: {
-    //     userId,
-    //   },
-    //   include: {
-    //     product: true,
-    //   },
-    // });
-    // const res = userProducts.map((userProduct) => userProduct.product);
-
-    return res;
+    return productResponseDto;
   }
   async findProductById(
     productId: number,
     user: User,
   ) {
     const userId: number = user.id;
-    //------------- Method 1 : use query pool pg ---------------//
-    const product = await pool.query(
-      queries.userFindProductById(),
-      [userId, productId],
-    );
+    const productResponseDto = new ProductResponseDto();
 
-    if (product.rowCount == 0) {
-      return 'No Product Found!';
+    try {
+
+      //------------- Method 1 : use query pool pg ---------------//
+      // const result = await pool.query(queries.userFindProductById(), [userId, productId],);
+      // if (result.rowCount == 0) {
+      //   productResponseDto.setStatusFail();
+      //   productResponseDto.setMessage("Product By Id Not Found!");
+      // }
+      // else {
+      //   productResponseDto.setStatusOK();
+      //   productResponseDto.setMessage("Product By Id Found Successfully!")
+      // }
+
+      //------------ Method 2 : use query prisma ----------------//
+      const result = await this.prisma.userProduct.findUnique({
+        where: {
+          userId_productId: {
+            userId,
+            productId,
+          },
+        },
+        include: {
+          product: true,
+        },
+      });
+      if (result == null) {
+        productResponseDto.setStatusFail();
+        productResponseDto.setMessage("Product By Id Not Found!");
+      }
+      else {
+        productResponseDto.setStatusOK();
+        productResponseDto.setMessage("Product By Id Found Successfully!")
+      }
+
+      //------- Use with Method 1 ---------------------------//
+      // productResponseDto.setData(result.rows);
+
+      //------- Use with Method 2 ---------------------------//
+      productResponseDto.setData(result)
+    } catch (err) {
+      console.log("find product ERROR: ", err);
+      productResponseDto.setStatusFail();
     }
-    const res = product.rows;
-    //------------ Method 2 : use query prisma ----------------//
-    // const userProduct = await this.prisma.userProduct.findUnique({
-    //   where: {
-    //     userId_productId: {
-    //       userId,
-    //       productId,
-    //     },
-    //   },
-    //   include: {
-    //     product: true,
-    //   },
-    // });
-    // if (!userProduct) {
-    //   return "No Product Found!";
-    // }
-    // const res = userProduct.product;
-    return res;
+
+    return productResponseDto;
   }
 
   async deleteProduct(
@@ -94,29 +131,46 @@ export class ProductService {
     user: User,
   ) {
     const userId: number = user.id;
-    //------------- Method 1 : use query pool pg ---------------//
-    const deleteProduct = await pool.query(
-      queries.userDeleteProductById(),
-      [userId, productId],
-    );
+    const productResponseDto = new ProductResponseDto();
 
-    if (deleteProduct.rowCount == 0) {
-      return 'No Product Found!';
+    try {
+      //------------- Method 1 : use query pool pg ---------------//
+      // const result = await pool.query(queries.userDeleteProductById(), [userId, productId]);
+      // if (result.rowCount == 0) {
+      //   productResponseDto.setStatusFail();
+      //   productResponseDto.setMessage("Product By Id Not Found!");
+      // }
+      // else {
+      //   productResponseDto.setStatusOK();
+      //   productResponseDto.setMessage("Product By Id Delete Successfully!")
+      // }
+
+      //------------ Method 2 : use query prisma ----------------//
+      const result = await this.prisma.userProduct.deleteMany({
+        where: {
+            userId: userId,
+            productId: productId,
+        },
+      });
+      if (result.count == 0) {
+        productResponseDto.setStatusFail();
+        productResponseDto.setMessage("Product By Id Not Found!");
+      }
+      else {
+        productResponseDto.setStatusOK();
+        productResponseDto.setMessage("Product By Id Delete Successfully!")
+      }
+      //------- Use with Method 1 ---------------------------//
+      // productResponseDto.setData(result.rows);
+
+      //------- Use with Method 2 ---------------------------//
+      productResponseDto.setData(result)
+    } catch (err) {
+      console.log("delete product ERROR: ", err);
+      productResponseDto.setStatusFail();
     }
-    const res = 'ok';
 
-    //------------ Method 2 : use query prisma ----------------//
-    // const deleteProduct = await this.prisma.userProduct.deleteMany({
-    //   where: {
-    //       userId: userId,
-    //       productId: productId,
-    //   },
-    // });
-    // if (deleteProduct.count == 0) {
-    //   return "No Product Found!";
-    // }
-    // const res = deleteProduct;
-    return res;
+    return productResponseDto;
   }
 
   async updateProduct(
@@ -125,28 +179,49 @@ export class ProductService {
     user: User,
   ) {
     const userId: number = user.id;
-    //------------- Method 1 : use query pool pg ---------------//
-    const updateProduct = await pool.query(
-      queries.userUpdateProductById(),
-      [dto.productName, userId, productId],
-    );
+    const productResponseDto = new ProductResponseDto();
 
-    if (updateProduct.rowCount == 0) {
-      return 'No Product Found!';
+    try {
+      //------------- Method 1 : use query pool pg ---------------//
+      const result = await pool.query(queries.userUpdateProductById(), [dto.productName, userId, productId]);
+      if (result.rowCount == 0) {
+        productResponseDto.setStatusFail();
+        productResponseDto.setMessage("Product By Id Not Found!");
+      }
+      else {
+        productResponseDto.setStatusOK();
+        productResponseDto.setMessage("Product By Id Update Successfully!")
+      }
+
+      // ------------ Method 2 : use query prisma ----------------//
+      // const result = await this.prisma.userProduct.updateMany({
+      //   where: {
+      //       userId: userId,
+      //       productId: productId
+      //   },
+      //   data: {
+      //     productId: {
+      //       update: {
+      //         name: dto.productName,
+      //       },
+      //     },
+      //   },
+      //   include: {
+      //     product: true
+      //   }
+      // });
+
+      //------- Use with Method 1 ---------------------------//
+      productResponseDto.setData(result.rowCount);
+
+      //------- Use with Method 2 ---------------------------//
+      // productResponseDto.setData(result)
+    } catch (err) {
+      console.log("update product ERROR: ", err);
+      productResponseDto.setStatusFail();
     }
-    const res = updateProduct;
 
-    // ------------ Method 2 : use query prisma ----------------//
-    // const productUpdate = await this.prisma.product.update({
-    //   where: {
-    //     id: productId,
-    //   },
-    //   data: {
-    //     name: dto.productName,
-    //   },
-    // });
-    //
-    // const res = productUpdate;
-    return res;
+    return productResponseDto;
+
   }
 }
