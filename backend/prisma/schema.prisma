@@ -11,16 +11,20 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
-  username    String        @unique
-  email       String        @unique
-  password    String
-  hash        String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  userRoles   UserRole[]
-  userOrders  UserOrder[]
-  userProduct UserProduct[]
+  id                 Int               @id @default(autoincrement())
+  username           String            @unique
+  email              String            @unique
+  password           String
+  hash               String
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+  userRoles          UserRole[]
+  userOrders         UserOrder[]
+  userProduct        UserProduct[]
+  TransactionPoint   TransactionPoint? @relation("TransactionPointManager", fields: [transactionPointId], references: [id])
+  transactionPointId String?
+  HubPoint           HubPoint?         @relation("HubPointManager", fields: [hubPointId], references: [id])
+  hubPointId         String?
 
   @@map("users")
 }
@@ -45,9 +49,11 @@ model UserRole {
 model Product {
   id          Int           @id @default(autoincrement())
   name        String
+  mass        Int?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   userProduct UserProduct[]
+  OrderItem   OrderItem[]
 }
 
 model UserProduct {
@@ -61,30 +67,94 @@ model UserProduct {
 }
 
 model Order {
-  id           Int         @id @default(autoincrement())
-  userId       Int
-  receiverName String
-  phoneNumber  String
-  address      String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  userOrders   UserOrder[]
-  orderItems   OrderItem[]
+  id         String      @id @unique
+  userId     Int
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  userOrders UserOrder[]
+  orderItems OrderItem[]
+  inforOrder InforOder[]
+  OrderRoad  OrderRoad[]
 }
 
 model OrderItem {
-  id        Int   @id @default(autoincrement())
-  orderId   Int
-  productId Int
-  quantity  Int
-  order     Order @relation(fields: [orderId], references: [id])
+  id          Int     @id @default(autoincrement())
+  orderId     String
+  productId   Int
+  quantity    Int
+  mass        Int
+  description String
+  order       Order   @relation(fields: [orderId], references: [id])
+  product     Product @relation(fields: [productId], references: [id])
 }
 
 model UserOrder {
-  user    User  @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
   userId  Int
-  order   Order @relation(fields: [orderId], references: [id])
-  orderId Int
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
 
   @@id([userId, orderId])
+}
+
+model InforOder {
+  id                  Int    @unique
+  orderId             String
+  description         String
+  order               Order  @relation(fields: [orderId], references: [id])
+  senderName          String
+  senderNumber        String
+  senderAddress       String
+  senderPostCode      String
+  receiverName        String
+  receiverNumber      String
+  receiverAddress     String
+  receiverPostCode    String
+  mass                String
+  typeGoods           String
+  baseFee             Int
+  additionalFee       Int
+  VAT                 Int
+  cost                Int
+  Othercharge         Int
+  reveiverCOD         Int
+  reveicerOthercharge Int
+}
+
+model TransactionPoint {
+  id                 String @unique
+  name               String
+  address            String
+  numberPhone        String
+  status             String
+  quanityTransaction Int
+  managers           User[] @relation("TransactionPointManager")
+}
+
+model HubPoint {
+  id                 String @unique
+  name               String
+  address            String
+  numberPhone        String
+  status             String
+  quanityTransaction Int
+  managers           User[] @relation("HubPointManager")
+}
+
+model Road {
+  id              Int         @id @default(autoincrement())
+  orderId         String
+  roadPlan        String
+  roadRealTime    String
+  locationPointId String
+  status          String
+  OrderRoad       OrderRoad[]
+}
+
+model OrderRoad {
+  id      Int    @id @default(autoincrement())
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
+  road    Road   @relation(fields: [roadId], references: [id])
+  roadId  Int
 }
