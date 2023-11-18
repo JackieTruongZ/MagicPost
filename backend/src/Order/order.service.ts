@@ -1,4 +1,4 @@
-import { ProductDto, ProductResponseDto } from "./dto";
+import { OrderDto, OrderResponseDto } from "./dto";
 import { User } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
@@ -8,13 +8,13 @@ import { publish } from "rxjs";
 const pool = require('../db');
 const queries = require('./query');
 @Injectable()
-export class ProductService {
+export class OrderService {
   constructor(private prisma: PrismaService) {}
-  async createProduct(
-    dto: ProductDto,
+  async createOrder(
+    dto: OrderDto,
     user: User,
   ) {
-    const productResponseDto = new ProductResponseDto();
+    const productResponseDto = new OrderResponseDto();
     console.log("check 1");
     try {
       const createProduct =
@@ -40,9 +40,9 @@ export class ProductService {
     return productResponseDto;
   }
 
-  async userFindAllProduct(user: User) {
+  async findAllOrder(user: User) {
     const userId: number = user.id;
-    const productResponseDto = new ProductResponseDto();
+    const productResponseDto = new OrderResponseDto();
 
     try {
 
@@ -73,12 +73,12 @@ export class ProductService {
 
     return productResponseDto;
   }
-  async findProductById(
+  async findOrderById(
     productId: number,
     user: User,
   ) {
     const userId: number = user.id;
-    const productResponseDto = new ProductResponseDto();
+    const productResponseDto = new OrderResponseDto();
 
     try {
 
@@ -127,12 +127,12 @@ export class ProductService {
     return productResponseDto;
   }
 
-  async deleteProduct(
+  async deleteOrder(
     productId: number,
     user: User,
   ) {
     const userId: number = user.id;
-    const productResponseDto = new ProductResponseDto();
+    const productResponseDto = new OrderResponseDto();
 
     try {
       //------------- Method 1 : use query pool pg ---------------//
@@ -174,13 +174,13 @@ export class ProductService {
     return productResponseDto;
   }
 
-  async updateProduct(
-    dto: ProductDto,
+  async updateOrder(
+    dto: OrderDto,
     productId: number,
     user: User,
   ) {
     const userId: number = user.id;
-    const productResponseDto = new ProductResponseDto();
+    const productResponseDto = new OrderResponseDto();
 
     try {
       //------------- Method 1 : use query pool pg ---------------//

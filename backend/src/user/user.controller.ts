@@ -3,12 +3,16 @@ import {
   Controller,
   Get,
   Patch,
+  Post,
   UseGuards,
 } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { GetUser } from '../auth/decorator';
 import { JwtGuard } from '../auth/guard';
-import { EditUserDto } from './dto';
+import {
+  CreateUserDto,
+  EditUserDto,
+} from './dto';
 import { UserService } from './user.service';
 
 @UseGuards(JwtGuard)
@@ -26,5 +30,13 @@ export class UserController {
     @Body() dto: EditUserDto,
   ) {
     return this.userService.editUser(userId, dto);
+  }
+
+  @Post('create-user')
+  createUser(
+    @GetUser() user: User,
+    @Body() dto: CreateUserDto,
+  ) {
+    return this.userService.createUser(user, dto);
   }
 }
