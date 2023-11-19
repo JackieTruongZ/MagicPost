@@ -43,7 +43,7 @@ export class UserService {
       prisma,
     ) {
       // generate the password hash
-      const hash = await argon.hash(generalPassword.generalPassword);
+      const hash: string = await argon.hash(generalPassword.generalPassword);
 
       // save the new user in the db
       try {
@@ -87,9 +87,9 @@ export class UserService {
     // const createAccountForHubManager = (
     //   dto: CreateUserDto,
     // ) => {};hello
-
+//------- main method create User-----------///
     try {
-
+//--- check role-----------------------//
       const user =
         await this.prisma.user.findUnique({
           where: { id: userId },
