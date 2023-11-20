@@ -9,7 +9,7 @@ interface Address {
 
 const responseDto : ResponseDto = new ResponseDto()
 
-export const checkUserRoleId = (prisma: PrismaService, userId: number): number|res  => {
+export const checkUserRoleId = (prisma: PrismaService, userId: number): number|ResponseDto => {
   const user =
       prisma.user.findUnique({
       where: { id: userId },
