@@ -1,9 +1,45 @@
+import { PrismaService } from "./prisma/prisma.service";
+import { ResponseDto } from "./Response.dto";
 
 interface Address {
   id: number;
   name: string;
   code: number;
 }
+
+const responseDto : ResponseDto = new ResponseDto()
+
+export const checkUserRoleId = (prisma: PrismaService, userId: number): number|res  => {
+  const user =
+      prisma.user.findUnique({
+      where: { id: userId },
+      include: { userRoles: true },
+    });
+
+  if (!user) {
+    responseDto.setStatusFail();
+    responseDto.setMessage('User not found');
+    responseDto.setData(null);
+    return responseDto;
+  }
+  if (!user.userRoles) {
+    responseDto.setStatusFail();
+    responseDto.setMessage('UserRole not found');
+    responseDto.setData(null);
+    return responseDto;
+  }
+
+  const userRoleId = user.userRoles[0]?.roleId;
+
+  if (!userRoleId) {
+    responseDto.setStatusFail();
+    responseDto.setMessage('Role not found for the user');
+    responseDto.setData(null);
+    return responseDto;
+  }
+  return userRoleId;
+}
+
 export const indexingProvince = (strProvince: string): string => {
   function findCodeByName(name: string): number | undefined {
     const province: Address = PROVINCE_ENUM.find((p: Address) => p.name.toLowerCase() === name.toLowerCase());

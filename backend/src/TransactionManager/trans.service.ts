@@ -1,14 +1,14 @@
 import {
-  ForbiddenException,
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { TransDto } from './dto';
+import { TransDto, TransResponseDto } from "./dto";
 import {
+  checkUserRoleId,
   indexingCityDistrict,
-  indexingProvince,
-} from '../Utils';
-import { TransactionPoint } from '@prisma/client';
+  indexingProvince
+} from "../Utils";
+import { prisma, TransactionPoint } from "@prisma/client";
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 @Injectable()
@@ -19,6 +19,7 @@ export class TransService {
     userId: number,
     dto: TransDto,
   ) {
+    const transResponseDto = new TransResponseDto();
     //---------- Function for create trans ---------------------//
     async function createTransactionPoint(
       prisma: PrismaService,
@@ -41,54 +42,52 @@ export class TransService {
               quanityTransaction: 0,
             },
           });
-        return trans;
+        transResponseDto.setStatusOK();
+        transResponseDto.setData(trans);
+        return transResponseDto;
       } catch (error) {
         if (
           error instanceof
           PrismaClientKnownRequestError
         ) {
           if (error.code === 'P2002') {
-            throw new ForbiddenException(
-              'Credentials taken',
-            );
+           transResponseDto.setStatusFail();
+           transResponseDto.setMessage('Trans Already has existed!');
+           transResponseDto.setData(null);
+           return transResponseDto;
           }
         }
-        throw error;
+        transResponseDto.setStatusFail();
+        transResponseDto.setMessage('create trans get ERROR : '+ error);
+        transResponseDto.setData(null);
+        return transResponseDto;
       }
     }
     //------- main method create Trans-----------///
     try {
       //--- check role-----------------------//
-      const user =
-        await this.prisma.user.findUnique({
-          where: { id: userId },
-          include: { userRoles: true },
-        });
 
-      if (!user) {
-        throw new Error('User not found');
-      }
+      const userRoleId = checkUserRoleId(this.prisma, userId);
 
-      const userRoleId =
-        user.userRoles[0]?.roleId;
-
-      if (!userRoleId) {
-        throw new Error(
-          'Role not found for the user',
-        );
-      }
       if (userRoleId == 5) {
         return createTransactionPoint(
           this.prisma,
         );
       } else {
-        return 'You are not authorized!';
+        transResponseDto.setStatusFail();
+        transResponseDto.setMessage('You are not authorized!');
+        transResponseDto.setData(null);
+        return transResponseDto;
       }
     } catch (err) {
       console.log(
         'create trans get ERROR : ',
         err,
       );
+      transResponseDto.setStatusFail();
+      transResponseDto.setMessage('create trans get ERROR : '+ err);
+      transResponseDto.setData(null);
+      return transResponseDto;
     }
   }
 
@@ -96,17 +95,17 @@ export class TransService {
     userId: number,
     transId: string,
   ) {
+    const transResponseDto = new TransResponseDto();
     //---------- Function for delete trans ---------------------//
     async function deleteTransactionPoint(
       prisma: PrismaService,
     ) {
       try {
-        const trans = this.prisma.transactionPoint.delete({
+        const trans = await prisma.transactionPoint.delete({
           where: {
             id : transId
           }
         })
-
         return trans;
       } catch (error) {
         if (
@@ -114,12 +113,16 @@ export class TransService {
           PrismaClientKnownRequestError
         ) {
           if (error.code === 'P2002') {
-            throw new ForbiddenException(
-              'Credentials taken',
-            );
+              transResponseDto.setStatusFail();
+            transResponseDto.setMessage('Trans Already has existed!');
+            transResponseDto.setData(null);
+            return transResponseDto;
           }
         }
-        throw error;
+        transResponseDto.setStatusFail();
+        transResponseDto.setMessage('delete trans get ERROR : '+ error);
+        transResponseDto.setData(null);
+        return transResponseDto;
       }
     }
     //------- main method create Trans-----------///
@@ -132,29 +135,46 @@ export class TransService {
         });
 
       if (!user) {
-        throw new Error('User not found');
+        transResponseDto.setStatusFail();
+        transResponseDto.setMessage('User not found');
+        transResponseDto.setData(null);
+        return transResponseDto;
+      }
+      if (!user.userRoles) {
+        transResponseDto.setStatusFail();
+        transResponseDto.setMessage('UserRole not found');
+        transResponseDto.setData(null);
+        return transResponseDto;
       }
 
-      const userRoleId =
-        user.userRoles[0]?.roleId;
+      const userRoleId = user.userRoles[0]?.roleId;
 
       if (!userRoleId) {
-        throw new Error(
-          'Role not found for the user',
-        );
+        transResponseDto.setStatusFail();
+        transResponseDto.setMessage('Role not found for the user');
+        transResponseDto.setData(null);
+        return transResponseDto;
       }
+
       if (userRoleId == 5) {
-        return delete (
+        return deleteTransactionPoint (
           this.prisma
         );
       } else {
-        return 'You are not authorized!';
+        transResponseDto.setStatusFail();
+        transResponseDto.setMessage('You are not authorized!');
+        transResponseDto.setData(null);
+        return transResponseDto;
       }
     } catch (err) {
       console.log(
         'delete trans get ERROR : ',
         err,
       );
+      transResponseDto.setStatusFail();
+      transResponseDto.setMessage('delete trans get ERROR : '+ err);
+      transResponseDto.setData(null);
+      return transResponseDto;
     }
   }
 }
