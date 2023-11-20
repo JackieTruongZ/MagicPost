@@ -25,6 +25,12 @@ export class ResponseDto {
       this.message = "WARNING"
     }
 
+  setAll(status, message, data) {
+    this.setStatus(status);
+    this.setMessage(message);
+    this.setData(data)
+  }
+
     // toJson(){
     //   return `{ \n` +
     //           ` "status": ${this.status} \n` +
