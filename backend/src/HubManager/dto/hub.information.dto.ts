@@ -1,6 +1,9 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import {
+  IsNotEmpty,
+  IsString,
+} from 'class-validator';
 
-export class HubDto {
+export class HubInformationDto {
   @IsNotEmpty()
   @IsString()
   name: string;
@@ -16,7 +19,4 @@ export class HubDto {
   @IsNotEmpty()
   @IsString()
   numberPhone: string;
-  @IsNotEmpty()
-  @IsString()
-  status: string;
 }

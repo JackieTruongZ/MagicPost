@@ -1,4 +1,3 @@
-const { password, host } = require("pg/lib/defaults");
 
 const Pool = require("pg").Pool;
 

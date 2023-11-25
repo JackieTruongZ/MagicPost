@@ -1,5 +1,3 @@
-import { PrismaService } from "./prisma/prisma.service";
-import { ResponseDto } from "./Response.dto";
 
 interface Address {
   id: number;
@@ -7,51 +5,37 @@ interface Address {
   code: number;
 }
 
-const responseDto : ResponseDto = new ResponseDto()
-
-export const checkUserRoleId = (prisma: PrismaService, userId: number): number|res  => {
-  const user =
-      prisma.user.findUnique({
-      where: { id: userId },
-      include: { userRoles: true },
-    });
-
-  if (!user) {
-    responseDto.setStatusFail();
-    responseDto.setMessage('User not found');
-    responseDto.setData(null);
-    return responseDto;
+export const generateNameOfTransHub = (province: string, cityDistrict: string, name: string) => {
+  if (
+    indexingProvince(province) == '404' ||
+    indexingCityDistrict(cityDistrict) ==
+    '404'
+  ) {
+   return '404';
   }
-  if (!user.userRoles) {
-    responseDto.setStatusFail();
-    responseDto.setMessage('UserRole not found');
-    responseDto.setData(null);
-    return responseDto;
-  }
-
-  const userRoleId = user.userRoles[0]?.roleId;
-
-  if (!userRoleId) {
-    responseDto.setStatusFail();
-    responseDto.setMessage('Role not found for the user');
-    responseDto.setData(null);
-    return responseDto;
-  }
-  return userRoleId;
+  return `${name}_${indexingProvince(province)}_${indexingCityDistrict(cityDistrict)}`;
 }
 
 export const indexingProvince = (strProvince: string): string => {
   function findCodeByName(name: string): number | undefined {
     const province: Address = PROVINCE_ENUM.find((p: Address) => p.name.toLowerCase() === name.toLowerCase());
-    return province?.code;
+    if (province === undefined){
+      console.log(province);
+      return 404;
+    }
+    return province.code;
   }
   return findCodeByName(strProvince).toString();
 }
 
 export const indexingCityDistrict = (strCityDistrict: string): string => {
-  function findCodeByName(name: string): number | undefined {
+  function findCodeByName(name: string): number {
     const cityDistrict: Address = CITY_DISTRICT_ENUM.find((p: Address) => p.name.toLowerCase() === name.toLowerCase());
-    return cityDistrict?.code;
+    if (cityDistrict === undefined){
+      console.log(cityDistrict);
+      return 404;
+    }
+    return cityDistrict.code;
   }
   return findCodeByName(strCityDistrict).toString();
 }

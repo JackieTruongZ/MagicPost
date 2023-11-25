@@ -14,6 +14,7 @@ import {
   EditUserDto,
 } from './dto';
 import { UserService } from './user.service';
+import { AddAuthDto } from "./dto/add-auth.dto";
 
 @UseGuards(JwtGuard)
 @Controller('users')
@@ -38,5 +39,13 @@ export class UserController {
     @Body() dto: CreateUserDto,
   ) {
     return this.userService.createUser(user, dto);
+  }
+
+  @Post('add-auth')
+  addAuth(
+    @GetUser('id') userId: number,
+    @Body() dto: AddAuthDto,
+  ) {
+    return this.userService.addAuth(userId, dto);
   }
 }

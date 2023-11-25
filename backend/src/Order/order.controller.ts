@@ -22,12 +22,12 @@ export class OrderController {
     @GetUser() user: User,
     @Body() dto: OrderDto,
   ) {
-    const product =
+    const order =
       await this.orderService.createOrder(
         dto,
         user,
       );
-    return product;
+    return order;
   }
   @Get('order')
   async findAllOrder(

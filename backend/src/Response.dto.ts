@@ -3,6 +3,18 @@ export class ResponseDto {
     private message: string
     private data: any
 
+  get Status(): string {
+    return this.status;
+  }
+
+  get Message(): string {
+    return this.message;
+  }
+
+  get Data(): any {
+    return this.data;
+  }
+
   setStatus(_status: string) {
       this.status = _status
   }
@@ -25,10 +37,10 @@ export class ResponseDto {
       this.message = "WARNING"
     }
 
-  setAll(status, message, data) {
-    this.setStatus(status);
-    this.setMessage(message);
-    this.setData(data)
+  setAll(_status: string, _message: string, _data: string) {
+    this.setStatus(_status);
+    this.setMessage(_message);
+    this.setData(_data);
   }
 
     // toJson(){
