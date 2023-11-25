@@ -10,12 +10,13 @@ const queries = require('./query');
 @Injectable()
 export class ProductService {
   constructor(private prisma: PrismaService) {}
+
+  // -----------for API call --------------------
   async createProduct(
     dto: ProductDto,
     user: User,
   ) {
     const productResponseDto = new ProductResponseDto();
-    console.log("check 1");
     try {
       const createProduct =
         await this.prisma.product.create({
@@ -225,4 +226,48 @@ export class ProductService {
     return productResponseDto;
 
   }
+
+  // ----- for service other API ----------------
+  async createProductByOrder(
+    dto: ProductDto,
+  ): Promise<ProductResponseDto> {
+    const productResponseDto = new ProductResponseDto();
+    try {
+      const createProduct =
+        await this.prisma.product.create({
+          data: {
+            name: dto.productName,
+          },
+        });
+      productResponseDto.setStatusOK();
+      productResponseDto.setData(createProduct);
+    } catch (err) {
+      productResponseDto.setStatusFail();
+    }
+    return productResponseDto;
+  }
+
+  async deleteProductByOrder(
+    productId: number,
+  ) {
+    const productResponseDto = new ProductResponseDto();
+    try {
+
+      //------------ Method 2 : use query prisma ----------------//
+      const result = await this.prisma.product.delete({
+        where: {
+          id: productId,
+        },
+      });
+      //------- Use with Method 2 ---------------------------//
+      productResponseDto.setStatusOK();
+      productResponseDto.setData(result)
+    } catch (err) {
+      console.log("delete product ERROR: ", err);
+      productResponseDto.setStatusFail();
+    }
+
+    return productResponseDto;
+  }
+
 }

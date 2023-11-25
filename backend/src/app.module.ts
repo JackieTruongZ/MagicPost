@@ -7,6 +7,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { RoleModule } from "./Role/role.module";
 import { ProductModule } from "./product/product.module";
 import { TransModule } from "./TransactionManager/trans.module";
+import { HubModule } from "./HubManager/hub.module";
+import { OrderModule } from "./Order/order.module";
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { TransModule } from "./TransactionManager/trans.module";
     ProductModule,
     PrismaModule,
     TransModule,
+    HubModule,
+    OrderModule,
   ],
 })
 export class AppModule {}

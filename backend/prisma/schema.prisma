@@ -119,15 +119,15 @@ model InforOder {
 }
 
 model TransactionPoint {
-  id                 String      @unique
-  name               String
-  province           String
-  cityDistrict       String
-  address            String
-  numberPhone        String
-  status             String
-  quanityTransaction Int
-  UserPoint          UserPoint[]
+  id                  String      @unique
+  name                String
+  province            String
+  cityDistrict        String
+  address             String
+  numberPhone         String
+  status              String
+  quantityTransaction Int
+  UserPoint           UserPoint[]
 }
 
 model HubPoint {
@@ -138,7 +138,7 @@ model HubPoint {
   address      String
   numberPhone  String
   status       String
-  quanityHub   Int
+  quantityHub  Int
   UserPoint    UserPoint[]
 }
 
@@ -154,13 +154,14 @@ model UserPoint {
 }
 
 model Road {
-  id              Int         @id @default(autoincrement())
-  orderId         String
-  roadPlan        String
-  roadRealTime    String
-  locationPointId String
-  status          String
-  OrderRoad       OrderRoad[]
+  id                  Int         @id @default(autoincrement())
+  orderId             String
+  roadPlan            String
+  roadRealTime        String
+  locationPointId     String
+  nextLocationPointId String
+  status              String
+  OrderRoad           OrderRoad[]
 }
 
 model OrderRoad {
