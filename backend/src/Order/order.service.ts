@@ -2,7 +2,7 @@ import {
   OrderDto,
   OrderResponseDto,
 } from './dto';
-import { User } from '@prisma/client';
+import { Road, User } from "@prisma/client";
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductDto } from '../product/dto';
@@ -164,7 +164,7 @@ export class OrderService {
         ) => {
           const senderHub = `hub_${senderTransId.slice(-5)}`
           const receiverHub = `hub_${receiverTransId.slice(-5)}`
-          if (senderHub == receiverHub) {
+          if (senderHub === receiverHub) {
             return `${senderTransId}/${senderHub}/${receiverTransId}`;
           } else {
             return `${senderTransId}/${senderHub}/${receiverHub}/${receiverTransId}`;
@@ -201,6 +201,510 @@ export class OrderService {
         orderResponseDto.setStatusFail();
         orderResponseDto.setMessage(
           'create order get error: ' + err,
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    }
+  }
+
+  // ---------------------------------- FUNCTION OF STAFF ----------------------------------------//
+  // ------------- confirm Order move from trans ---------//
+  async confirmOrderFromTrans(orderId: string, userId: number) {
+    let orderResponseDto = new OrderResponseDto();
+
+    try {
+      //--- check role-----------------------//
+      const userRoleId: number | ResponseDto =
+        await this.userService.checkUserRoleId(
+          userId,
+        );
+
+      if (typeof userRoleId !== 'number') {
+        orderResponseDto =
+          userRoleId as OrderResponseDto;
+        return orderResponseDto;
+      }
+
+      if (
+        userRoleId == 5 ||
+        userRoleId == 51 ||
+        userRoleId == 511
+      ) {
+        return confirmOrderFromTrans(
+          this.prisma,
+        );
+      } else {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'You are not authorized!',
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    } catch (err) {
+      console.log(
+        'confirm Order from trans get ERROR : ',
+        err,
+      );
+      orderResponseDto.setStatusFail();
+      orderResponseDto.setData(null);
+      return orderResponseDto;
+    }
+
+    // ---------- END check role -----------//
+
+    async function confirmOrderFromTrans(
+      prisma: PrismaService,
+    ) {
+      try {
+
+        //-------- get current day -------//
+        const currentDate = new Date();
+        const formattedDate = currentDate
+          .toISOString()
+          .replace(/[-:]/g, '')
+          .replace(/\.\d{3}/g, '');
+
+        // --------------------- update Road for order ---------------------- //
+        // ------- check exist orderId ------- //
+
+        const road = await prisma.road.findMany({
+          where: {
+            orderId: orderId,
+          }
+        });
+
+        if (!road[0]) {
+          orderResponseDto.setStatusFail();
+          orderResponseDto.setMessage(`orderId is not existed!`);
+          orderResponseDto.setData(null);
+        }
+
+        let nextLocationPointId: string;
+        let status: string;
+        if (road[0].roadPlan === road[0].roadRealTime ) {
+          nextLocationPointId = "customer";
+          status = "drive";
+        } else {
+          nextLocationPointId = road[0].roadPlan.replace(road[0].roadRealTime + "/", "").split("/")[0];
+          status = "move";
+        }
+        const roadForOrder =
+          await prisma.road.update({
+            where: {
+              id: road[0].id,
+            },
+            data: {
+              status: status,
+              nextLocationPointId: nextLocationPointId,
+            }
+          })
+
+        orderResponseDto.setStatusOK();
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      } catch (err) {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'confirm Order from trans get ERROR : ' + err,
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    }
+  }
+
+  // ------------- confirm order on hub -----------------//
+  async confirmOrderOnHub(orderId: string, userId: number) {
+    let orderResponseDto = new OrderResponseDto();
+
+    try {
+      //--- check role-----------------------//
+      const userRoleId: number | ResponseDto =
+        await this.userService.checkUserRoleId(
+          userId,
+        );
+
+      if (typeof userRoleId !== 'number') {
+        orderResponseDto =
+          userRoleId as OrderResponseDto;
+        return orderResponseDto;
+      }
+
+      if (
+        userRoleId == 5 ||
+        userRoleId == 52 ||
+        userRoleId == 521
+      ) {
+        return confirmOrderOnHub(
+          this.prisma,
+        );
+      } else {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'You are not authorized!',
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    } catch (err) {
+      console.log(
+        'confirm Order on hub get ERROR : ',
+        err,
+      );
+      orderResponseDto.setStatusFail();
+      orderResponseDto.setData(null);
+      return orderResponseDto;
+    }
+
+    // ---------- END check role -----------//
+
+    async function confirmOrderOnHub(
+      prisma: PrismaService,
+    ) {
+      try {
+
+        //-------- get current day -------//
+        const currentDate = new Date();
+        const formattedDate = currentDate
+          .toISOString()
+          .replace(/[-:]/g, '')
+          .replace(/\.\d{3}/g, '');
+
+        // ----------------- update Road for order ----------------- //
+        // ------- check exist orderId ------- //
+
+        const road = await prisma.road.findMany({
+          where: {
+            orderId: orderId,
+          }
+        });
+
+        if (!road[0]) {
+          orderResponseDto.setStatusFail();
+          orderResponseDto.setMessage(`orderId is not existed!`);
+          orderResponseDto.setData(null);
+        }
+
+        const roadRealTime = `${road[0].roadRealTime}/${road[0].nextLocationPointId}`;
+
+        const roadForOrder: Road =
+          await prisma.road.update({
+            where: {
+              id: road[0].id,
+            },
+            data: {
+              status: `stay`,
+              locationPointId : road[0].nextLocationPointId,
+              roadRealTime: roadRealTime,
+            }
+          })
+
+        orderResponseDto.setStatusOK();
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      } catch (err) {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'confirm Order on hub get ERROR : ' + err,
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    }
+  }
+
+  // ------------- confirm order move from hub -----------------//
+  async confirmOrderFromHub(orderId: string, userId: number) {
+    let orderResponseDto = new OrderResponseDto();
+
+    try {
+      //--- check role-----------------------//
+      const userRoleId: number | ResponseDto =
+        await this.userService.checkUserRoleId(
+          userId,
+        );
+
+      if (typeof userRoleId !== 'number') {
+        orderResponseDto =
+          userRoleId as OrderResponseDto;
+        return orderResponseDto;
+      }
+
+      if (
+        userRoleId == 5 ||
+        userRoleId == 52 ||
+        userRoleId == 521
+      ) {
+        return confirmOrderFromHub(
+          this.prisma,
+        );
+      } else {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'You are not authorized!',
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    } catch (err) {
+      console.log(
+        'confirm Order move from hub get ERROR : ',
+        err,
+      );
+      orderResponseDto.setStatusFail();
+      orderResponseDto.setData(null);
+      return orderResponseDto;
+    }
+
+    // ---------- END check role -----------//
+
+    async function confirmOrderFromHub(
+      prisma: PrismaService,
+    ) {
+      try {
+
+        //-------- get current day -------//
+        const currentDate = new Date();
+        const formattedDate = currentDate
+          .toISOString()
+          .replace(/[-:]/g, '')
+          .replace(/\.\d{3}/g, '');
+
+        // ----------------- update Road for order ----------------- //
+        // ------- check exist orderId ------- //
+
+        const road = await prisma.road.findMany({
+          where: {
+            orderId: orderId,
+          }
+        });
+
+        if (!road[0]) {
+          orderResponseDto.setStatusFail();
+          orderResponseDto.setMessage(`orderId is not existed!`);
+          orderResponseDto.setData(null);
+        }
+
+        const nextLocationPointId: string = road[0].roadPlan.replace(road[0].roadRealTime + "/", "").split("/")[0];
+
+        const roadForOrder: Road =
+          await prisma.road.update({
+            where: {
+              id: road[0].id,
+            },
+            data: {
+              status: `move`,
+              nextLocationPointId: nextLocationPointId,
+            }
+          })
+
+        orderResponseDto.setStatusOK();
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      } catch (err) {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'confirm Order move from hub get ERROR : ' + err,
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    }
+  }
+
+  // ------------- confirm Order on trans ---------//
+  async confirmOrderOnTrans(orderId: string, userId: number) {
+    let orderResponseDto = new OrderResponseDto();
+
+    try {
+      //--- check role-----------------------//
+      const userRoleId: number | ResponseDto =
+        await this.userService.checkUserRoleId(
+          userId,
+        );
+
+      if (typeof userRoleId !== 'number') {
+        orderResponseDto =
+          userRoleId as OrderResponseDto;
+        return orderResponseDto;
+      }
+
+      if (
+        userRoleId == 5 ||
+        userRoleId == 51 ||
+        userRoleId == 511 ||
+        userRoleId == 512
+      ) {
+        return confirmOrderOnTrans(
+          this.prisma,
+        );
+      } else {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'You are not authorized!',
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    } catch (err) {
+      console.log(
+        'confirm Order on trans get ERROR : ',
+        err,
+      );
+      orderResponseDto.setStatusFail();
+      orderResponseDto.setData(null);
+      return orderResponseDto;
+    }
+
+    // ---------- END check role -----------//
+
+    async function confirmOrderOnTrans(
+      prisma: PrismaService,
+    ) {
+      try {
+
+        //-------- get current day -------//
+        const currentDate = new Date();
+        const formattedDate = currentDate
+          .toISOString()
+          .replace(/[-:]/g, '')
+          .replace(/\.\d{3}/g, '');
+
+        // --------------------- update Road for order ---------------------- //
+        // ------- check exist orderId ------- //
+
+        const road = await prisma.road.findMany({
+          where: {
+            orderId: orderId,
+          }
+        });
+
+        if (!road[0]) {
+          orderResponseDto.setStatusFail();
+          orderResponseDto.setMessage(`orderId is not existed!`);
+          orderResponseDto.setData(null);
+        }
+
+        const roadRealTime = `${road[0].roadRealTime}/${road[0].nextLocationPointId}`;
+
+        const roadForOrder =
+          await prisma.road.update({
+            where: {
+              id: road[0].id,
+            },
+            data: {
+              status: `stay`,
+              locationPointId: road[0].nextLocationPointId,
+              roadRealTime: roadRealTime,
+            }
+          })
+
+        orderResponseDto.setStatusOK();
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      } catch (err) {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'confirm Order on trans get ERROR : ' + err,
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    }
+  }
+
+  // ------------- confirm Order Success Fail ---------//
+  async confirmSuccessFail(orderId: string, userId: number, status: string) {
+    let orderResponseDto = new OrderResponseDto();
+
+    try {
+      //--- check role-----------------------//
+      const userRoleId: number | ResponseDto =
+        await this.userService.checkUserRoleId(
+          userId,
+        );
+
+      if (typeof userRoleId !== 'number') {
+        orderResponseDto =
+          userRoleId as OrderResponseDto;
+        return orderResponseDto;
+      }
+
+      if (
+        userRoleId == 5 ||
+        userRoleId == 51 ||
+        userRoleId == 511 ||
+        userRoleId == 512
+      ) {
+        return confirmSuccessFail(
+          this.prisma,
+        );
+      } else {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'You are not authorized!',
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    } catch (err) {
+      console.log(
+        'confirm Order Success Fail get ERROR : ',
+        err,
+      );
+      orderResponseDto.setStatusFail();
+      orderResponseDto.setData(null);
+      return orderResponseDto;
+    }
+
+    // ---------- END check role -----------//
+
+    async function confirmSuccessFail(
+      prisma: PrismaService,
+    ) {
+      try {
+
+        //-------- get current day -------//
+        const currentDate = new Date();
+        const formattedDate = currentDate
+          .toISOString()
+          .replace(/[-:]/g, '')
+          .replace(/\.\d{3}/g, '');
+
+        // --------------------- update Road for order ---------------------- //
+        // ------- check exist orderId ------- //
+
+        const road = await prisma.road.findMany({
+          where: {
+            orderId: orderId,
+          }
+        });
+
+        if (!road[0]) {
+          orderResponseDto.setStatusFail();
+          orderResponseDto.setMessage(`orderId is not existed!`);
+          orderResponseDto.setData(null);
+        }
+
+        const roadForOrder =
+          await prisma.road.update({
+            where: {
+              id: road[0].id,
+            },
+            data: {
+              status: status,
+            }
+          })
+
+        orderResponseDto.setStatusOK();
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      } catch (err) {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'confirm Order Success Fail get ERROR : ' + err,
         );
         orderResponseDto.setData(null);
         return orderResponseDto;
