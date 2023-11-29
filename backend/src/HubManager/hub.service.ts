@@ -543,4 +543,27 @@ export class HubService {
     }
     //------END function --------------------//
   }
+
+  // -----------function for other API ------- //
+  async checkHubForUser(userId: number, hubId: string) {
+
+
+    try {
+      const check = await this.prisma.userPoint.findMany({
+        where : {
+          userId: userId,
+          hubId: hubId
+        }
+      })
+      if (!check[0]) {
+        return false;
+      }
+      return true;
+    }
+    catch(err) {
+      console.log("check hub for user get error : " + err);
+      return false;
+    }
+
+  }
 }

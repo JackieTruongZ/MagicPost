@@ -11,6 +11,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { ResponseDto } from '../Response.dto';
 import { UserService } from '../user/user.service';
 import { TransInformationDto } from './dto/trans.information.dto';
+import { log } from 'console';
 
 @Injectable()
 export class TransService {
@@ -575,4 +576,28 @@ export class TransService {
   }
 
   // ------ for service other api -----------//
+
+  async checkTransForUser(
+    userId: number,
+    transId: string,
+  ) {
+    try {
+      const check =
+        await this.prisma.userPoint.findMany({
+          where: {
+            userId: userId,
+            transId: transId,
+          },
+        });
+      if (!check[0]) {
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.log(
+        'check trans for user get error : ' + err,
+      );
+      return false;
+    }
+  }
 }
