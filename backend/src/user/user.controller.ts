@@ -14,7 +14,7 @@ import {
   EditUserDto,
 } from './dto';
 import { UserService } from './user.service';
-import { AddAuthDto } from "./dto/add-auth.dto";
+import { AddAuthDto } from './dto/add-auth.dto';
 
 @UseGuards(JwtGuard)
 @Controller('users')
@@ -47,5 +47,14 @@ export class UserController {
     @Body() dto: AddAuthDto,
   ) {
     return this.userService.addAuth(userId, dto);
+  }
+
+  @Get('TransHubOfUser')
+  async findTransForUser(
+    @GetUser('id') userId: number,
+  ) {
+    return this.userService.findTransForUser(
+      userId,
+    );
   }
 }
