@@ -176,7 +176,7 @@ export class OrderController {
     return order;
   }
 
-  @Post('find-order-from-trans-hub')
+  @Post('find-order-success-fail-return')
   async findAllOrderSuccessOrFailOrReturn(
     @GetUser() user: User,
     @Body() dto: OrderFindDto,
