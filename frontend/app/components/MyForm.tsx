@@ -4,7 +4,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import * as Yup from 'yup';
-import "./style.css"
+import "../componentStyle/MyForm.css"
 
 const validationSchema = Yup.object().shape({
   username: Yup.string().required('Username is required'),
