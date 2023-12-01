@@ -11,6 +11,8 @@
   height: 1024px;
   position: relative;
   width: 1440px;
+  border: 0;
+  margin: 0;
 }
 
 .log-in .login-form {
