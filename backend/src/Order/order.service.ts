@@ -722,8 +722,8 @@ export class OrderService {
             `orderId is not existed!`,
           );
           orderResponseDto.setData(null);
+          return orderResponseDto;
         }
-
         if (road[0].status === 'wait') {
           const roadForOrder =
             await prisma.road.update({
