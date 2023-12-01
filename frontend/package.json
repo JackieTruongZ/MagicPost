@@ -9,9 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+<<<<<<< HEAD
     "formik": "^2.4.5",
     "next": "^14.0.1",
     "primeicons": "^6.0.1",
+=======
+    "next": "14.0.1",
+    "primeflex": "^3.3.1",
+>>>>>>> 322e3e715bf37a55ed561f5000f994338e492da7
     "primereact": "^10.2.1",
     "react": "^18",
     "react-dom": "^18",

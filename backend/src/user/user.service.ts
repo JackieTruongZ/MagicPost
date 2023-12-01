@@ -357,4 +357,40 @@ export class UserService {
       // ------- END function -----------------------------//
     }
   }
+
+
+  // find Trans Hub for User
+  async findTransForUser(userId: number) {
+    const userResponseDto = new UserResponseDto();
+    try {
+      const check = await this.prisma.userPoint.findMany({
+        where : {
+          userId: userId,
+        }
+      })
+      if (!check[0]) {
+        userResponseDto.setStatusFail();
+        userResponseDto.setMessage('user not manager this point');
+        userResponseDto.setData(null);
+        return userResponseDto;
+      }
+      if (check[0].transId !== '404') {
+        userResponseDto.setStatusOK();
+        userResponseDto.setMessage('trans');
+        userResponseDto.setData(check[0].transId);
+        return userResponseDto;
+      }else {
+        userResponseDto.setStatusOK();
+        userResponseDto.setMessage('hub');
+        userResponseDto.setData(check[0].hubId);
+        return userResponseDto;
+      }
+    }
+    catch(err) {
+      console.log("find trans hub for user get error : " + err);
+      return false;
+    }
+  }
+
+
 }
