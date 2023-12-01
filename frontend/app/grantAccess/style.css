@@ -22,8 +22,19 @@
     flex-direction: column;
 }
 
+@media screen and (max-width:330) {
+    body {
+        background-position-y: 25vw;
+    }
+}
 
 @media screen and (max-width:400px) {
+    .loginImage {
+        max-height: 70%;
+    }
+}
+
+@media screen and (max-width:468px) {
     .login-block {
         flex: 1 ;
     }
@@ -36,19 +47,26 @@
     }
     body {
         background-image: url("/asset/log-in-img.png");
-        background-size:contain;
+        background-size: auto;
+        background-size: 100vw;
         background-repeat: no-repeat;
         backface-visibility:visible;
-        
     }
 }
 
 @media screen and (max-width:800px) {
     .login-block {
-        flex: 1 ;
+        flex: 1;
+    }
+    .loginImage {
+        flex: 2;
     }
     .html {
         font-size: 14px;
+    }
+    .main-content {
+        width: 100%;
+        margin: 0;
     }
 }
 @media screen and (min-width:1000px) {
