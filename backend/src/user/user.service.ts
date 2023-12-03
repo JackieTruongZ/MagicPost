@@ -9,15 +9,18 @@ import {
 } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { prisma, User } from "@prisma/client";
+import { prisma, Role, User, UserPoint, UserRole } from "@prisma/client";
 import { ResponseDto } from '../Response.dto';
 import { AddAuthDto } from './dto/add-auth.dto';
 import { UserResponseDto } from './dto/user.response.dto';
 import { AddAuthInforDto } from './dto/add-auth-infor.dto';
 import { generalPassword } from "../password";
+import { log } from 'console';
+import { UserinforResponseDto } from './dto/userinfor.response.dto';
 
 @Injectable()
 export class UserService {
+
   constructor(private prisma: PrismaService) {}
 
   async editUser(
@@ -164,45 +167,6 @@ export class UserService {
       );
     }
   }
-
-  checkUserRoleId = async (
-    userId: number,
-  ): Promise<number | ResponseDto> => {
-    const responseDto: ResponseDto =
-      new ResponseDto();
-    const user =
-      await this.prisma.user.findUnique({
-        where: { id: userId },
-        include: { userRoles: true },
-      });
-    if (!user) {
-      responseDto.setStatusFail();
-      responseDto.setMessage('User not found');
-      responseDto.setData(null);
-      return responseDto;
-    }
-    if (!user.userRoles) {
-      responseDto.setStatusFail();
-      responseDto.setMessage(
-        'UserRole not found',
-      );
-      responseDto.setData(null);
-      return responseDto;
-    }
-    const userRoleId =
-      user['userRoles'][0]?.roleId;
-
-    if (!userRoleId) {
-      console.log(userRoleId);
-      responseDto.setStatusFail();
-      responseDto.setMessage(
-        'Role not found for the user',
-      );
-      responseDto.setData(null);
-      return responseDto;
-    }
-    return userRoleId;
-  };
 
   async addAuth(userId: number, dto: AddAuthDto) {
     let userResponseDto: UserResponseDto =
@@ -392,5 +356,81 @@ export class UserService {
     }
   }
 
+  //--- for other API---------- //
+  checkUserRoleId = async (
+    userId: number,
+  ): Promise<number | ResponseDto> => {
+    const responseDto: ResponseDto =
+      new ResponseDto();
+    const user =
+      await this.prisma.user.findUnique({
+        where: { id: userId },
+        include: { userRoles: true },
+      });
+    if (!user) {
+      responseDto.setStatusFail();
+      responseDto.setMessage('User not found');
+      responseDto.setData(null);
+      return responseDto;
+    }
+    if (!user.userRoles) {
+      responseDto.setStatusFail();
+      responseDto.setMessage(
+        'UserRole not found',
+      );
+      responseDto.setData(null);
+      return responseDto;
+    }
+    const userRoleId =
+      user['userRoles'][0]?.roleId;
+
+    if (!userRoleId) {
+      console.log(userRoleId);
+      responseDto.setStatusFail();
+      responseDto.setMessage(
+        'Role not found for the user',
+      );
+      responseDto.setData(null);
+      return responseDto;
+    }
+    return userRoleId;
+  };
+
+
+  async getUser(user: User) {
+    try {
+      const userType: UserPoint = await this.prisma.userPoint.findUnique({
+        where: {
+          userId : user.id
+        }
+       });
+       const role:  UserRole[] = await this.prisma.userRole.findMany({
+        where: {
+          userId: user.id,
+        }
+       })
+       const userinforResponseDto = new UserinforResponseDto();
+       userinforResponseDto.setStatusOK();
+       userinforResponseDto.setUserInfor(user,userType,role[0]);
+       return userinforResponseDto;
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+
+  async getTypeUser(userId: number) {
+    try {
+      const userType = await this.prisma.userPoint.findUnique({
+        where: {
+          userId : userId
+        }
+       });
+       return userType;
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
 
 }
