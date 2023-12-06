@@ -1,0 +1,35 @@
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(180deg, rgba(255, 114, 94, 0.50) 0%, rgba(217, 217, 217, 0.20) 100%);
+}
+
+.nav-title {
+  color: #000;
+  text-align: center;
+  font-family: Inter;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  .avatar {
+    border-radius: 50%;
+  }
+}
+
+
+
+.nav-username {
+  font-size: 20px;
+}
+
+.nav-login {
+  font-size: 20px;
+}

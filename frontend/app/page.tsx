@@ -1,7 +1,5 @@
 import Image from 'next/image'
 import { PrimeReactProvider, PrimeReactContext } from 'primereact/api';
-
-import "../public/theme/theme.css";
 import { Button } from 'primereact/button';     
 
 export default function Home() {
