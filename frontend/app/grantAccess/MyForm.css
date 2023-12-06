@@ -25,7 +25,7 @@ form {
   .p-inputtext {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc; */
     border-radius: 3px;
     box-sizing: border-box;
   }
@@ -38,7 +38,6 @@ form {
   /* Style for dropdown */
   .p-dropdown {
     width: 100%;
-    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
     box-sizing: border-box;

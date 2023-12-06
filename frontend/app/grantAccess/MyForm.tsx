@@ -8,7 +8,8 @@ import * as Yup from 'yup';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import "../componentStyle/MyForm.css"
+import "./MyForm.css"
+import axios from 'axios';
 
 const validationSchema = Yup.object().shape({
   grantAccess: Yup.boolean().oneOf([true], 'Grant access is required'),
@@ -29,10 +30,30 @@ const employeeTypes = [
   { label: 'Boss', value: '3' },
 ];
 
+const loginData = {
+    email: "huynhnhu@gmail.com",
+    password: "12345678"
+}
+
+const loginEndpoint = "https://magicpost-60b7.onrender.com/auth/signin";
+async function request() {
+  try {
+    let res = await axios.post(loginEndpoint, loginData);
+      console.log(res);
+  } catch(error) {
+    console.error("error message: " + error.message);
+    alert(`Email: ${loginData.email} \nPassword: 12345678`);
+  } 
+}
+
 export default function MyForm() {
   const handleSubmit = (values, { setSubmitting }) => {
     // Gửi dữ liệu nếu hợp lệ
     console.log('Form submitted:', values);
+
+    //Dùng axios để gọi API
+    request();
+
     setSubmitting(false);
   };
 

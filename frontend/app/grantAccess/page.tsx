@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, Fragment, useEffect } from "react";
 import Header from "../components/Header";
-import MyForm from "../components/MyForm";
+import MyForm from "./MyForm";
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
