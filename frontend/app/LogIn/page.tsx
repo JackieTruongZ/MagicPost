@@ -2,17 +2,18 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import './style.css'; // Import the CSS file
+import './style2.css'; // Import the CSS file
 import { InputText } from "primereact/inputtext";
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
+import { BaseService } from '../service/BaseService';
 
 const LogIn = () => {
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-
+const baseService = new BaseService();
 
   const handleEmailBlur = () => {
     if (!emailValue) {
@@ -32,9 +33,9 @@ const LogIn = () => {
     }
   };
 
-  const handleSubmit = (e : any) => {
+  const handleSubmit = async (e : any) => {
     e.preventDefault();
-  
+    
     let emailErrorText = '';
     let passwordErrorText = '';
   
@@ -62,6 +63,23 @@ const LogIn = () => {
     console.log('Email:', emailValue);
     console.log('Password:', passwordValue);
   
+// call api 
+
+const formLogin :any = {
+  email: emailValue,
+  password: passwordValue
+}
+    const login = await baseService.login(formLogin);
+    if (login.data.status === 'OK') {
+      // toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Login Success'});
+      window.localStorage.setItem('access_token', login.data.data.access_token)
+      const userInfor = await baseService.getUser();
+      window.localStorage.setItem('username', userInfor.data.data.user.username)
+      console.log(userInfor);
+      // setTimeout(()=>{window.location.href = '/dashboard'},1000);
+    } else {
+      // toast.current?.show({ severity: 'error', summary: 'Error', detail: `${login.data.message}` });
+    }
     // Reset form values
     setEmailValue('');
     setPasswordValue('');
@@ -90,15 +108,13 @@ const LogIn = () => {
   };
 
   return (
-    <div className="log-in">
-      <header className="test-header">Header</header>
-      <div className="login-form">
-
-        <div className="text-wrapper">Log In</div>
+    <div className="log-in ">
+      <div className="login-form m-2">
+        <div className="text-wrapper mb-4">Log In</div>
 
         <form onSubmit={handleSubmit}>
-          <div className="email">
-            <div className="text-wrapper-2">Email</div>
+          <div className="email mb-4">
+            <div className="text-wrapper-2 mb-2">Email</div>
             <div className="card flex justify-content-center">
               <InputText
                 className="email-content"
@@ -112,7 +128,7 @@ const LogIn = () => {
           </div>
           
           <div className="password">
-            <div className="text-wrapper-2">Password</div>
+            <div className="text-wrapper-2 mb-2">Password</div>
             <div className="card flex justify-content-center">
               <Password
                 className="password-content"
@@ -129,10 +145,9 @@ const LogIn = () => {
           </div>
         </form>
         <div className="login-button">
-          <Button label="Log In" type="submit" />
+          <Button label="Log In" type="submit" onClick={(e)=>{handleSubmit(e)}} />
         </div>
       </div>
-<Button>hello</Button>
       <img className="log-in-image" alt="Log in image" src="./asset/login-image.png" />
     </div>
   );

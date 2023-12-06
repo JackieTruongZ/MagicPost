@@ -1,4 +1,5 @@
 .log-in {
+  position: relative;
   display: flex;
   justify-content: center;
   margin: auto;
@@ -200,10 +201,9 @@
 
 @media screen and (max-width: 1024px) {
   .log-in .login-form{
-    position: fixed;
-    background-image: url("../../public/asset/login-image.png");
+  
   }
   .log-in .log-in-image{
-    display: none;
+   
   }
 }

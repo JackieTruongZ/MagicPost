@@ -1,0 +1,26 @@
+.log-in {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .log-in .login-form {
+    width: auto;
+    position: relative;
+    top: 117px;
+    height: 380px;
+    border: solid 2px;
+  }
+
+
+@media screen and (max-width: 1024px) {
+    .log-in .login-form{
+        z-index: 9999;
+        width: 80%;
+    }
+    .log-in .log-in-image{
+     position: fixed;
+     opacity: 0.2;
+    }
+  }
