@@ -52,7 +52,7 @@ const LogOut =() => {
   ];
 
   return (
-    <div>
+    <div className='flex absolute right-0'>
       <div onClick={toggleOpen}>
         {username ? (
           <div className="nav-user">

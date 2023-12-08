@@ -48,6 +48,19 @@ export class TransController {
     return trans;
   }
 
+  @Get('province/:id')
+  async findTransByProvinceId(
+    @GetUser('id') userId: number,
+    @Param('id') provinceId: string,
+  ) {
+    const trans: TransResponseDto =
+      await this.transService.findTransByProvinceId(
+        userId,
+        provinceId,
+      );
+    return trans;
+  }
+
   @Post('add-trans')
   async createTrans(
     @GetUser('id') userId: number,
