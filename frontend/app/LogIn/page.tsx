@@ -148,7 +148,7 @@ const LogIn = () => {
                 placeholder="Enter password"
               />
             </div>
-            {passwordError && <div className="password-error-message mt-1">{passwordError}</div>}
+                        {passwordError && <div className="password-error-message mt-1">{passwordError}</div>}
           </div>
         </form>
         <div className="login-button" >
