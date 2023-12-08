@@ -71,3 +71,9 @@ form {
     font-weight: bolder;
     font-size: larger;
   }
+
+  .swal2-popup-theme-danger {
+    --swal2-popup-background: #ffcccc;
+    --swal2-title-color: #ff0000;
+    --swal2-html-color: #ff0000;
+  }

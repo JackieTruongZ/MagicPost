@@ -10,49 +10,72 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import "./MyForm.css"
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
+// Kiểm tra điều kiện các ô input, nhập sai thì ra chữ đỏ
 const validationSchema = Yup.object().shape({
   grantAccess: Yup.boolean().oneOf([true], 'Grant access is required'),
   username: Yup.string().required('Username is required'),
   email: Yup.string().email('Invalid email address').required('Email is required'),
-  employeeType: Yup.string().required('Employee type is required'),
+  roleId: Yup.string().required('Employee type is required'),
+  firstName: Yup.string().required('First name is required'),
+  lastName: Yup.string().required('Last name is required'),
 });
 
+//initial values cho formik
 const initialValues = {
   username: '',
   email: '',
-  employeeType: '',
+  roleId: '',
+  firstName: '',
+  lastName: '',
 };
 
-const employeeTypes = [
-  { label: 'Normal Employee', value: '1' },
-  { label: 'Outstanding Employee', value: '2' },
-  { label: 'Boss', value: '3' },
+//các role id
+const roleId = [
+  {value: 7,label: 'customer'},
+  {value: 5,label: 'CEO'},
+  {value: 51,label: 'Transaction Manager'},
+  {value: 52,label: 'Hub Manager'},
+  {value: 511,label: 'Trans staff'},
+  {value: 512,label: 'driver staff'},
+  {value: 521,label: 'hub staff'},
 ];
 
-const loginData = {
-    email: "huynhnhu@gmail.com",
-    password: "12345678"
-}
+const loginEndpoint = "https://magicpost-60b7.onrender.com/users/create-user";
+const access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiaHV5bmhuaHVAZ21haWwuY29tIiwiaWF0IjoxNzAyMDMwMjY5LCJleHAiOjE3MDIwMzM4Njl9.CjqnshRVtUKp4P8-PcbwfFexePrTUc4yNLoUDaKiTCQ";
 
-const loginEndpoint = "https://magicpost-60b7.onrender.com/auth/signin";
-async function request() {
+async function request(values : any) {
   try {
-    let res = await axios.post(loginEndpoint, loginData);
-      console.log(res);
+    let res = await axios.post(loginEndpoint, values,{
+      headers: {
+        authorization : `Bearer ${access_token}`,
+      }
+    });
+    console.log(res);
+    if (res.status == 201) {
+      Swal.fire({
+        title: "Good job!",
+        text: "Khoi tao thanh cong",
+        icon: "success"
+      });
+    }
   } catch(error) {
-    console.error("error message: " + error.message);
-    alert(`Email: ${loginData.email} \nPassword: 12345678`);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: `Something went wrong! ${error.response.data.message}`
+    });
   } 
 }
 
 export default function MyForm() {
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = (values : any, { setSubmitting }) => {
     // Gửi dữ liệu nếu hợp lệ
     console.log('Form submitted:', values);
 
     //Dùng axios để gọi API
-    request();
+    request(values);
 
     setSubmitting(false);
   };
@@ -65,7 +88,28 @@ export default function MyForm() {
     >
       <Form>
         <span className='form-name'>Grant Access</span>
-
+        <div className="p-field">
+          <label htmlFor="firstName">First Name</label>
+          <Field
+            id="firstName"
+            name="firstName"
+            type="text"
+            as={InputText}
+            className="p-inputtext"
+          />
+          <ErrorMessage name="firstName" component="small" className="p-error" />
+        </div>
+        <div className="p-field">
+          <label htmlFor="lastName">Last Name</label>
+          <Field
+            id="lastName"
+            name="lastName"
+            type="text"
+            as={InputText}
+            className="p-inputtext"
+          />
+          <ErrorMessage name="lastName" component="small" className="p-error" />
+        </div>
         <div className="p-field">
           <label htmlFor="username">Username</label>
           <Field
@@ -91,18 +135,18 @@ export default function MyForm() {
         </div>
 
         <div className="p-field">
-          <label htmlFor="employeeType">Employee Type</label>
+          <label htmlFor="roleId">Employee Type</label>
           <Field
-            id="employeeType"
-            name="employeeType"
-            options={employeeTypes}
+            id="roleId"
+            name="roleId"
+            options={roleId}
             optionLabel="label"
             optionValue="value"
             className="p-dropdown"
             placeholder="Select an employee type"
             as={Dropdown}
           />
-          <ErrorMessage name="employeeType" component="small" className="p-error" />
+          <ErrorMessage name="roleId" component="small" className="p-error" />
         </div>
 
         <Button type="submit" label="Submit" className="p-button p-component" />

@@ -1,0 +1,5 @@
+.component-container {
+    background-image: url("https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/bg01.jpg?alt=media&token=3f1550c9-cb02-4396-adda-ad409c84c922"); /* Đường dẫn đến bức ảnh background */
+    background-size: cover; /* Hiển thị bức ảnh cover toàn bộ phần tử */
+    background-repeat: repeat; /* Lặp lại bức ảnh để đạt đến độ rộng màn hình */
+  }

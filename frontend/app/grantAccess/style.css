@@ -48,13 +48,14 @@
     body {
         background-image: url("/asset/log-in-img.png");
         background-size: auto;
-        background-size: 100vw;
+        background-size: 100%;
         background-repeat: no-repeat;
         backface-visibility:visible;
+        background-position-y: 15vh;
     }
 }
 
-@media screen and (max-width:800px) {
+@media screen and (max-width:1300px) {
     .login-block {
         flex: 1;
     }
@@ -67,9 +68,10 @@
     .main-content {
         width: 100%;
         margin: 0;
+        display: flex;
     }
 }
-@media screen and (min-width:1000px) {
+@media screen and (min-width:1300px) {
     .login-block {
         flex: 2 ;
     }

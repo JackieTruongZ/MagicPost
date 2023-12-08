@@ -3,12 +3,19 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { AuthDto, AuthSigninDto, AuthSignupDto } from "./dto";
+import {
+  AuthDto,
+  AuthSigninDto,
+  AuthSignupDto,
+  AuthResponseDto,
+} from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { User } from "@prisma/client";
+import { User } from '@prisma/client';
+import { ResponseDto } from 'src/Response.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
@@ -21,16 +28,18 @@ export class AuthService {
   async signup(dto: AuthSignupDto) {
     // generate the password hash
     const hash = await argon.hash(dto.password);
+    const authResponseDto = new AuthResponseDto();
     // save the new user in the db
     try {
-      const user: User = await this.prisma.user.create({
-        data: {
-          email: dto.email,
-          hash,
-          username:dto.username,
-          password:dto.password
-        },
-      });
+      const user: User =
+        await this.prisma.user.create({
+          data: {
+            email: dto.email,
+            hash,
+            username: dto.username,
+            password: dto.password,
+          },
+        });
 
       return this.signToken(user.id, user.email);
     } catch (error) {
@@ -39,17 +48,25 @@ export class AuthService {
         PrismaClientKnownRequestError
       ) {
         if (error.code === 'P2002') {
-          throw new ForbiddenException(
+          authResponseDto.setStatusFail();
+          authResponseDto.setMessage(
             'Credentials taken',
           );
+          authResponseDto.setData(null);
+          return authResponseDto;
         }
       }
-      throw error;
+      authResponseDto.setStatusFail();
+      authResponseDto.setMessage(error);
+      authResponseDto.setData(null);
+      return authResponseDto;
     }
   }
 
   async signin(dto: AuthSigninDto) {
     // find the user by email
+
+    const authResponseDto = new AuthResponseDto();
     const user =
       await this.prisma.user.findUnique({
         where: {
@@ -57,10 +74,14 @@ export class AuthService {
         },
       });
     // if user does not exist throw exception
-    if (!user)
-      throw new ForbiddenException(
-        'Credentials incorrect',
+    if (!user) {
+      authResponseDto.setStatusFail();
+      authResponseDto.setMessage(
+        'Sorry wrong email !',
       );
+      authResponseDto.setData(null);
+      return authResponseDto;
+    }
 
     // compare password
     const pwMatches = await argon.verify(
@@ -68,17 +89,21 @@ export class AuthService {
       dto.password,
     );
     // if password incorrect throw exception
-    if (!pwMatches)
-      throw new ForbiddenException(
-        'Credentials incorrect',
+    if (!pwMatches) {
+      authResponseDto.setStatusFail();
+      authResponseDto.setMessage(
+        'Sorry wrong password !',
       );
+      authResponseDto.setData(null);
+      return authResponseDto;
+    }
     return this.signToken(user.id, user.email);
   }
 
   async signToken(
     userId: number,
     email: string,
-  ): Promise<{ access_token: string }> {
+  ): Promise<AuthResponseDto> {
     const payload = {
       sub: userId,
       email,
@@ -88,13 +113,15 @@ export class AuthService {
     const token = await this.jwt.signAsync(
       payload,
       {
-        expiresIn: '15m',
+        expiresIn: '60m',
         secret: secret,
       },
     );
 
-    return {
-      access_token: token,
-    };
+    const authResponseDto: AuthResponseDto =
+      new AuthResponseDto();
+    authResponseDto.setStatusOK();
+    authResponseDto.setAccessToken(token);
+    return authResponseDto;
   }
 }
