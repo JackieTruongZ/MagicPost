@@ -24,7 +24,7 @@ const LogIn = () => {
   
     return emailPattern.test(trimmedEmail);
   };
-  
+
   const handleEmailBlur = () => {
     if (!emailValue) {
       setEmailError('Email is required');
@@ -92,7 +92,7 @@ const LogIn = () => {
       const userInfor = await baseService.getUser();
       window.localStorage.setItem('username', userInfor.data.data.user.username)
       console.log(userInfor);
-      // setTimeout(()=>{window.location.href = '/dashboard'},1000);
+      setTimeout(()=>{window.location.href = '/dashboard'},1000);
     } else {
       // toast.current?.show({ severity: 'error', summary: 'Error', detail: `${login.data.message}` });
     }
