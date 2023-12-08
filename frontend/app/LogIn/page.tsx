@@ -13,8 +13,18 @@ const LogIn = () => {
   const [passwordValue, setPasswordValue] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-const baseService = new BaseService();
+  const baseService = new BaseService();
 
+  const isValidEmail = (email : any) => {
+    // Regex pattern for email validation
+    const emailPattern = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  
+    // Trim the input email to remove leading and trailing spaces
+    const trimmedEmail = email.trim();
+  
+    return emailPattern.test(trimmedEmail);
+  };
+  
   const handleEmailBlur = () => {
     if (!emailValue) {
       setEmailError('Email is required');
@@ -33,23 +43,28 @@ const baseService = new BaseService();
     }
   };
 
+  const emailValidation = () => {
+    if (!emailValue) {
+      return 'Email is required';
+    } else if (!isValidEmail(emailValue)) {
+      return 'Invalid email';
+    }
+    return '';
+  }
+  
+  const passwordValidation = () => {
+    if (!passwordValue) {
+      return 'Password is required';
+    }
+    return '';
+  }
+
   const handleSubmit = async (e : any) => {
     e.preventDefault();
     
-    let emailErrorText = '';
-    let passwordErrorText = '';
-  
-    // Perform email validation
-    if (!emailValue) {
-      emailErrorText = 'Email is required';
-    } else if (!isValidEmail(emailValue)) {
-      emailErrorText = 'Invalid email';
-    }
-  
-    // Perform password validation
-    if (!passwordValue) {
-      passwordErrorText = 'Password is required';
-    }
+    
+    const emailErrorText = emailValidation();
+    const passwordErrorText = passwordValidation();
   
     setEmailError(emailErrorText);
     setPasswordError(passwordErrorText);
@@ -65,10 +80,11 @@ const baseService = new BaseService();
   
 // call api 
 
-const formLogin :any = {
-  email: emailValue,
-  password: passwordValue
-}
+    const formLogin :any = {
+      email: emailValue,
+      password: passwordValue
+    }
+    
     const login = await baseService.login(formLogin);
     if (login.data.status === 'OK') {
       // toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Login Success'});
@@ -97,25 +113,16 @@ const formLogin :any = {
     setPasswordError('');
   };
 
-  const isValidEmail = (email : any) => {
-    // Regex pattern for email validation
-    const emailPattern = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-  
-    // Trim the input email to remove leading and trailing spaces
-    const trimmedEmail = email.trim();
-  
-    return emailPattern.test(trimmedEmail);
-  };
 
   return (
     <div className="log-in ">
       <div className="login-form m-2">
-        <div className="text-wrapper mb-4">Log In</div>
+        <div className="text-wrapper mb-5">Log In</div>
 
         <form onSubmit={handleSubmit}>
-          <div className="email mb-4">
-            <div className="text-wrapper-2 mb-2">Email</div>
-            <div className="card flex justify-content-center">
+          <div className="email mb-5">
+            <div className="text-wrapper-2">Email</div>
+            <div className="card flex justify-content-center mt-2">
               <InputText
                 className="email-content"
                 value={emailValue}
@@ -124,12 +131,13 @@ const formLogin :any = {
                 placeholder="Enter email"
               />
             </div>
-            {emailError && <div className="email-error-message">{emailError}</div>}
+            {emailError && <div className="email-error-message mt-1">{emailError}</div>}
           </div>
           
-          <div className="password">
+          <div className="password mb-5">
             <div className="text-wrapper-2 mb-2">Password</div>
-            <div className="card flex justify-content-center">
+            <Link href="" className="text-wrapper-3">Forgot Password?</Link>
+            <div className="card flex justify-content-center mt-2">
               <Password
                 className="password-content"
                 value={passwordValue}
@@ -140,11 +148,10 @@ const formLogin :any = {
                 placeholder="Enter password"
               />
             </div>
-            {passwordError && <div className="password-error-message">{passwordError}</div>}
-            <Link href="" className="text-wrapper-3">Forgot Password?</Link>
+            {passwordError && <div className="password-error-message mt-1">{passwordError}</div>}
           </div>
         </form>
-        <div className="login-button">
+        <div className="login-button" >
           <Button label="Log In" type="submit" onClick={(e)=>{handleSubmit(e)}} />
         </div>
       </div>

@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   justify-content: center;
-  margin: auto;
+  align-content: center;
 }
 
 .log-in .test-header {
@@ -155,13 +155,9 @@
   top: 77px;
 }
 
-.log-in .login-button {
-  height: 37px;
-  left: 90px;
-  position: absolute;
-  top: 333px;
-  width: 257px;
-  outline: none;
+.login-form .login-button {
+  justify-content: center;
+  width: 435px;
 }
 
 .p-button.p-component {
@@ -183,12 +179,9 @@
   font-size: 20px;
   font-weight: 600;
   height: 24px;
-  left: 96px;
   letter-spacing: 1px;
   line-height: normal;
-  position: absolute;
   text-align: center;
-  top: 7px;
   white-space: nowrap;
 }
 
@@ -197,13 +190,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-@media screen and (max-width: 1024px) {
-  .log-in .login-form{
-  
-  }
-  .log-in .log-in-image{
-   
-  }
 }
