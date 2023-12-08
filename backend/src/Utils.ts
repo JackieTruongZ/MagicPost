@@ -28,6 +28,18 @@ export const indexingProvince = (strProvince: string): string => {
   return findCodeByName(strProvince).toString();
 }
 
+export const findProvinceById = (provinceId: string): string => {
+  function findCodeByName(proviceId: string): string | undefined {
+    const province: Address = PROVINCE_ENUM.find((p: Address) => p.code === parseInt(proviceId));
+    if (province === undefined){
+      console.log(province);
+      return '404';
+    }
+    return province.name;
+  }
+  return findCodeByName(provinceId).toString();
+}
+
 export const indexingCityDistrict = (strCityDistrict: string): string => {
   function findCodeByName(name: string): number {
     const cityDistrict: Address = CITY_DISTRICT_ENUM.find((p: Address) => p.name.toLowerCase() === name.toLowerCase());

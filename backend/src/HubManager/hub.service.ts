@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
 import { ResponseDto } from '../Response.dto';
-import { generateNameOfTransHub } from '../Utils';
+import {
+  findProvinceById,
+  generateNameOfTransHub,
+} from '../Utils';
 import { HubPoint } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { HubDto } from './dto/hub.dto';
@@ -544,26 +547,107 @@ export class HubService {
     //------END function --------------------//
   }
 
-  // -----------function for other API ------- //
-  async checkHubForUser(userId: number, hubId: string) {
+  async findHubByProvinceId(
+    userId: number,
+    proviceId: string,
+  ) {
+    let hubResponseDto = new HubResponseDto();
 
-
+    //------- main method delete Trans-----------///
     try {
-      const check = await this.prisma.userPoint.findMany({
-        where : {
-          userId: userId,
-          hubId: hubId
+      //--- check role-----------------------//
+
+      const userRoleId: number | ResponseDto =
+        await this.userService.checkUserRoleId(
+          userId,
+        );
+
+      if (typeof userRoleId !== 'number') {
+        hubResponseDto =
+          userRoleId as HubResponseDto;
+        return hubResponseDto;
+      }
+
+      if (userRoleId == 5) {
+        return findHubByProvinceId(this.prisma);
+      } else {
+        hubResponseDto.setStatusFail();
+        hubResponseDto.setMessage(
+          'You are not authorized!',
+        );
+        hubResponseDto.setData(null);
+        return hubResponseDto;
+      }
+    } catch (err) {
+      console.log(
+        `find hubs by id : ${proviceId} get ERROR : `,
+        err,
+      );
+      hubResponseDto.setStatusFail();
+      hubResponseDto.setMessage(
+        `find hubs by id : ${proviceId} get ERROR : ` +
+          err,
+      );
+      hubResponseDto.setData(null);
+      return hubResponseDto;
+    }
+    //-------- END check role ---------------------------------------------//
+
+    //---------- Function for find trans ---------------------//
+    async function findHubByProvinceId(
+      prisma: PrismaService,
+    ) {
+      try {
+        const hub =
+          await prisma.hubPoint.findMany({
+            where: {
+              province: proviceId,
+            },
+          });
+        hubResponseDto.setStatusOK();
+        if (!hub[0]) {
+          hubResponseDto.setStatusFail();
+          hubResponseDto.setMessage(
+            'No trans in here !',
+          );
         }
-      })
+        hubResponseDto.setData(hub);
+        return hubResponseDto;
+      } catch (error) {
+        hubResponseDto.setStatusFail();
+        hubResponseDto.setMessage(
+          `find hubs by id : ${proviceId} get ERROR : ` +
+            error,
+        );
+        hubResponseDto.setData(null);
+        return hubResponseDto;
+      }
+    }
+    //------END function --------------------//
+  }
+
+  // -----------function for other API ------- //
+  async checkHubForUser(
+    userId: number,
+    hubId: string,
+  ) {
+    try {
+      const check =
+        await this.prisma.userPoint.findMany({
+          where: {
+            userId: userId,
+            hubId: hubId,
+          },
+        });
       if (!check[0]) {
         return false;
       }
       return true;
-    }
-    catch(err) {
-      console.log("check hub for user get error : " + err);
+    } catch (err) {
+      console.log(
+        'check hub for user get error : ' + err,
+      );
       return false;
     }
-
   }
 }

@@ -25,6 +25,19 @@ export class HubController {
     return hub;
   }
 
+  @Get('province/:id')
+  async findHubByProvinceId(
+    @GetUser('id') userId: number,
+    @Param('id') provinceId: string,
+  ) {
+    const hub: HubResponseDto =
+      await this.hubService.findHubByProvinceId(
+        userId,
+        provinceId,
+      );
+    return hub;
+  }
+
   @Post('add-hub')
   async createHub(
     @GetUser('id') userId: number,
