@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Avatar } from 'primereact/avatar';
 import { Menu } from 'primereact/menu';
 import { MenuItem } from 'primereact/menuitem';
-//import classNames from 'classnames';
+import classNames from 'classnames';
 
 interface UserMenuProps {
   username: string;

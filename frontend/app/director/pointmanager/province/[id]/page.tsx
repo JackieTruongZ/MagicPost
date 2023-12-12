@@ -1,21 +1,23 @@
 'use client'
 import { BaseService } from '@/app/service/BaseService';
-import { findProvinceById } from '@/public/utils/Utils';
+import { findProvinceById, ResponseData } from '@/public/utils/Utils';
+
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Button } from 'primereact/button';
 import React, { useEffect, useState } from 'react';
+import CreatePointFrom from '../../createPointFrom';
 
 const PointManagerDetail = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname: string = usePathname();
   const baseService = new BaseService();
-  const [hubs, setHubs] = useState([]);
-  const [trans, setTrans] = useState([]);
-  const [checkHub, setCheckHub] = useState(false);
-  const [checkTrans, setCheckTrans] = useState(false);
+  const [hubs, setHubs] = useState<ResponseData | undefined>();
+  const [trans, setTrans] = useState<ResponseData | undefined>();
+  const [createHub, setCreateHub] = useState(false);
+  const [createTrans, setCreateTrans] = useState(false);
 
-  
+
   useEffect(() => {
     const fetchData = async () => {
       if (!pathname) {
@@ -25,16 +27,20 @@ const PointManagerDetail = () => {
       try {
         const resHubs: any = await baseService.getHubsByProvinceId(provinceId);
         const resTrans: any = await baseService.getTransByProvinceId(provinceId);
-  
-        if (resHubs.statusText === 'OK') {
-          setCheckHub(true);
+
+        console.log(resHubs);
+
+
+        if (resHubs.data.status) {
+          // setCheckHub(true);
           setHubs(resHubs.data);
         }
-        if (resTrans.statusText === 'OK') {
-          setCheckTrans(true);
+        if (resTrans.data.status) {
+          // setCheckTrans(true);
           setTrans(resTrans.data);
         }
-      
+
+
       } catch (error) {
         console.log(error);
       }
@@ -51,9 +57,24 @@ const PointManagerDetail = () => {
     <div>
       <p>{findProvinceById(pathname.slice(-2))}</p>
       <p>Hub Point</p>
+      <Button label='Tạo điểm tập kết' onClick={()=>{setCreateHub(!createHub)}}/>
       {
-        checkHub ? (
+        createHub && (
+          <CreatePointFrom/>
+        )
+      }
+      {
+        hubs !== undefined ? (
           <div>
+            {(hubs?.status === 'FAIL') ? (
+              <div>
+                Không có điểm tập kết ở đây !
+              </div>
+            ) : (
+              <div>
+
+              </div>
+            )}
           </div>
         ) : (
           <div>đang load !</div>
@@ -61,9 +82,25 @@ const PointManagerDetail = () => {
       }
       <hr />
       <p>Transaction Point</p>
+      <Button label='Tạo điểm giao dịch' onClick={()=>{setCreateTrans(!createTrans)}}/>
       {
-        checkTrans ? (
-          <div></div>
+        createTrans && (
+          <CreatePointFrom/>
+        )
+      }
+      {
+        trans !== undefined ? (
+          <div>
+            {(hubs?.status === 'FAIL') ? (
+              <div>
+                Không có điểm giao dịch ở đây !
+              </div>
+            ) : (
+              <div>
+
+              </div>
+            )}
+          </div>
         ) : (
           <div>đang load !</div>
         )
