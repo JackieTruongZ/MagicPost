@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import * as dotenv from "dotenv";
 
 dotenv.config();
-// const API_URL = "https://magicpost-60b7.onrender.com";
-const API_URL = "http://localhost:3333";
+const API_URL = "https://magicpost-60b7.onrender.com";
+// const API_URL = "http://localhost:3333";
 
 export class BaseService {
   async login(formData: any) {
