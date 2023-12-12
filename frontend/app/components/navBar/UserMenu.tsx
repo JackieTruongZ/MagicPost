@@ -52,7 +52,7 @@ const LogOut =() => {
   ];
 
   return (
-    <div>
+    <div className='flex absolute right-0'>
       <div onClick={toggleOpen}>
         {username ? (
           <div className="nav-user">
@@ -65,7 +65,7 @@ const LogOut =() => {
             />
           </div>
         ) : (
-          <div className="nav-user" onClick={()=>{ window.location.href = '/login';}}>
+          <div className="nav-user" onClick={()=>{ window.location.href = '/LogIn';}}>
             <span className="nav-login">Login</span>
             <Avatar
               image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava0.png?alt=media&token=463cf159-9230-457f-aa5e-703f55f644ac"

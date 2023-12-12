@@ -1,11 +1,16 @@
+import { Button } from "primereact/button";
+
+
 interface MenuItemProps{
     children: React.ReactNode;
     onClick: () => void;
 }
 
-const MenuItem:React.FC<MenuItemProps> = () => {
+const MenuItem:React.FC<MenuItemProps> = ({ children, onClick }) => {
     return (
-        <div></div>
+        <Button className = 'h-2rem mr-4 ' onClick={onClick}>
+        {children}
+        </Button>
     );
 }
 
