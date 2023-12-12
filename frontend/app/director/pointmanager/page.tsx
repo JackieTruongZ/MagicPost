@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { PROVINCE_ENUM, viewType } from '../../../public/utils/Utils';
-import { Address } from '../../../public/utils/Utils';
 import { Dropdown } from 'primereact/dropdown';
 import ListView from './listView';
 import GridView from './gridView';

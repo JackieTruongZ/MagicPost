@@ -110,7 +110,9 @@
   justify-content: center;
 }
 
-.p-button.p-component {
+/* t fix cái này rồi nhá phải đi đúng button  */
+
+.log-in .login-button Button {
   background-color: #ff725e;
   border-radius: 5px;
   height: 37px;
