@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import './style2.css'; // Import the CSS file
 import { InputText } from "primereact/inputtext";
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { BaseService } from '../service/BaseService';
+import { Toast } from 'primereact/toast';
 
 const LogIn = () => {
   const [emailValue, setEmailValue] = useState('');
@@ -14,6 +15,7 @@ const LogIn = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const baseService = new BaseService();
+  const toast = useRef<Toast | null>(null);
 
   const isValidEmail = (email : any) => {
     // Regex pattern for email validation
@@ -87,14 +89,14 @@ const LogIn = () => {
     
     const login = await baseService.login(formLogin);
     if (login.data.status === 'OK') {
-      // toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Login Success'});
+      toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Login Success'});
       window.localStorage.setItem('access_token', login.data.data.access_token)
       const userInfor = await baseService.getUser();
       window.localStorage.setItem('username', userInfor.data.data.user.username)
       console.log(userInfor);
       setTimeout(()=>{window.location.href = '/dashboard'},1000);
     } else {
-      // toast.current?.show({ severity: 'error', summary: 'Error', detail: `${login.data.message}` });
+      toast.current?.show({ severity: 'error', summary: 'Error', detail: `${login.data.message}` });
     }
     // Reset form values
     setEmailValue('');
@@ -116,6 +118,7 @@ const LogIn = () => {
 
   return (
     <div className="log-in ">
+       <Toast ref={toast} />
       <div className="login-form m-2">
         <div className="text-wrapper mb-5">Log In</div>
 
