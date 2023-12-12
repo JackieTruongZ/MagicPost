@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Role" ALTER COLUMN "id" DROP DEFAULT;
-DROP SEQUENCE "Role_id_seq";
