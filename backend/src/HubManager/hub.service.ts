@@ -5,6 +5,7 @@ import { ResponseDto } from '../Response.dto';
 import {
   findProvinceById,
   generateNameOfTransHub,
+  indexingProvince,
 } from '../Utils';
 import { HubPoint } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
@@ -549,7 +550,7 @@ export class HubService {
 
   async findHubByProvinceId(
     userId: number,
-    proviceId: string,
+    provinceId: string,
   ) {
     let hubResponseDto = new HubResponseDto();
 
@@ -580,12 +581,12 @@ export class HubService {
       }
     } catch (err) {
       console.log(
-        `find hubs by id : ${proviceId} get ERROR : `,
+        `find hubs by id : ${provinceId} get ERROR : `,
         err,
       );
       hubResponseDto.setStatusFail();
       hubResponseDto.setMessage(
-        `find hubs by id : ${proviceId} get ERROR : ` +
+        `find hubs by id : ${provinceId} get ERROR : ` +
           err,
       );
       hubResponseDto.setData(null);
@@ -598,25 +599,27 @@ export class HubService {
       prisma: PrismaService,
     ) {
       try {
+        const province = findProvinceById(provinceId)
         const hub =
           await prisma.hubPoint.findMany({
             where: {
-              province: proviceId,
+              province: province,
             },
           });
         hubResponseDto.setStatusOK();
         if (!hub[0]) {
           hubResponseDto.setStatusFail();
           hubResponseDto.setMessage(
-            'No trans in here !',
+            'No hub in here !',
           );
+          return hubResponseDto;
         }
         hubResponseDto.setData(hub);
         return hubResponseDto;
       } catch (error) {
         hubResponseDto.setStatusFail();
         hubResponseDto.setMessage(
-          `find hubs by id : ${proviceId} get ERROR : ` +
+          `find hubs by id : ${provinceId} get ERROR : ` +
             error,
         );
         hubResponseDto.setData(null);

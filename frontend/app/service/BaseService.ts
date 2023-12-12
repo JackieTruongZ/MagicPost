@@ -97,4 +97,35 @@ export class BaseService {
       axiosConfig
     );
   }
+
+  async createTrans(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.post(
+      `${API_URL}${"/trans/add-trans"}`,
+      formData,
+      axiosConfig
+    );
+  }
+  async createHub(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.post(
+      `${API_URL}${"/hub/add-hub"}`,
+      formData,
+      axiosConfig
+    );
+  }
 }

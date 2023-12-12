@@ -1,11 +1,13 @@
 'use client'
 import { BaseService } from '@/app/service/BaseService';
-import { findProvinceById, ResponseData } from '@/public/utils/Utils';
+import { findProvinceById } from '@/public/utils/Utils';
 
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { Button } from 'primereact/button';
 import React, { useEffect, useState } from 'react';
-import CreatePointFrom from '../../createPointFrom';
+import CreatePointFrom from './createPointFrom';
+import { ResponseData } from '@/public/utils/interface';
+import GridView from './gridView';
 
 const PointManagerDetail = () => {
   const router = useRouter();
@@ -16,7 +18,13 @@ const PointManagerDetail = () => {
   const [trans, setTrans] = useState<ResponseData | undefined>();
   const [createHub, setCreateHub] = useState(false);
   const [createTrans, setCreateTrans] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
+  const closeCreateForm = () => {
+    setCreateTrans(false);
+    setCreateHub(false);
+    setFormSubmitted(true);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +37,7 @@ const PointManagerDetail = () => {
         const resTrans: any = await baseService.getTransByProvinceId(provinceId);
 
         console.log(resHubs);
+        console.log(resTrans);
 
 
         if (resHubs.data.status) {
@@ -51,16 +60,16 @@ const PointManagerDetail = () => {
     return () => {
       // Xử lý dọn dẹp (nếu cần)
     };
-  }, [router]);
+  }, [router, formSubmitted]);
 
   return (
     <div>
       <p>{findProvinceById(pathname.slice(-2))}</p>
       <p>Hub Point</p>
-      <Button label='Tạo điểm tập kết' onClick={()=>{setCreateHub(!createHub)}}/>
+      <Button label='Tạo điểm tập kết' onClick={() => { setCreateHub(!createHub) }} />
       {
         createHub && (
-          <CreatePointFrom/>
+          <CreatePointFrom point={'hub'} closeCreateForm={closeCreateForm} />
         )
       }
       {
@@ -72,7 +81,7 @@ const PointManagerDetail = () => {
               </div>
             ) : (
               <div>
-
+                 <GridView point={hubs.data} />
               </div>
             )}
           </div>
@@ -82,22 +91,22 @@ const PointManagerDetail = () => {
       }
       <hr />
       <p>Transaction Point</p>
-      <Button label='Tạo điểm giao dịch' onClick={()=>{setCreateTrans(!createTrans)}}/>
+      <Button label='Tạo điểm giao dịch' onClick={() => { setCreateTrans(!createTrans) }} />
       {
         createTrans && (
-          <CreatePointFrom/>
+          <CreatePointFrom point={'trans'} closeCreateForm={closeCreateForm} />
         )
       }
       {
         trans !== undefined ? (
           <div>
-            {(hubs?.status === 'FAIL') ? (
+            {(trans?.status === 'FAIL') ? (
               <div>
                 Không có điểm giao dịch ở đây !
               </div>
             ) : (
               <div>
-
+                <GridView point={trans.data} />
               </div>
             )}
           </div>
