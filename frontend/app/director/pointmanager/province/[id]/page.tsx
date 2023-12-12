@@ -81,7 +81,7 @@ const PointManagerDetail = () => {
               </div>
             ) : (
               <div>
-                 <GridView point={hubs.data} />
+                 <GridView pointType={'hub'} point={hubs.data} />
               </div>
             )}
           </div>
@@ -106,7 +106,7 @@ const PointManagerDetail = () => {
               </div>
             ) : (
               <div>
-                <GridView point={trans.data} />
+                <GridView pointType={'trans'} point={trans.data} />
               </div>
             )}
           </div>
