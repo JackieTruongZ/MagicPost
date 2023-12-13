@@ -1,66 +1,66 @@
 .log-in {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin: auto;
-  }
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
 
 .log-in .login-form {
-  width: auto;
-  position: relative;
-  top: 117px;
-  height: 380px;
+width: auto;
+position: relative;
+top: 117px;
+height: 380px;
 }
 
 .login-form .text-wrapper {
-  position: relative;
-  color: #000000;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 40px;
-  font-weight: 600;
-  height: 48px;
-  letter-spacing: 0;
-  line-height: normal;
-  white-space: nowrap;
+position: relative;
+color: #000000;
+font-family: "Inter-SemiBold", Helvetica;
+font-size: 40px;
+font-weight: 600;
+height: 48px;
+letter-spacing: 0;
+line-height: normal;
+white-space: nowrap;
 }
 
 .log-in .text-wrapper-2 {
-  color: #000000;
-  font-family: "Inter-Regular", Helvetica;
-  font-size: 20px;
-  font-weight: 400;
-  height: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-  white-space: nowrap;
+color: #000000;
+font-family: "Inter-Regular", Helvetica;
+font-size: 20px;
+font-weight: 400;
+height: 24px;
+letter-spacing: 0;
+line-height: normal;
+white-space: nowrap;
 }
 
 .p-inputtext.email-content {
-  background-color: #ffffff;
-  height: 37px;
-  width: 435px;
-  transition: border-color 0.3s ease;
+background-color: #ffffff;
+height: 37px;
+width: 435px;
+transition: border-color 0.3s ease;
 }
 
 .p-inputtext.email-content:hover,
 .p-inputtext.email-content:focus {
-  border-color: #ff3333; /* Light red border color */
+border-color: #ff3333; /* Light red border color */
 }
 
 .p-inputtext.email-content:focus {
-  outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(255, 51, 51, 0.4);
+outline: none;
+box-shadow: 0 0 0 0.2rem rgba(255, 51, 51, 0.4);
 }
 
 .log-in .password-content {
-  height: 37px;
-  width: 439px;
+height: 37px;
+width: 439px;
 }
 
 .p-inputtext.p-password-input {
-  background-color: #ffffff;
-  height: 37px;
-  width: 435px;
+background-color: #ffffff;
+height: 37px;
+width: 435px;
 }
 
 /* Styles for when the password input wrapper component is being hovered over or focused */
@@ -68,46 +68,46 @@
 .p-password.p-inputwrapper:focus,
 .p-inputtext.p-password-input:hover,
 .p-inputtext.p-password-input:focus {
-  border-color: #ff3333; /* Light red border color */
-  /* Additional styles for hover and focus */
+border-color: #ff3333; /* Light red border color */
+/* Additional styles for hover and focus */
 }
 
 /* Styles for when the password input wrapper component is focused */
 .p-password.p-inputwrapper:focus,
 .p-inputtext.p-password-input:focus {
-  outline: none; /* Remove default outline */
-  box-shadow: 0 0 0 0.2rem rgba(255, 51, 51, 0.4);
+outline: none; /* Remove default outline */
+box-shadow: 0 0 0 0.2rem rgba(255, 51, 51, 0.4);
 }
 
 .password .text-wrapper-2 {
-  display: inline;
+display: inline;
 }
 
 .log-in .text-wrapper-3 {
-  color: #ff0000cc;
-  font-family: "Inter-Regular", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  height: 15px;
-  letter-spacing: 0;
-  line-height: normal;
-  float: inline-end;
+color: #ff0000cc;
+font-family: "Inter-Regular", Helvetica;
+font-size: 12px;
+font-weight: 400;
+height: 15px;
+letter-spacing: 0;
+line-height: normal;
+float: inline-end;
 }
 
 .email-error-message, .password-error-message {
-  color: #ff0000cc;
-  font-family: "Inter-Regular", Helvetica;
-  font-size: 12px;
-  font-weight: 400;
-  height: 24px;
-  letter-spacing: 0;
-  line-height: normal;
-  white-space: nowrap;
+color: #ff0000cc;
+font-family: "Inter-Regular", Helvetica;
+font-size: 12px;
+font-weight: 400;
+height: 24px;
+letter-spacing: 0;
+line-height: normal;
+white-space: nowrap;
 }
 
 .log-in .login-button {
-  display: flex;
-  justify-content: center;
+display: flex;
+justify-content: center;
 }
 
 /* t fix cái này rồi nhá phải đi đúng button  */
@@ -122,29 +122,29 @@
 }
 
 .p-button.p-component:hover {
-  background-color: #e65c4c; /* Slightly darker background color */
+background-color: #e65c4c; /* Slightly darker background color */
 }
 
 .p-button-label.p-c {
-  color: #000000;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 20px;
-  font-weight: 600;
-  height: 24px;
-  letter-spacing: 1px;
-  line-height: normal;
-  text-align: center;
-  white-space: nowrap;
+color: #000000;
+font-family: "Inter-SemiBold", Helvetica;
+font-size: 20px;
+font-weight: 600;
+height: 24px;
+letter-spacing: 1px;
+line-height: normal;
+text-align: center;
+white-space: nowrap;
 }
 
 
 @media screen and (max-width: 1024px) {
-  .log-in {
-    min-height: 615px;
-  }
-  .log-in .log-in-image{
-    position: fixed;
-    opacity: 0.15;
-    z-index: -1;
-  }
+.log-in {
+  min-height: 615px;
+}
+.log-in .log-in-image{
+  position: fixed;
+  opacity: 0.15;
+  z-index: -1;
+}
 }

@@ -98,6 +98,24 @@ export class BaseService {
     );
   }
 
+  async createOrder(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig: AxiosRequestConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "http://localhost:3333",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    console.log(formData);
+
+    const res = await axios.post(
+      `${API_URL}/order/add-order`,
+      formData,
+      axiosConfig
+    );
+    return res;
+    }
   async createTrans(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {
