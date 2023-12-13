@@ -5,8 +5,8 @@ import '../../style.css'
 const HubPage = () => {
     return (
         <div>
-            <div className="banner w-full ">
-                <Banner />
+            <div className="">
+                <Banner/>
             </div>
             <div className="hub-info">
                 <Avatar

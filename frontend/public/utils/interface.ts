@@ -4,6 +4,11 @@ export interface ResponseData {
   data: any;
 }
 
+export interface CheckAuth {
+  message: string;
+  statusCode: string;
+}
+
 export interface AddressProvince {
   _id: string;
   name: string;
@@ -27,8 +32,17 @@ export interface AddressDistrict {
   isDeleted: boolean;
 }
 
-export interface PointForm {
+export interface PointHubTrans {
   id: string;
+  name: string;
+  province: string;
+  cityDistrict: string;
+  address: string;
+  numberPhone: string;
+  status: string;
+}
+
+export interface PointForm {
   name: string;
   province: string;
   cityDistrict: string;
