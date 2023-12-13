@@ -2,10 +2,11 @@ import React from 'react'
 import { DataView } from 'primereact/dataview';
 
 import { Column } from 'primereact/column';
-import { Address, PROVINCE_ENUM } from '../../../public/utils/Utils';
+import { PROVINCE_ENUM } from '../../../public/utils/Utils';
+import { AddressProvince } from '@/public/utils/interface';
 function GridView() {
 
-    const itemTemplate = (province: Address) => {
+    const itemTemplate = (province: AddressProvince) => {
         return (
             <div className='col-12 md:col-6 lg:col-4 cursor-pointer' onClick={()=>{window.location.href = `/director/pointmanager/province/${province.code}`}}>
                 <div className='flex flex-column xl:flex-row xl:align-items-start p-4 gap-4'>

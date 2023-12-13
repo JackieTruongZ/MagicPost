@@ -113,12 +113,12 @@ justify-content: center;
 /* t fix cái này rồi nhá phải đi đúng button  */
 
 .log-in .login-button Button {
-background-color: #ff725e;
-border-radius: 5px;
-height: 37px;
-position: relative;
-width: 255px;
-transition: background-color 0.3s ease;
+  background-color: #ff725e;
+  border-radius: 5px;
+  height: 37px;
+  position: relative;
+  width: 255px;
+  transition: background-color 0.3s ease;
 }
 
 .p-button.p-component:hover {

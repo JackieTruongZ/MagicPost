@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import * as dotenv from "dotenv";
 
 dotenv.config();
-const API_URL = "https://magicpost-60b7.onrender.com";
-// const API_URL = "http://localhost:3333";
+// const API_URL = "https://magicpost-60b7.onrender.com";
+const API_URL = "http://localhost:3333";
 
 export class BaseService {
   async login(formData: any) {
@@ -115,5 +115,35 @@ export class BaseService {
       axiosConfig
     );
     return res;
+    }
+  async createTrans(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.post(
+      `${API_URL}${"/trans/add-trans"}`,
+      formData,
+      axiosConfig
+    );
+  }
+  async createHub(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.post(
+      `${API_URL}${"/hub/add-hub"}`,
+      formData,
+      axiosConfig
+    );
   }
 }
