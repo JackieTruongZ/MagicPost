@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import * as Yup from "yup";
 import "./style.css";
 import axios from "axios";
+import { BaseService } from "../service/BaseService";
 
 const initialValues = {
   productName: "",
@@ -51,12 +52,15 @@ const validationSchema = Yup.object().shape({
   typeGoods: Yup.string().required("Type Goods is required"),
 });
 
+const loginEndpoint = "https://magicpost-60b7.onrender.com/order/add-order";
+const access_token = "";
 async function request(values: any) {
   try {
-    let response = await axios.post(
-      "https://magicpost-60b7.onrender.com",
-      values
-    );
+    let response = await axios.post(loginEndpoint, values, {
+      headers: {
+        authorization: `Bearer ${access_token}`,
+      },
+    });
     console.log(response);
     console.log("Data posted successfully:", response.data);
     return response.data;
@@ -66,10 +70,14 @@ async function request(values: any) {
   }
 }
 
-const handleSubmit = (values: any, { setSubmitting }) => {
-  console.log("Form submitted:", values);
-  request(values);
-  setSubmitting(false);
+const handleSubmit = async (values: any) => {
+  const baseService = new BaseService();
+  try {
+    const createOrder = await baseService.createOrder(values);
+    console.log(createOrder);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const FormComponent = () => {
@@ -361,7 +369,7 @@ const FormComponent = () => {
               <Field
                 id="massItem"
                 name="massItem"
-                type="text"
+                type="number"
                 as={InputText}
                 className="p-inputtext"
               />
