@@ -86,8 +86,8 @@ const LogIn = () => {
       email: emailValue,
       password: passwordValue
     }
-    
-    const login = await baseService.login(formLogin);
+    try {
+      const login = await baseService.login(formLogin);
     if (login.data.status === 'OK') {
       toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Login Success'});
       window.localStorage.setItem('access_token', login.data.data.access_token)
@@ -98,6 +98,10 @@ const LogIn = () => {
     } else {
       toast.current?.show({ severity: 'error', summary: 'Error', detail: `${login.data.message}` });
     }
+    } catch (error) {
+      toast.current?.show({ severity: 'error', summary: 'Error', detail: `login error` });
+    }
+    
     // Reset form values
     setEmailValue('');
     setPasswordValue('');
