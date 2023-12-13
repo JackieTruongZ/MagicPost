@@ -1,0 +1,48 @@
+.order-creation {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.form-name {
+  position: relative;
+  color: #000000;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-size: 40px;
+  font-weight: 600;
+  height: 48px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.order-creation .order-creation-form {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: minmax(auto, auto);
+  width: auto;
+  position: relative;
+}
+
+.p-field .p-error {
+  display: block;
+}
+
+.p-field .p-inputtext.p-component {
+  display: block;
+  height: 37px;
+  min-width: 350px;
+  margin-right: 32px;
+}
+
+.order-creation-form .package-information{
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.package-information .p-field .p-inputtext.p-component {
+  display: block;
+  height: 37px;
+  min-width: 550px;
+}

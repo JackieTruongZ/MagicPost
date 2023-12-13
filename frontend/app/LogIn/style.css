@@ -1,9 +1,9 @@
 .log-in {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    margin: auto;
-  }
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
 
 .log-in .login-form {
   width: auto;
@@ -94,7 +94,8 @@
   float: inline-end;
 }
 
-.email-error-message, .password-error-message {
+.email-error-message,
+.password-error-message {
   color: #ff0000cc;
   font-family: "Inter-Regular", Helvetica;
   font-size: 12px;
@@ -135,12 +136,11 @@
   white-space: nowrap;
 }
 
-
 @media screen and (max-width: 1024px) {
   .log-in {
     min-height: 615px;
   }
-  .log-in .log-in-image{
+  .log-in .log-in-image {
     position: fixed;
     opacity: 0.15;
     z-index: -1;
