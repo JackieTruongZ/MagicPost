@@ -14,7 +14,7 @@ const Menu = () => {
                     <p>Account</p>
                 </div>
             </MenuItem>
-            <MenuItem onClick={() => {window.location.href = '/director/ordermanager'}}>
+            <MenuItem onClick={() => {window.location.href = '/createOrder'}}>
                 <div>
                     <p>Order</p>
                 </div>
