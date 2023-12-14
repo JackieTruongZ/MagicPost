@@ -10,7 +10,7 @@ async function bootstrap() {
     }),
   );
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:3000',
+    origin: '*',
     credentials: true,
   };
 

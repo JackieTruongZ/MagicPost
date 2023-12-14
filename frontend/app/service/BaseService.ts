@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import * as dotenv from "dotenv";
 
 dotenv.config();
-const API_URL = "https://magicpost-60b7.onrender.com";
-//const API_URL = "http://localhost:3333";
+// const API_URL = "https://magicpost-60b7.onrender.com";
+const API_URL = "http://localhost:3333";
 
 export class BaseService {
   async login(formData: any) {
@@ -115,7 +115,7 @@ export class BaseService {
       axiosConfig
     );
     return res;
-    }
+  }
   async createTrans(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {
@@ -171,9 +171,35 @@ export class BaseService {
         Authorization: `Bearer ${bearver}`,
       },
     };
-    return await axios.get(
-      `${API_URL}${"/hub/hub/"}${hubId}`,
+    return await axios.get(`${API_URL}${"/hub/hub/"}${hubId}`, axiosConfig);
+  }
+
+  async getUserOnPoint(pointId: string) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.get(`${API_URL}${"/users/user-on-point/"}${pointId}`, axiosConfig);
+  }
+
+  async addUserOnPoint(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.post(
+      `${API_URL}${"/users/add-auth"}`,
+      formData,
       axiosConfig
     );
   }
+
 }

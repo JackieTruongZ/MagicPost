@@ -30,7 +30,7 @@ const NavBar = () => {
     <div className="h-auto w-full z-999 top-0 left-0">
       <Container>
         <div className="nav h-5rem relative" onClick={handleClick} >
-          <div className="nav-title m-4 flex absolute left-0"> <p> MagicPost</p> </div>
+          <div className="cursor-pointer nav-title m-4 flex absolute left-0"> <p> MagicPost</p> </div>
           {/* <div id="pig" className="pig m-10"></div> */}
           <Menu />
           <div className="user-menu flex absolute right-0">

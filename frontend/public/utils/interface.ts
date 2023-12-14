@@ -50,3 +50,10 @@ export interface PointForm {
   numberPhone: string;
   status: string;
 }
+
+export interface UserInfor {
+  UserPoint: any;
+  firstName: string;
+  lastName: string;
+  username: string;
+}

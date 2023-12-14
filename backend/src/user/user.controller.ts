@@ -59,7 +59,7 @@ export class UserController {
     );
   }
 
-  @Get('user-on-point/:pointId')
+  @Get('user-on-point/:id')
   async findUserOnPoint(
     @GetUser('id') userId: number,
     @Param('id') pointId: string,
