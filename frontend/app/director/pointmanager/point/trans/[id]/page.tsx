@@ -7,10 +7,12 @@ import { usePathname } from 'next/navigation'
 import { BaseService } from '@/app/service/BaseService'
 import { PointHubTrans } from '@/public/utils/interface'
 import { Card } from 'primereact/card'
+import FormAddAuth from './FormAddAuth'
 const TransactionPage = () => {
   const pathname: string = usePathname();
   const baseService = new BaseService();
   const [inforTrans, setInforTrans] = useState<PointHubTrans | undefined>();
+  const [choose, setChoose] = useState<number>(1);
   useEffect(() => {
     const fetchData = async () => {
       if (!pathname) {
@@ -53,6 +55,11 @@ const TransactionPage = () => {
           <p className='hub-name flex left-0 text-4xl'><strong>{inforTrans?.name}</strong></p>
         </div>
       </div>
+      <div className='flex flex-row m-4'>
+        <div className='flex ml-4' onClick={() => { setChoose(1) }}>Chung</div>
+        <div className='flex ml-4' onClick={() => { setChoose(2) }}>Thêm thành viên</div>
+        <div className='flex ml-4' onClick={() => { setChoose(3) }}>Chỉnh sửa thành viên</div>
+      </div>
       <div className="hub-stories flex grid">
         <Card className="hub-info border-round col-12 md:col-4 ml-4 mr-4">
           <p className='font-italic font-bold text-xl'>Thông tin cơ bản </p>
@@ -63,9 +70,28 @@ const TransactionPage = () => {
           <div className=''><span><strong>Địa chỉ: </strong></span>{inforTrans?.address}</div>
           <p className='font-italic font-bold text-xl'>Thông tin trưởng điểm và nhân viên </p>
         </Card>
-        <Card className='hub-order col-12 md:col-6'>
-          <p className='font-italic font-bold text-xl'>Thông tin Order </p>
-        </Card>
+        {
+          (choose == 1) && (
+            <Card className='hub-order col-12 md:col-6'>
+              <p className='font-italic font-bold text-xl'>Thông tin Order </p>
+            </Card>
+          )
+        }
+        {
+          (choose == 2) && (
+            <Card className='hub-order col-12 md:col-6'>
+              <p className='font-italic font-bold text-xl'>Thêm thành viên cho hub {inforTrans?.name}</p>
+              <FormAddAuth transId = {inforTrans?.id}/>
+            </Card>
+          )
+        }
+        {
+          (choose == 3) && (
+            <Card className='hub-order col-12 md:col-6'>
+              <p className='font-italic font-bold text-xl'>chinh sua nguoi dung</p>
+            </Card>
+          )
+        }
       </div>
     </div>
   )
