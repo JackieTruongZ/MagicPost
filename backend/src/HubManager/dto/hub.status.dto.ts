@@ -11,5 +11,5 @@ export class HubStatusDto {
 
   @IsNotEmpty()
   @IsString()
-  quantityTransaction: number;
+  quantityHub: number;
 }

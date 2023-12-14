@@ -1,0 +1,10 @@
+.banner-container {
+    overflow: hidden;
+  }
+  
+  .banner-img {
+    width: 100%;
+    object-fit: cover;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+  }

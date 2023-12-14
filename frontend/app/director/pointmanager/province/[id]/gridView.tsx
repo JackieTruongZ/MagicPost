@@ -13,7 +13,7 @@ const GridView = ({ pointType, point }: Props) => {
 
     const itemTemplate = (point: PointHubTrans) => {
         return (
-            <Card className='col-12 md:col-6 lg:col-2 border-round w-20rem h-10rem flex align-items-center m-4' onClick={() => { window.location.href = `/director/pointmanager/point/${pointType}/${point.id}` }}>
+            <Card className='cursor-pointer col-12 md:col-6 lg:col-2 border-round w-20rem h-10rem flex align-items-center m-4' onClick={() => { window.location.href = `/director/pointmanager/point/${pointType}/${point.id}` }}>
                 <div className='grid'>
                     <div className='col-5'>
                         <img className="w-5rem" src={'https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/pig.png?alt=media&token=fa12d5cb-5615-43a0-a46b-ee8a71850d7e'} alt='province image' />
@@ -22,7 +22,7 @@ const GridView = ({ pointType, point }: Props) => {
                     <div className='col-7 infor'>
                         <div className='mb-1'><span><strong>Mã điểm: </strong></span>{point.id}</div>
                         <div className='mb-1'><span><strong>SĐT: </strong></span>{point.numberPhone}</div>
-                        <div className=''><span><strong>Địa chỉ: </strong></span>{point.address}</div>
+                        <div className=''><span><strong>Địa chỉ: </strong></span>{point.cityDistrict} - {point.province}</div>
                     </div>
                 </div>
             </Card>

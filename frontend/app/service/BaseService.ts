@@ -128,4 +128,34 @@ export class BaseService {
       axiosConfig
     );
   }
+
+  async getTransById(transId: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.get(
+      `${API_URL}${"/trans/trans/"}${transId}`,
+      axiosConfig
+    );
+  }
+
+  async getHubsById(hubId: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.get(
+      `${API_URL}${"/hub/hub/"}${hubId}`,
+      axiosConfig
+    );
+  }
 }
