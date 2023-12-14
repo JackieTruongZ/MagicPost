@@ -1,0 +1,5 @@
+.listview :hover {
+    background: #a2a2a2;
+    color: aliceblue;
+    font-weight: bold;
+}

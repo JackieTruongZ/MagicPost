@@ -12,7 +12,7 @@ import GridView from './gridView';
 const PointManagerDetail = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname: string = usePathname();
+  const pathname: string = usePathname();   
   const baseService = new BaseService();
   const [hubs, setHubs] = useState<ResponseData | undefined>();
   const [trans, setTrans] = useState<ResponseData | undefined>();

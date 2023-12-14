@@ -6,6 +6,7 @@ import { PROVINCE_ENUM, viewType } from '../../../public/utils/Utils';
 import { Dropdown } from 'primereact/dropdown';
 import ListView from './listView';
 import GridView from './gridView';
+import './style.css';
 
 function PointManager() {
   const [view, setView] = useState(viewType.at(1)?.value);

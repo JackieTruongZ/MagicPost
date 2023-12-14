@@ -356,6 +356,20 @@ export class UserService {
     }
   }
 
+ // find user on point 
+
+ async findUserOnPoint(userId: number, pointId: string) {
+  const userResponseDto = new UserResponseDto();
+  try {
+   
+  }
+  catch(err) {
+    console.log("find user on Point get error : " + err);
+    return false;
+  }
+}
+
+
   //--- for other API---------- //
   checkUserRoleId = async (
     userId: number,

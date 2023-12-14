@@ -1,11 +1,39 @@
-import React from 'react';
+'use client'
+import React, { useEffect, useRef } from 'react';
+import './style.css';
 
-function Banner() {
+const Banner = () => {
+  // const bannerContainerRef = useRef<HTMLDivElement>(null);
+
+  // useEffect(() => {
+  //   const resizeHandler = () => {
+  //     const bannerContainer = bannerContainerRef.current;
+  //     const bannerImg = bannerContainer?.querySelector('.banner-img') as HTMLImageElement;
+  //     const containerWidth = bannerContainer?.getBoundingClientRect().width;
+  //     if (bannerContainer && bannerImg && containerWidth) {
+  //       const containerHeight = containerWidth * 0.4; // Adjust the height ratio as needed
+  //       bannerContainer.style.height = `${containerHeight}px`;
+  //       bannerImg.style.height = `${containerHeight}px`;
+  //     }
+  //   };
+
+  //   window.addEventListener('resize', resizeHandler);
+  //   resizeHandler();
+
+  //   return () => {
+  //     window.removeEventListener('resize', resizeHandler);
+  //   };
+  // }, []);
+
   return (
-    <div>
-        <img src="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/bg02.png?alt=media&token=b18355fd-b4ab-4c68-b576-eb69866e4c4a" alt="banner"/>
+    <div className='banner-container'>
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/bg03.png?alt=media&token=dc31dafc-0e20-4eff-9027-bb58f93adf67"
+        alt="banner"
+        className='banner-img'
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Banner
+export default Banner;

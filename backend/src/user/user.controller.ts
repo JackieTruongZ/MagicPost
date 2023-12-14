@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   UseGuards,
@@ -55,6 +56,16 @@ export class UserController {
   ) {
     return this.userService.findTransForUser(
       userId,
+    );
+  }
+
+  @Get('user-on-point/:pointId')
+  async findUserOnPoint(
+    @GetUser('id') userId: number,
+    @Param('id') pointId: string,
+  ) {
+    return this.userService.findUserOnPoint(
+      userId,pointId
     );
   }
 }
