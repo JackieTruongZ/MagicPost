@@ -8,7 +8,7 @@ interface MenuItemProps{
 
 const MenuItem:React.FC<MenuItemProps> = ({ children, onClick }) => {
     return (
-        <Button className = 'h-2rem mr-4 ' onClick={onClick}>
+        <Button className = 'h-2rem mr-4 z ' onClick={onClick}>
         {children}
         </Button>
     );

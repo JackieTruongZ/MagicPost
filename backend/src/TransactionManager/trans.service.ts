@@ -497,13 +497,14 @@ export class TransService {
     //------- main method delete Trans-----------///
     try {
       //--- check role-----------------------//
-
+      
       const existId =
         await this.prisma.transactionPoint.findUnique(
           {
             where: { id: transId },
           },
         );
+        
       if (!existId) {
         transResponseDto.setStatusFail();
         transResponseDto.setMessage(

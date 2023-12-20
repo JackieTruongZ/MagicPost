@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { Avatar } from 'primereact/avatar';
@@ -7,21 +7,23 @@ import { MenuItem } from 'primereact/menuitem';
 import classNames from 'classnames';
 
 interface UserMenuProps {
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>
   username: string;
 }
 
-const UserMenu = ({ username }: UserMenuProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+const UserMenu = ({isOpen, setIsOpen, username }: UserMenuProps) => {
+
   const [isLogin, setIsLogin] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
   }, []);
 
-const LogOut =() => {
+  const LogOut = () => {
     window.localStorage.clear();
     window.location.href = '/dashboard';
-}
+  }
 
   let items: MenuItem[] = [
     { label: 'Profile', icon: 'pi pi-fw pi-user' },
@@ -52,7 +54,7 @@ const LogOut =() => {
   ];
 
   return (
-    <div className='flex absolute right-0'>
+    <div className=''>
       <div onClick={toggleOpen}>
         {username ? (
           <div className="nav-user">
@@ -65,7 +67,7 @@ const LogOut =() => {
             />
           </div>
         ) : (
-          <div className="nav-user" onClick={()=>{ window.location.href = '/LogIn';}}>
+          <div className="nav-user" onClick={() => { window.location.href = '/LogIn'; }}>
             <span className="nav-login">Login</span>
             <Avatar
               image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava0.png?alt=media&token=463cf159-9230-457f-aa5e-703f55f644ac"

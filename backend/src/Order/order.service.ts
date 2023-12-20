@@ -193,7 +193,7 @@ export class OrderService {
                 receiverTrans.id,
               ),
               roadRealTime: senderTrans.id,
-              locationPointId: senderHub.id,
+              locationPointId: senderTrans.id,
               nextLocationPointId: '',
               status: 'wait',
             },

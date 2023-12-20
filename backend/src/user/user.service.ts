@@ -9,18 +9,24 @@ import {
 } from './dto';
 import * as argon from 'argon2';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { prisma, Role, User, UserPoint, UserRole } from "@prisma/client";
+import {
+  prisma,
+  Role,
+  User,
+  UserPoint,
+  UserRole,
+} from '@prisma/client';
 import { ResponseDto } from '../Response.dto';
 import { AddAuthDto } from './dto/add-auth.dto';
 import { UserResponseDto } from './dto/user.response.dto';
 import { AddAuthInforDto } from './dto/add-auth-infor.dto';
-import { generalPassword } from "../password";
+import { generalPassword } from '../password';
 import { log } from 'console';
 import { UserinforResponseDto } from './dto/userinfor.response.dto';
+import { first } from 'rxjs';
 
 @Injectable()
 export class UserService {
-
   constructor(private prisma: PrismaService) {}
 
   async editUser(
@@ -65,8 +71,9 @@ export class UserService {
               email: dto.email,
               hash,
               username: dto.username,
-              password:
-                generalPassword,
+              password: generalPassword,
+              firstName: dto.firstName,
+              lastName: dto.lastName,
             },
           });
 
@@ -273,6 +280,22 @@ export class UserService {
       dto: AddAuthDto,
       userAddAuthRoleId: number,
     ) {
+      if (
+        ([51, 511, 512].includes(
+          userAddAuthRoleId,
+        ) &&
+          dto.hubId) ||
+        ([52, 521].includes(userAddAuthRoleId) &&
+          dto.transId)
+      ) {
+        userResponseDto.setStatusFail();
+        userResponseDto.setMessage(
+          'This user cannot work on this Point',
+        );
+        userResponseDto.setData(null);
+        return userResponseDto;
+      }
+
       let addAuthInforDto = new AddAuthInforDto();
       addAuthInforDto.setInforAuth(
         userAddAuthRoleId,
@@ -297,7 +320,7 @@ export class UserService {
       }
       try {
         const addAuthPrisma =
-         await prisma.userPoint.create({
+          await prisma.userPoint.create({
             data: {
               userId: dto.userId,
               type: addAuthInforDto.type,
@@ -322,19 +345,21 @@ export class UserService {
     }
   }
 
-
   // find Trans Hub for User
   async findTransForUser(userId: number) {
     const userResponseDto = new UserResponseDto();
     try {
-      const check = await this.prisma.userPoint.findMany({
-        where : {
-          userId: userId,
-        }
-      })
+      const check =
+        await this.prisma.userPoint.findMany({
+          where: {
+            userId: userId,
+          },
+        });
       if (!check[0]) {
         userResponseDto.setStatusFail();
-        userResponseDto.setMessage('user not manager this point');
+        userResponseDto.setMessage(
+          'user not manager this point',
+        );
         userResponseDto.setData(null);
         return userResponseDto;
       }
@@ -343,16 +368,87 @@ export class UserService {
         userResponseDto.setMessage('trans');
         userResponseDto.setData(check[0].transId);
         return userResponseDto;
-      }else {
+      } else {
         userResponseDto.setStatusOK();
         userResponseDto.setMessage('hub');
         userResponseDto.setData(check[0].hubId);
         return userResponseDto;
       }
-    }
-    catch(err) {
-      console.log("find trans hub for user get error : " + err);
+    } catch (err) {
+      console.log(
+        'find trans hub for user get error : ' +
+          err,
+      );
       return false;
+    }
+  }
+
+  // find user on point
+
+  async findUserOnPoint(
+    userId: number,
+    pointId: string,
+  ) {
+    const userResponseDto = new UserResponseDto();
+    try {
+      if (pointId.slice(0, 3) == 'hub') {
+        const userPoint: User[] =
+          await this.prisma.user.findMany({
+            where: {
+              UserPoint: {
+                some: {
+                  hubId: pointId,
+                },
+              },
+            },
+            include: {
+              UserPoint: true,
+            },
+          });
+        if (!userPoint[0]) {
+          userResponseDto.setStatusFail();
+          userResponseDto.setMessage(
+            'no user in here!',
+          );
+          userResponseDto.setData(null);
+          return userResponseDto;
+        }
+        userResponseDto.setStatusOK();
+        userResponseDto.setData(userPoint);
+        return userResponseDto;
+      } else {
+        const userPoint: User[] =
+          await this.prisma.user.findMany({
+            where: {
+              UserPoint: {
+                some: {
+                  transId: pointId,
+                },
+              },
+            },
+          });
+        if (!userPoint[0]) {
+          userResponseDto.setStatusFail();
+          userResponseDto.setMessage(
+            'no user in here!',
+          );
+          userResponseDto.setData(null);
+          return userResponseDto;
+        }
+        userResponseDto.setStatusOK();
+        userResponseDto.setData(userPoint);
+        return userResponseDto;
+      }
+    } catch (err) {
+      console.log(
+        'find user on Point get error : ' + err,
+      );
+      userResponseDto.setStatusFail();
+      userResponseDto.setMessage(
+        'find user on Point get error : ' + err,
+      );
+      userResponseDto.setData(null);
+      return userResponseDto;
     }
   }
 
@@ -396,41 +492,45 @@ export class UserService {
     return userRoleId;
   };
 
-
   async getUser(user: User) {
     try {
-      const userType: UserPoint = await this.prisma.userPoint.findUnique({
-        where: {
-          userId : user.id
-        }
-       });
-       const role:  UserRole[] = await this.prisma.userRole.findMany({
-        where: {
-          userId: user.id,
-        }
-       })
-       const userinforResponseDto = new UserinforResponseDto();
-       userinforResponseDto.setStatusOK();
-       userinforResponseDto.setUserInfor(user,userType,role[0]);
-       return userinforResponseDto;
+      const userType: UserPoint =
+        await this.prisma.userPoint.findUnique({
+          where: {
+            userId: user.id,
+          },
+        });
+      const role: UserRole[] =
+        await this.prisma.userRole.findMany({
+          where: {
+            userId: user.id,
+          },
+        });
+      const userinforResponseDto =
+        new UserinforResponseDto();
+      userinforResponseDto.setStatusOK();
+      userinforResponseDto.setUserInfor(
+        user,
+        userType,
+        role[0],
+      );
+      return userinforResponseDto;
     } catch (error) {
       console.log(error);
-      
     }
   }
 
   async getTypeUser(userId: number) {
     try {
-      const userType = await this.prisma.userPoint.findUnique({
-        where: {
-          userId : userId
-        }
-       });
-       return userType;
+      const userType =
+        await this.prisma.userPoint.findUnique({
+          where: {
+            userId: userId,
+          },
+        });
+      return userType;
     } catch (error) {
       console.log(error);
     }
-
   }
-
 }

@@ -33,23 +33,23 @@ const initialValues = {
 
 //các role id
 const roleId = [
-  {value: 7,label: 'customer'},
-  {value: 5,label: 'CEO'},
-  {value: 51,label: 'Transaction Manager'},
-  {value: 52,label: 'Hub Manager'},
-  {value: 511,label: 'Trans staff'},
-  {value: 512,label: 'driver staff'},
-  {value: 521,label: 'hub staff'},
+  { value: 7, label: 'customer' },
+  { value: 5, label: 'CEO' },
+  { value: 51, label: 'Transaction Manager' },
+  { value: 52, label: 'Hub Manager' },
+  { value: 511, label: 'Trans staff' },
+  { value: 512, label: 'driver staff' },
+  { value: 521, label: 'hub staff' },
 ];
 
 const loginEndpoint = "https://magicpost-60b7.onrender.com/users/create-user";
 const access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiaHV5bmhuaHVAZ21haWwuY29tIiwiaWF0IjoxNzAyMDMwMjY5LCJleHAiOjE3MDIwMzM4Njl9.CjqnshRVtUKp4P8-PcbwfFexePrTUc4yNLoUDaKiTCQ";
 
-async function request(values : any) {
+async function request(values: any) {
   try {
-    let res = await axios.post(loginEndpoint, values,{
+    let res = await axios.post(loginEndpoint, values, {
       headers: {
-        authorization : `Bearer ${access_token}`,
+        authorization: `Bearer ${access_token}`,
       }
     });
     console.log(res);
@@ -60,17 +60,17 @@ async function request(values : any) {
         icon: "success"
       });
     }
-  } catch(error) {
+  } catch (error) {
     Swal.fire({
       icon: "error",
       title: "Oops...",
       text: `Something went wrong! ${error.response.data.message}`
     });
-  } 
+  }
 }
 
 export default function MyForm() {
-  const handleSubmit = (values : any, { setSubmitting }) => {
+  const handleSubmit = (values: any, { setSubmitting }) => {
     // Gửi dữ liệu nếu hợp lệ
     console.log('Form submitted:', values);
 
@@ -148,8 +148,10 @@ export default function MyForm() {
           />
           <ErrorMessage name="roleId" component="small" className="p-error" />
         </div>
+        <div className='button'>
+          <Button type="submit" label="Submit" />
+        </div>
 
-        <Button type="submit" label="Submit" className="p-button p-component" />
       </Form>
     </Formik>
   );
