@@ -5,6 +5,10 @@
   margin: auto;
 }
 
+.order-creation .p-field {
+  margin-top: 16px;
+}
+
 .form-name {
   position: relative;
   color: #000000;
@@ -18,11 +22,9 @@
 }
 
 .order-creation .order-creation-form {
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: minmax(auto, auto);
-  width: auto;
-  position: relative;
 }
 
 .p-field .p-error {
@@ -32,17 +34,58 @@
 .p-field .p-inputtext.p-component {
   display: block;
   height: 37px;
-  min-width: 350px;
+  width: 500px;
   margin-right: 32px;
 }
 
-.order-creation-form .package-information{
+.p-dropdown.p-component.p-inputwrapper {
+  height: 37px;
+  width: 500px;
+  margin-right: 32px;
+  align-items: center;
+}
+
+.order-creation-form .package-information {
   grid-column-start: 1;
   grid-column-end: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .package-information .p-field .p-inputtext.p-component {
   display: block;
   height: 37px;
-  min-width: 550px;
+  width: 800px;
+}
+
+.submit-button {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  display: flex;
+  justify-content: center;
+}
+
+.submit-button Button {
+  background-color: #ff725e;
+  border-radius: 5px;
+  height: 37px;
+  position: relative;
+  width: 255px;
+  transition: background-color 0.3s ease;
+}
+
+.create-order-image {
+  position: fixed;
+  z-index: -1;
+  opacity: 0.15;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 1024px) {
+  .order-creation-form{
+    grid-template-columns: 1fr;
+  }
 }

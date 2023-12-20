@@ -98,6 +98,7 @@ export class BaseService {
     );
   }
 
+  //Create Order 
   async createOrder(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig: AxiosRequestConfig = {
@@ -115,7 +116,8 @@ export class BaseService {
       axiosConfig
     );
     return res;
-    }
+  }
+
   async createTrans(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {
