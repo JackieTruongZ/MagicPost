@@ -1,0 +1,37 @@
+/* CSS cho bảng */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+  }
+  
+  .custom-table th, .custom-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .custom-table th {
+    background-color: #ee4962; /* Màu đỏ cho tiêu đề */
+    color: #fff; /* Màu chữ trắng */
+  }
+  
+  .custom-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Màu nền xám nhạt cho hàng chẵn */
+  }
+  
+  .step_container {
+    width: 80%;
+    margin: 20px;
+  }
+
+  .step_container .p-steps-number {
+    background-color: red ;
+  }
+
+  .status_message_container {
+    text-align: center;
+  }
+ 
+  

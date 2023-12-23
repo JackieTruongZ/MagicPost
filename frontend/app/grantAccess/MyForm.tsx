@@ -43,7 +43,7 @@ const roleId = [
 ];
 
 const loginEndpoint = "https://magicpost-60b7.onrender.com/users/create-user";
-const access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiaHV5bmhuaHVAZ21haWwuY29tIiwiaWF0IjoxNzAyMDMwMjY5LCJleHAiOjE3MDIwMzM4Njl9.CjqnshRVtUKp4P8-PcbwfFexePrTUc4yNLoUDaKiTCQ";
+const access_token = typeof window !== 'undefined' ? window.localStorage.getItem("access_token") : null;
 
 async function request(values : any) {
   try {
@@ -61,6 +61,7 @@ async function request(values : any) {
       });
     }
   } catch(error) {
+    console.log(error);
     Swal.fire({
       icon: "error",
       title: "Oops...",
@@ -70,14 +71,12 @@ async function request(values : any) {
 }
 
 export default function MyForm() {
-  const handleSubmit = (values : any, { setSubmitting }) => {
+  const handleSubmit = (values : any) => {
     // Gửi dữ liệu nếu hợp lệ
     console.log('Form submitted:', values);
 
     //Dùng axios để gọi API
     request(values);
-
-    setSubmitting(false);
   };
 
   return (
