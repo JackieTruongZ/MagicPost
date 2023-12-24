@@ -17,17 +17,10 @@ function AccountManager() {
     <div>
       <p>AccountManager</p>
       <div className='flex flex-row mb-2'>
-        <Dropdown
-          id="userType"
-          value={view}
-          options={userFilter}
-          onChange={(e) => setView(e.target.value)}
-          placeholder="Tất cả mọi người"
-          className='flex'
-        />
-        <Button label='+ Thêm thành viên' className='flex absolute right-0 mr-4 pl-3' onClick={createUser}/>
+        
+        <Button label='+ Thêm thành viên' className='flex right-0 mr-4 pl-3' onClick={createUser}/>
       </div>
-      <ListAccount view={view} />
+      <ListAccount />
     </div>
   )
 }

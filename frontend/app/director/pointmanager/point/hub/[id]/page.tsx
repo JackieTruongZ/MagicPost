@@ -9,13 +9,16 @@ import { PointHubTrans, UserInfor } from '@/public/utils/interface'
 import { Card } from 'primereact/card'
 import FormAddAuth from './FormAddAuth'
 import { Chip } from 'primereact/chip'
+import { TabMenu } from 'primereact/tabmenu'
+import { hubPageFilter } from '@/public/utils/Utils'
+import ListOrder from './ListOrder'
 
 const HubPage = () => {
   const pathname: string = usePathname();
   const baseService = new BaseService();
   const [inforHub, setInforHub] = useState<PointHubTrans | undefined>();
-  const [choose, setChoose] = useState<number>(1);
-  const [user, setUser] = useState<UserInfor[]>();
+  const [choose, setChoose] = useState<number>(0);
+  const [user, setUser] = useState<UserInfor[] | undefined>();
   useEffect(() => {
     const fetchData = async () => {
       if (!pathname) {
@@ -36,7 +39,9 @@ const HubPage = () => {
         if (resUser.data.status == 'OK') {
           setUser(resUser.data.data);
         }
-
+        if (resUser.data.status == 'FAIL') {
+          setUser(undefined);
+        }
 
       } catch (error) {
         console.log(error);
@@ -64,11 +69,18 @@ const HubPage = () => {
           <p className='hub-name flex left-0 text-4xl'><strong>{inforHub?.name}</strong></p>
         </div>
       </div>
-      <div className='flex flex-row m-4'>
-        <div className='flex ml-4' onClick={() => { setChoose(1) }}>Chung</div>
-        <div className='flex ml-4' onClick={() => { setChoose(2) }}>Thêm thành viên</div>
-        <div className='flex ml-4' onClick={() => { setChoose(3) }}>Chỉnh sửa thành viên</div>
-      </div>
+
+
+      <TabMenu className='flex justify-content-left ml-4' model={hubPageFilter} activeIndex={choose} onTabChange={(e) => setChoose(e.index)} />
+      
+      
+      {/* <div className='flex flex-row m-4'>
+        <div className='flex ml-4 cursor-pointer' onClick={() => { setChoose(1) }}>Chung</div>
+        <div className='flex ml-4 cursor-pointer' onClick={() => { setChoose(2) }}>Thêm thành viên</div>
+        <div className='flex ml-4 cursor-pointer' onClick={() => { setChoose(3) }}>Chỉnh sửa thành viên</div>
+      </div> */}
+
+
       <div className="hub-stories flex grid">
         <Card className="hub-info border-round col-12 md:col-4 ml-4 mr-4">
           <p className='font-italic font-bold text-xl'>Thông tin cơ bản </p>
@@ -79,16 +91,24 @@ const HubPage = () => {
           <div className=''><span><strong>Địa chỉ: </strong></span>{inforHub?.address}</div>
           <p className='font-italic font-bold text-xl'>Thông tin trưởng điểm và nhân viên </p>
           <div className="card flex flex-column gap-2">
+            {
+              (!user) && (
+                <div>
+                  <p>Không có nhân viên ở đây hãy <span className='cursor-pointer text-red-500 font-italic' onClick={() => { setChoose(2) }}>thêm nhân viên</span></p>
+                </div>
+              )
+            }
             {user?.map((user) => (
-              <div>
+              <div key={user.username}>
+                {(user.UserPoint[0].type == 5) && (
+                  <Chip label={user.username + '    (Giám đốc)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
+                )}
+                  <div key={user.username}>
                 {(user.UserPoint[0].type == 52) && (
                   <Chip label={user.username + '    (Trưởng điểm)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
                 )}
               </div>
-            ))}
-            {user?.map((user) => (
-              <div>
-                {(user.UserPoint[0].type !== 52) && (
+                 {( [521].includes(user.UserPoint[0].type) ) && (
                   <Chip label={user.username + '    (Nhân viên)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
                 )}
               </div>
@@ -96,22 +116,23 @@ const HubPage = () => {
           </div>
         </Card>
         {
-          (choose == 1) && (
+          (choose == 0) && (
             <Card className='hub-order col-12 md:col-6'>
               <p className='font-italic font-bold text-xl'>Thông tin Order </p>
+              <ListOrder hubId={inforHub?.id}/>
             </Card>
           )
         }
         {
-          (choose == 2) && (
+          (choose == 1) && (
             <Card className='hub-order col-12 md:col-6'>
-              <p className='font-italic font-bold text-xl'>Thêm thành viên cho hub {inforHub?.name}</p>
+              <p className='font-italic font-bold text-xl'>Thêm thành viên cho Điểm tập kết {inforHub?.name}</p>
               <FormAddAuth hubId={inforHub?.id} />
             </Card>
           )
         }
         {
-          (choose == 3) && (
+          (choose == 2) && (
             <Card className='hub-order col-12 md:col-6'>
               <p className='font-italic font-bold text-xl'>chinh sua nguoi dung</p>
             </Card>

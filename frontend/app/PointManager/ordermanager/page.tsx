@@ -31,7 +31,7 @@ function OrderManager() {
 
       {
         (activeIndex == 0) && (
-          <ListOrder />
+          <ListOrder  />
         )
       }
 

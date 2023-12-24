@@ -57,3 +57,79 @@ export interface UserInfor {
   lastName: string;
   username: string;
 }
+
+export interface UserInforFull {
+  id: number;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  createdAt: string;
+}
+
+export interface User {
+  id: number;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+}
+
+export interface Role {
+  id: number;
+  name: string;
+}
+
+export interface UserPoint {
+  hubId: string;
+  transId: string;
+  type: number;
+}
+
+export interface UserUserPoint {
+  UserPoint: UserPoint;
+  id: number;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  createdAt: string;
+}
+
+export interface UserRole {
+  roleId: number;
+}
+
+export interface UserRolePointInfor {
+  user: User;
+  userRole: UserRole;
+  userPoint: UserPoint;
+}
+
+export interface UserRoleInfor {
+  id: number;
+  roleId: number;
+  userId: number;
+  role: Role;
+  user: UserInforFull;
+}
+
+export interface Order {
+  createdAt: string;
+  id: string;
+  userId: number;
+}
+
+export interface Road {
+  id: string;
+  locationPointId: string;
+  nextLocationPointId: string;
+  status: string;
+}
+
+export interface AllOrderInforWithRoad {
+  order: Order;
+  road: Road;
+}
