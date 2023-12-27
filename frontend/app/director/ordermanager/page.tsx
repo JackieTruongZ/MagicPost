@@ -13,7 +13,7 @@ function OrderManager() {
   const [view, setView] = useState();
   const [activeIndex, setActiveIndex] = useState(0);
   const createUser = () => {
-    window.location.href = '/grantAccess';
+    window.location.href = '/createOrder';
   }
   return (
     <div>

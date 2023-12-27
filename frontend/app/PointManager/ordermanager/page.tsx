@@ -2,19 +2,21 @@
 
 import { Button } from 'primereact/button';
 import React, { useState } from 'react'
-import ListOrder from './ListOrder';
 import { orderFilter } from '@/public/utils/Utils';
 import { TabMenu } from 'primereact/tabmenu';
 import './style.css';
 import MonthOrder from './MonthOrder';
 import YearOrder from './YearOrder';
+import ListOrderOnTrans from './ListOrderOnTrans';
+import ListOrderOnHub from './ListOrderOnHub';
 
 function OrderManager() {
   const [view, setView] = useState();
   const [activeIndex, setActiveIndex] = useState(0);
   const createUser = () => {
-    window.location.href = '/grantAccess';
+    window.location.href = '/createOrder';
   }
+  const roleIdStore = window.localStorage.getItem('roleId');
   return (
     <div>
       <p>Order Manager</p>
@@ -31,7 +33,18 @@ function OrderManager() {
 
       {
         (activeIndex == 0) && (
-          <ListOrder  />
+          <div>
+            {
+              (roleIdStore == '51') && (
+                <ListOrderOnTrans />
+              )
+            }
+              {
+              (roleIdStore == '52') && (
+                <ListOrderOnHub />
+              )
+            }
+          </div>
         )
       }
 

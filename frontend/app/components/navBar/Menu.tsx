@@ -47,6 +47,18 @@ const Menu = ({ roleId }: Props) => {
                 )
             }
 
+{
+                (['511', '512', '521'].includes(roleId)) && (
+                    <div>
+                        <MenuItem onClick={() => { window.location.href = '/Staff' }}>
+                            <div>
+                                <p>Làm việc thôi</p>
+                            </div>
+                        </MenuItem>
+                    </div>
+                )
+            }
+
         </div>
     )
 }

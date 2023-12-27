@@ -1,7 +1,7 @@
 'use client'
 
 import { BaseService } from '@/app/service/BaseService';
-import { orderTransFilter } from '@/public/utils/Utils';
+import { orderHubFilter, orderTransFilter } from '@/public/utils/Utils';
 import { Order } from '@/public/utils/interface';
 import { Column } from 'primereact/column';
 import { DataScroller } from 'primereact/datascroller';
@@ -9,10 +9,10 @@ import { DataTable } from 'primereact/datatable';
 import { Dropdown } from 'primereact/dropdown';
 import React, { useEffect, useState } from 'react'
 
-function ListOrder() {
+function ListOrderOnHub() {
     const baseService = new BaseService();
     // const [orders, setOrders] = useState<AllOrderInforWithRoad[] | undefined>();
-    const [view, setView] = useState(orderTransFilter.at(2)?.value);
+    const [view, setView] = useState(orderHubFilter.at(2)?.value);
     const [stayOrder, setStayOrder] = useState<number | undefined>(0);
     const [waitOrder, setWaitOrder] = useState<number | undefined>(0);
     const [moveInOrder, setMoveInOrder] = useState<number | undefined>(0);
@@ -36,47 +36,17 @@ function ListOrder() {
                 }
 
                 const resStayOrder: any = await baseService.findOrderOnPoint(formData);
-                const resWaitOrder: any = await baseService.findOrderWaitOnTrans(formData);
                 const resMoveInOrder: any = await baseService.findOrderMoveInPoint(formData);
 
-                if ([resStayOrder.data.status, resMoveInOrder.data.status, resWaitOrder.data.status].includes('OK')) {
+                if ([resStayOrder.data.status, resMoveInOrder.data.status].includes('OK')) {
                     setStayOrder(resStayOrder.data.data.length);
-                    setWaitOrder(resWaitOrder.data.data.length);
                     setMoveInOrder(resMoveInOrder.data.data.length);
                     if (view == '1') {
-                        setOrder(resWaitOrder.data.data);
-                    }
-                    if (view == '2') {
                         setOrder(resMoveInOrder.data.data);
                     }
-                    if (view == '3') {
+                    if (view == '2') {
                         setOrder(resStayOrder.data.data);
                     }
-                    if (view == '4') {
-                        const formData = {
-                            pointId: point,
-                            status: 'success',
-                        }
-                        const resSuccessOrder: any = await baseService.findOrderSuccessFailReturn(formData);
-                        setOrder(resSuccessOrder.data.data);
-                    }
-                    if (view == '5') {
-                        const formData = {
-                            pointId: point,
-                            status: 'fail',
-                        }
-                        const resFailOrder: any = await baseService.findOrderSuccessFailReturn(formData);
-                        setOrder(resFailOrder.data.data);
-                    }
-                    if (view == '6') {
-                        const formData = {
-                            pointId: point,
-                            status: 'return',
-                        }
-                        const resReturnOrder: any = await baseService.findOrderSuccessFailReturn(formData);
-                        setOrder(resReturnOrder.data.data);
-                    }
-
                 }
                 // setOrders(undefined);
 
@@ -129,14 +99,13 @@ function ListOrder() {
                 <Dropdown
                     id="orderType"
                     value={view}
-                    options={orderTransFilter}
+                    options={orderHubFilter}
                     onChange={(e) => setView(e.target.value)}
                     placeholder="Đơn đang trong kho"
                     className='flex w-20rem mr-4'
                 />
                 <div className='flex align-items-center font-bold'>
                     <span className='mr-2 text-red-500'>Trong kho : {stayOrder}</span>
-                    <span className='mr-2 text-green-500'>Chờ xác nhận : {waitOrder}</span>
                     <span className='text-yellow-700'> Đang đến : {moveInOrder}</span>
                 </div>
             </div>
@@ -161,4 +130,4 @@ function ListOrder() {
     )
 }
 
-export default ListOrder
+export default ListOrderOnHub;
