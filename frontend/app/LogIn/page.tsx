@@ -93,7 +93,7 @@ const LogIn = () => {
         toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Login Success' });
         window.localStorage.setItem('access_token', login.data.data.access_token);
         const resUserInfor: any = await baseService.getUser();
-        if (resUserInfor.statusText == 'OK') {
+        if (resUserInfor.status == 200) {
           const userInfor: UserRolePointInfor = resUserInfor.data.data;
           window.localStorage.setItem('username', userInfor.user.username);
           window.localStorage.setItem('firstname', userInfor.user.firstName);
