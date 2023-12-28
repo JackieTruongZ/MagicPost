@@ -497,13 +497,14 @@ export class TransService {
     //------- main method delete Trans-----------///
     try {
       //--- check role-----------------------//
-
+      
       const existId =
         await this.prisma.transactionPoint.findUnique(
           {
             where: { id: transId },
           },
         );
+        
       if (!existId) {
         transResponseDto.setStatusFail();
         transResponseDto.setMessage(
@@ -580,7 +581,7 @@ export class TransService {
 
   async findTransByProvinceId(
     userId: number,
-    proviceId: string,
+    provinceId: string,
   ) {
     let transResponseDto = new TransResponseDto();
 
@@ -611,12 +612,12 @@ export class TransService {
       }
     } catch (err) {
       console.log(
-        `find trans by id : ${proviceId} get ERROR : `,
+        `find trans by id : ${provinceId} get ERROR : `,
         err,
       );
       transResponseDto.setStatusFail();
       transResponseDto.setMessage(
-        `find trans by id : ${proviceId} get ERROR : ` +
+        `find trans by id : ${provinceId} get ERROR : ` +
           err,
       );
       transResponseDto.setData(null);
@@ -629,26 +630,29 @@ export class TransService {
       prisma: PrismaService,
     ) {
       try {
+        const province = findProvinceById(provinceId)
         const trans =
           await prisma.transactionPoint.findMany({
             where: {
-              province: proviceId,
+              province: province,
             },
           });
+          
         transResponseDto.setStatusOK();
+
         if (!trans[0]) {
           transResponseDto.setStatusFail();
           transResponseDto.setMessage(
             'No trans in here !',
           );
+          return transResponseDto;
         }
-
-        transResponseDto.setData(trans);
+        transResponseDto.setData(trans);    
         return transResponseDto;
       } catch (error) {
         transResponseDto.setStatusFail();
         transResponseDto.setMessage(
-          `find trans by id : ${proviceId} get ERROR : ` +
+          `find trans by id : ${provinceId} get ERROR : ` +
             error,
         );
         transResponseDto.setData(null);

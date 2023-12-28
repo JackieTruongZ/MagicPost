@@ -26,10 +26,9 @@ export class OrderController {
   ) {}
 
   @Post('add-order')
-  async createOrder(
-    @GetUser() user: User,
-    @Body() dto: OrderDto,
-  ) {
+  async createOrder(@GetUser() user: User,@Body() dto: OrderDto,) 
+
+  {
     const order =
       await this.orderService.createOrder(
         dto,

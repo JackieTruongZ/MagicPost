@@ -9,12 +9,12 @@ const Menu = () => {
                     <p>Point</p>
                 </div>
             </MenuItem>
-            <MenuItem onClick={() => {window.location.href = '/director/accountmanager' }}>
+            <MenuItem onClick={() => {window.location.href = '/grantAccess' }}>
                 <div>
                     <p>Account</p>
                 </div>
             </MenuItem>
-            <MenuItem onClick={() => {window.location.href = '/director/ordermanager'}}>
+            <MenuItem onClick={() => {window.location.href = '/createOrder'}}>
                 <div>
                     <p>Order</p>
                 </div>

@@ -33,23 +33,23 @@ const initialValues = {
 
 //các role id
 const roleId = [
-  {value: 7,label: 'customer'},
-  {value: 5,label: 'CEO'},
-  {value: 51,label: 'Transaction Manager'},
-  {value: 52,label: 'Hub Manager'},
-  {value: 511,label: 'Trans staff'},
-  {value: 512,label: 'driver staff'},
-  {value: 521,label: 'hub staff'},
+  { value: 7, label: 'customer' },
+  { value: 5, label: 'CEO' },
+  { value: 51, label: 'Transaction Manager' },
+  { value: 52, label: 'Hub Manager' },
+  { value: 511, label: 'Trans staff' },
+  { value: 512, label: 'driver staff' },
+  { value: 521, label: 'hub staff' },
 ];
 
 const loginEndpoint = "https://magicpost-60b7.onrender.com/users/create-user";
 const access_token = typeof window !== 'undefined' ? window.localStorage.getItem("access_token") : null;
 
-async function request(values : any) {
+async function request(values: any) {
   try {
-    let res = await axios.post(loginEndpoint, values,{
+    let res = await axios.post(loginEndpoint, values, {
       headers: {
-        authorization : `Bearer ${access_token}`,
+        authorization: `Bearer ${access_token}`,
       }
     });
     console.log(res);
@@ -67,7 +67,7 @@ async function request(values : any) {
       title: "Oops...",
       text: `Something went wrong! ${error.response.data.message}`
     });
-  } 
+  }
 }
 
 export default function MyForm() {
@@ -147,8 +147,10 @@ export default function MyForm() {
           />
           <ErrorMessage name="roleId" component="small" className="p-error" />
         </div>
+        <div className='button'>
+          <Button type="submit" label="Submit" />
+        </div>
 
-        <Button type="submit" label="Submit" className="p-button p-component" />
       </Form>
     </Formik>
   );

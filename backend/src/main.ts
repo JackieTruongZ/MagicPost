@@ -1,7 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { CorsOptions } from 'cors';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
@@ -10,7 +10,7 @@ async function bootstrap() {
     }),
   );
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:3000',
+    origin: '*',
     credentials: true,
   };
 

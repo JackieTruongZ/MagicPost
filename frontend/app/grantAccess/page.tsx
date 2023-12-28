@@ -10,7 +10,6 @@ import "./style.css";
 export default function grantAccess() {
   return (
     <Fragment>
-      <Header></Header>
       <div className="main-content">
         <div className="login-block">
           <MyForm/>

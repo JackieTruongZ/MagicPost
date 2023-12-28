@@ -5,6 +5,7 @@ import { ResponseDto } from '../Response.dto';
 import {
   findProvinceById,
   generateNameOfTransHub,
+  indexingProvince,
 } from '../Utils';
 import { HubPoint } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
@@ -21,7 +22,7 @@ export class HubService {
   ) {}
   async createHub(userId: number, dto: HubDto) {
     let hubResponseDto = new HubResponseDto();
-    //------- main method create Trans-----------///
+    //------- main method create Hub-----------///
     try {
       //--- check role-----------------------//
       const userRoleId: number | ResponseDto =
@@ -56,7 +57,7 @@ export class HubService {
     }
     //-------- END check role ---------------------------------------------//
 
-    //---------- Function for create trans ---------------------//
+    //---------- Function for create hub ---------------------//
     async function createHubPoint(
       prisma: PrismaService,
     ) {
@@ -119,7 +120,7 @@ export class HubService {
   async deleteHub(userId: number, hubId: string) {
     let hubResponseDto = new HubResponseDto();
 
-    //------- main method delete Trans-----------///
+    //------- main method delete Hub-----------///
     try {
       //--- check role-----------------------//
       const existId =
@@ -146,7 +147,7 @@ export class HubService {
       }
 
       if (userRoleId == 5) {
-        return deleteTransactionPoint(
+        return deleteHubPoint(
           this.prisma,
         );
       } else {
@@ -168,8 +169,8 @@ export class HubService {
     }
     //-------- END check role ---------------------------------------------//
 
-    //---------- Function for delete trans ---------------------//
-    async function deleteTransactionPoint(
+    //---------- Function for delete Hub ---------------------//
+    async function deleteHubPoint(
       prisma: PrismaService,
     ) {
       try {
@@ -201,7 +202,7 @@ export class HubService {
   ) {
     let hubResponseDto = new HubResponseDto();
 
-    //------- main method delete Trans-----------///
+    //------- main method delete Hub-----------///
     try {
       //--- check role-----------------------//
       const existId: HubPoint =
@@ -240,32 +241,31 @@ export class HubService {
       }
     } catch (err) {
       console.log(
-        'update status trans get ERROR : ',
+        'update status hub get ERROR : ',
         err,
       );
       hubResponseDto.setStatusFail();
       hubResponseDto.setMessage(
-        'update hub trans get ERROR : ' + err,
+        'update hub hub get ERROR : ' + err,
       );
       hubResponseDto.setData(null);
       return hubResponseDto;
     }
     //-------- END check role ---------------------------------------------//
 
-    //---------- Function for update status trans ---------------------//
+    //---------- Function for update status hub ---------------------//
     async function updateStatusHub(
       prisma: PrismaService,
     ) {
       try {
         const hub =
-          await prisma.transactionPoint.update({
+          await prisma.hubPoint.update({
             where: {
               id: hubId,
             },
             data: {
               status: dto.status,
-              quantityTransaction:
-                dto.quantityTransaction,
+              quantityHub:dto.quantityHub,
             },
           });
         hubResponseDto.setStatusOK();
@@ -291,7 +291,7 @@ export class HubService {
   ) {
     let hubResponseDto = new HubResponseDto();
 
-    //------- main method delete Trans-----------///
+    //------- main method delete Hub-----------///
     try {
       //--- check role-----------------------//
       const existId: HubPoint =
@@ -301,7 +301,7 @@ export class HubService {
       if (!existId) {
         hubResponseDto.setStatusFail();
         hubResponseDto.setMessage(
-          `The trans with id: ${hubId} not exist !`,
+          `The hub with id: ${hubId} not exist !`,
         );
         hubResponseDto.setData(null);
         return hubResponseDto;
@@ -339,13 +339,13 @@ export class HubService {
     }
     //-------- END check role ---------------------------------------------//
 
-    //---------- Function for delete trans ---------------------//
+    //---------- Function for delete hub ---------------------//
     async function updateInformationHub(
       prisma: PrismaService,
     ) {
       try {
         const hub =
-          await prisma.transactionPoint.update({
+          await prisma.hubPoint.update({
             where: {
               id: hubId,
             },
@@ -388,7 +388,7 @@ export class HubService {
   async findAllHub(userId: number) {
     let hubResponseDto = new HubResponseDto();
 
-    //------- main method delete Trans-----------///
+    //------- main method delete hub-----------///
     try {
       //--- check role-----------------------//
       const userRoleId: number | ResponseDto =
@@ -426,7 +426,7 @@ export class HubService {
     }
     //-------- END check role ---------------------------------------------//
 
-    //---------- Function for delete trans ---------------------//
+    //---------- Function for delete hub ---------------------//
     async function findAllHub(
       prisma: PrismaService,
     ) {
@@ -467,7 +467,7 @@ export class HubService {
   ) {
     let hubResponseDto = new HubResponseDto();
 
-    //------- main method delete Trans-----------///
+    //------- main method delete Hub-----------///
     try {
       //--- check role-----------------------//
 
@@ -478,7 +478,7 @@ export class HubService {
       if (!existId) {
         hubResponseDto.setStatusFail();
         hubResponseDto.setMessage(
-          `The trans with id: ${hubId} not exist !`,
+          `The hub with id: ${hubId} not exist !`,
         );
         hubResponseDto.setData(null);
         return hubResponseDto;
@@ -520,7 +520,7 @@ export class HubService {
     }
     //-------- END check role ---------------------------------------------//
 
-    //---------- Function for delete trans ---------------------//
+    //---------- Function for delete hub ---------------------//
     async function findHubById(
       prisma: PrismaService,
     ) {
@@ -549,11 +549,11 @@ export class HubService {
 
   async findHubByProvinceId(
     userId: number,
-    proviceId: string,
+    provinceId: string,
   ) {
     let hubResponseDto = new HubResponseDto();
 
-    //------- main method delete Trans-----------///
+    //------- main method delete hub-----------///
     try {
       //--- check role-----------------------//
 
@@ -580,12 +580,12 @@ export class HubService {
       }
     } catch (err) {
       console.log(
-        `find hubs by id : ${proviceId} get ERROR : `,
+        `find hubs by id : ${provinceId} get ERROR : `,
         err,
       );
       hubResponseDto.setStatusFail();
       hubResponseDto.setMessage(
-        `find hubs by id : ${proviceId} get ERROR : ` +
+        `find hubs by id : ${provinceId} get ERROR : ` +
           err,
       );
       hubResponseDto.setData(null);
@@ -593,30 +593,32 @@ export class HubService {
     }
     //-------- END check role ---------------------------------------------//
 
-    //---------- Function for find trans ---------------------//
+    //---------- Function for find hub ---------------------//
     async function findHubByProvinceId(
       prisma: PrismaService,
     ) {
       try {
+        const province = findProvinceById(provinceId)
         const hub =
           await prisma.hubPoint.findMany({
             where: {
-              province: proviceId,
+              province: province,
             },
           });
         hubResponseDto.setStatusOK();
         if (!hub[0]) {
           hubResponseDto.setStatusFail();
           hubResponseDto.setMessage(
-            'No trans in here !',
+            'No hub in here !',
           );
+          return hubResponseDto;
         }
         hubResponseDto.setData(hub);
         return hubResponseDto;
       } catch (error) {
         hubResponseDto.setStatusFail();
         hubResponseDto.setMessage(
-          `find hubs by id : ${proviceId} get ERROR : ` +
+          `find hubs by id : ${provinceId} get ERROR : ` +
             error,
         );
         hubResponseDto.setData(null);
