@@ -12,7 +12,7 @@ interface UserMenuProps {
   username: string;
 }
 
-const UserMenu = ({isOpen, setIsOpen, username }: UserMenuProps) => {
+const  UserMenu = ({isOpen, setIsOpen, username }: UserMenuProps) => {
 
   const [isLogin, setIsLogin] = useState(false);
 
@@ -24,6 +24,18 @@ const UserMenu = ({isOpen, setIsOpen, username }: UserMenuProps) => {
     window.localStorage.clear();
     window.location.href = '/dashboard';
   }
+
+
+  const truncateWord = (word: string) => {
+    if (word.length > 10) {
+      var truncatedWord = word.substring(0, 8) + "..";
+      return truncatedWord;
+    } else {
+      return word;
+    }
+  }
+  
+
 
   let items: MenuItem[] = [
     { label: 'Profile', icon: 'pi pi-fw pi-user' },
@@ -45,7 +57,7 @@ const UserMenu = ({isOpen, setIsOpen, username }: UserMenuProps) => {
               shape="circle"
             />
             <div className="flex flex-column align">
-              <span className="font-bold">{username}</span>
+              <span className="font-bold">{truncateWord(username)}</span>
             </div>
           </button>
         );
@@ -58,7 +70,7 @@ const UserMenu = ({isOpen, setIsOpen, username }: UserMenuProps) => {
       <div onClick={toggleOpen}>
         {username ? (
           <div className="nav-user">
-            <span className="nav-username">{username}</span>
+            <span className="nav-username">{truncateWord(username)}</span>
             <Avatar
               image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6"
               className="mr-4 ml-2 avatar"

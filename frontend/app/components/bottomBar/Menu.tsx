@@ -8,7 +8,7 @@ interface Props {
 
 const Menu = ({ roleId }: Props) => {
     return (
-        <div className="h-full flex flex-row">
+        <div className="h-full flex align-items-center justify-content-center">
             {
                 (roleId == '5') && (
                     <div className='h-full flex flex-row'>
@@ -48,12 +48,12 @@ const Menu = ({ roleId }: Props) => {
                 )
             }
 
-            {
+{
                 (['511', '512', '521'].includes(roleId)) && (
-                    <div className='h-full flex flex-row'>
+                    <div className='h-full'>
                         <MenuItem onClick={() => { window.location.href = '/Staff' }}>
                             <div>
-                                <p style={{ width: "max-content" }}>Làm việc thôi</p>
+                                <p style={{width: "max-content"}}>Làm việc thôi</p>
                             </div>
                         </MenuItem>
                     </div>

@@ -43,7 +43,7 @@ const QRCodeScanner = ({ visible, setVisible, setOrderId }: Props) => {
             <div id="reader" style={{ width: '500px' }}></div>
             {
               scanResult && (
-                <div>Mã sản phẩm : {scanResult}</div>
+                <div>Mã đơn hàng : {scanResult}</div>
               )
             }
         </div>

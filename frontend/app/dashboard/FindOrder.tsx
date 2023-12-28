@@ -41,7 +41,7 @@ const baseService: BaseService = new BaseService();
                             id="searchInput"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="p-inputtext-lg border-noround-left border-round-right-lg"
+                            className="p-inputtext-lg border-noround-left border-round-right-lg "
                         />
                         <label htmlFor="searchInput">Search</label>
                     </span>

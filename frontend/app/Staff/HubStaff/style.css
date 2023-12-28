@@ -32,3 +32,17 @@
     justify-content: center;
     z-index: 9999;
 }
+
+.dropdown-menu {
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .tab-menu {
+        display: none;
+    }
+
+    .dropdown-menu {
+        display: block;
+    }
+}
