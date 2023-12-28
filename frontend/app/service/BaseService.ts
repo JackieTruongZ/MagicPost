@@ -11,7 +11,7 @@ export class BaseService {
     let axiosConfig: AxiosRequestConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "http://localhost:3333",
+        "Access-Control-Allow-Origin": API_URL,
       },
     };
     console.log(formData);
@@ -62,7 +62,7 @@ export class BaseService {
     let axiosConfig: AxiosRequestConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": "http://localhost:3333",
+        "Access-Control-Allow-Origin": API_URL,
         Authorization: `Bearer ${bearver}`,
       },
     };
