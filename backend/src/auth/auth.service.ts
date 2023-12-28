@@ -38,6 +38,8 @@ export class AuthService {
             hash,
             username: dto.username,
             password: dto.password,
+            firstName: dto.firstName,
+            lastName: dto.lastName,
           },
         });
 
@@ -124,4 +126,8 @@ export class AuthService {
     authResponseDto.setAccessToken(token);
     return authResponseDto;
   }
+
+
+
+
 }

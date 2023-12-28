@@ -1,0 +1,13 @@
+.listorder {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-color: white;
+    border-bottom-color: var(--primary-500);
+    border-style: solid;
+    border-width: 3px;
+}
+
+.listorder :hover {
+    background: #a2a2a2;
+    color: aliceblue;
+}

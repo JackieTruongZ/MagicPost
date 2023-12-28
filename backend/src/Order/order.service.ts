@@ -1,18 +1,24 @@
 import {
+  GetAllOrders,
   OrderDto,
   OrderResponseDto,
 } from './dto';
-import { Road, User } from '@prisma/client';
+import {
+  HubPoint,
+  InforOder,
+  OrderRoad,
+  Road,
+  TransactionPoint,
+  User,
+} from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { ProductDto } from '../product/dto';
 import { ProductService } from '../product/product.service';
-import { generateNameOfTransHub } from '../Utils';
-import { ResponseDto } from '../Response.dto';
+import { ResponseDto } from '../../../../MagicPost/backend/src/Response.dto';
 import { UserService } from '../user/user.service';
 import { TransService } from 'src/TransactionManager/trans.service';
 import { HubService } from 'src/HubManager/hub.service';
-import { log } from 'console';
 
 @Injectable()
 export class OrderService {
@@ -93,24 +99,46 @@ export class OrderService {
           .replace(/\.\d{3}/g, '');
 
         // -------- find senderTrans ----------------//
-        const senderTransId =
-          generateNameOfTransHub(
-            dto.senderProvince,
-            dto.senderCity,
-            'trans',
+        const senderTrans: TransactionPoint =
+          await prisma.transactionPoint.findFirst(
+            {
+              where: {
+                province: dto.senderProvince,
+                cityDistrict: dto.senderCity,
+              },
+            },
           );
 
         // -------- find receiverTrans ----------------//
-        const receiverTransId =
-          generateNameOfTransHub(
-            dto.receiverProvince,
-            dto.receiverCity,
-            'trans',
+        const receiverTrans: TransactionPoint =
+          await prisma.transactionPoint.findFirst(
+            {
+              where: {
+                province: dto.receiverProvince,
+                cityDistrict: dto.receiverCity,
+              },
+            },
           );
 
-        // ----- generate orderId format : date + trans of sender and receiver
-        const orderId = `${formattedDate}_${senderTransId}_${receiverTransId}`;
+        // -------- find senderHub ----------------//
+        const senderHub: HubPoint =
+          await prisma.hubPoint.findFirst({
+            where: {
+              province: dto.senderProvince,
+            },
+          });
 
+        // -------- find receiverHub ----------------//
+        const receiverHub: HubPoint =
+          await prisma.hubPoint.findFirst({
+            where: {
+              province: dto.receiverProvince,
+            },
+          });
+
+        // ----- generate orderId format : date + trans of sender and receiver
+        const orderId = `${formattedDate}_${senderTrans.id}_${receiverTrans.id}`;
+        console.log('check');
         // ------- create order ---------------//
         const order = await prisma.order.create({
           data: {
@@ -165,16 +193,10 @@ export class OrderService {
           senderTransId: string,
           receiverTransId: string,
         ) => {
-          const senderHub = `hub_${senderTransId.slice(
-            -5,
-          )}`;
-          const receiverHub = `hub_${receiverTransId.slice(
-            -5,
-          )}`;
-          if (senderHub === receiverHub) {
-            return `${senderTransId}/${senderHub}/${receiverTransId}`;
+          if (senderHub.id === receiverHub.id) {
+            return `${senderTransId}/${senderHub.id}/${receiverTransId}`;
           } else {
-            return `${senderTransId}/${senderHub}/${receiverHub}/${receiverTransId}`;
+            return `${senderTransId}/${senderHub.id}/${receiverHub.id}/${receiverTransId}`;
           }
         };
         const roadForOrder =
@@ -182,11 +204,11 @@ export class OrderService {
             data: {
               orderId: order.id,
               roadPlan: roadPlan(
-                senderTransId,
-                receiverTransId,
+                senderTrans.id,
+                receiverTrans.id,
               ),
-              roadRealTime: senderTransId,
-              locationPointId: senderTransId,
+              roadRealTime: senderTrans.id,
+              locationPointId: senderTrans.id,
               nextLocationPointId: '',
               status: 'wait',
             },
@@ -997,7 +1019,10 @@ export class OrderService {
     }
   }
 
-  async findAllOrder(user: User) {
+  async findAllOrder(
+    user: User,
+    dto: GetAllOrders,
+  ) {
     let orderResponseDto = new OrderResponseDto();
     try {
       //--- check role-----------------------//
@@ -1038,11 +1063,53 @@ export class OrderService {
       prisma: PrismaService,
     ) {
       try {
-        const order =
-          await prisma.order.findMany();
-        orderResponseDto.setStatusOK();
-        orderResponseDto.setData(order);
-        return orderResponseDto;
+        if (dto.type == 'all') {
+          const order: OrderRoad[] =
+            await prisma.orderRoad.findMany({
+              include: {
+                order: true,
+                road: true,
+              },
+            });
+            
+          if (!order[0]) {
+            orderResponseDto.setStatusFail();
+            orderResponseDto.setMessage(
+              'No order in here !',
+            );
+            orderResponseDto.setData(null);
+            return orderResponseDto;
+          }
+          orderResponseDto.setStatusOK();
+          orderResponseDto.setData(order);
+          return orderResponseDto;
+        }
+        if (['fail','success','return','stay','move','wait'].includes(dto.type)) {
+          const order: OrderRoad[] =
+            await prisma.orderRoad.findMany({
+              where: {
+                road: {
+                  status: dto.type,
+                },
+              },
+              include: {
+                order: true,
+                road: true,
+              },
+            });
+          if (!order[0]) {
+            orderResponseDto.setStatusFail();
+            orderResponseDto.setMessage(
+              'No order in here !',
+            );
+            orderResponseDto.setData(null);
+            return orderResponseDto;
+          }
+          orderResponseDto.setStatusOK();
+          orderResponseDto.setData(order);
+          return orderResponseDto;
+        }
+        
       } catch (err) {
         orderResponseDto.setStatusFail();
         orderResponseDto.setMessage(
@@ -1113,8 +1180,26 @@ export class OrderService {
           );
           return orderResponseDto;
         }
+
+        const inforOder: InforOder =
+          await prisma.inforOder.findFirst({
+            where: {
+              orderId: orderId,
+            },
+          });
+        const road: Road =
+          await prisma.road.findFirst({
+            where: {
+              orderId: orderId,
+            },
+          });
+
         orderResponseDto.setStatusOK();
-        orderResponseDto.setData(order);
+        orderResponseDto.setInforOrder(
+          order,
+          inforOder,
+          road,
+        );
         return orderResponseDto;
       } catch (err) {
         orderResponseDto.setStatusFail();

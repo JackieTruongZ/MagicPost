@@ -1,0 +1,16 @@
+.banner {
+    width: 100%;
+    height: auto;
+}
+
+.banner .avatar {
+    bottom: 0;
+    left: 0rem;
+    border-radius: 50%;
+    border: 0.5rem solid white;
+}
+
+.banner .hub-name {
+    margin-left: 12rem;
+    color: #fc4848;
+}

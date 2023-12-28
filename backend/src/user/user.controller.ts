@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   UseGuards,
@@ -12,9 +13,10 @@ import { JwtGuard } from '../auth/guard';
 import {
   CreateUserDto,
   EditUserDto,
+  GetAllUsers,
+  AddAuthDto
 } from './dto';
 import { UserService } from './user.service';
-import { AddAuthDto } from './dto/add-auth.dto';
 
 @UseGuards(JwtGuard)
 @Controller('users')
@@ -31,6 +33,14 @@ export class UserController {
     @Body() dto: EditUserDto,
   ) {
     return this.userService.editUser(userId, dto);
+  }
+
+  @Post('get-all-users')
+  getAllUsers(
+    @GetUser() user: User,
+    @Body() dto: GetAllUsers,
+  ) {
+    return this.userService.getAllUsers(user, dto);
   }
 
   @Post('create-user')
@@ -55,6 +65,16 @@ export class UserController {
   ) {
     return this.userService.findTransForUser(
       userId,
+    );
+  }
+
+  @Get('user-on-point/:id')
+  async findUserOnPoint(
+    @GetUser('id') userId: number,
+    @Param('id') pointId: string,
+  ) {
+    return this.userService.findUserOnPoint(
+      userId,pointId
     );
   }
 }

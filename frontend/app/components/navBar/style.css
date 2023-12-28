@@ -32,6 +32,10 @@
   font-size: 20px;
 }
 
+.menu-container {
+  z-index: 9999;
+}
+
 /* pig hero  */
 
 .pig {
