@@ -464,7 +464,7 @@ export class OrderService {
         const checkHubForUser: boolean =
           await hubService.checkHubForUser(
             userId,
-            road[0].locationPointId,
+            road[0].nextLocationPointId,
           );
 
         if (
@@ -1522,6 +1522,113 @@ export class OrderService {
     }
     // --------- END func find all order on trans hub------//
   }
+
+  // ---- find All order moving trans hub ------ //
+
+  async findAllOrderMovingTransOrHub(
+    user: User,
+    pointId: string,
+  ) {
+    let orderResponseDto = new OrderResponseDto();
+    try {
+      //--- check role-----------------------//
+      const userRoleId: number | ResponseDto =
+        await this.userService.checkUserRoleId(
+          user.id,
+        );
+
+      if (typeof userRoleId !== 'number') {
+        orderResponseDto =
+          userRoleId as OrderResponseDto;
+        return orderResponseDto;
+      }
+
+      const userPoint =
+        await this.prisma.userPoint.findMany({
+          where: {
+            transId: pointId,
+          },
+        });
+
+      if (!userPoint) {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'pointId not found !',
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+
+      if (
+        [5, 51, 511, 512].includes(userRoleId) &&
+        pointId.startsWith('tra')
+      ) {
+        return findAllOrderMovingTransOrHub(
+          this.prisma,
+        );
+      } else if (
+        [5, 52, 521].includes(userRoleId) &&
+        pointId.startsWith('hub')
+      ) {
+        return findAllOrderMovingTransOrHub(
+          this.prisma,
+        );
+      } else {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'You are not authorized!',
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    } catch (err) {
+      console.log(
+        'confirm Order Success Fail get ERROR : ',
+        err,
+      );
+      orderResponseDto.setStatusFail();
+      orderResponseDto.setData(null);
+      return orderResponseDto;
+    }
+
+    // ---------- END check role -----------//
+
+    // --------- func find all order on trans hub------//
+
+    async function findAllOrderMovingTransOrHub(
+      prisma: PrismaService,
+    ) {
+      try {
+        const orders =
+          await prisma.order.findMany({
+            where: {
+              OrderRoad: {
+                some: {
+                  road: {
+                    locationPointId: pointId,
+                    status: 'move',
+                  },
+                },
+              },
+            },
+          });
+
+        orderResponseDto.setStatusOK();
+        orderResponseDto.setData(orders);
+        return orderResponseDto;
+      } catch (err) {
+        orderResponseDto.setStatusFail();
+        orderResponseDto.setMessage(
+          'find all Order by id Fail get ERROR : ' +
+            err,
+        );
+        orderResponseDto.setData(null);
+        return orderResponseDto;
+      }
+    }
+    // --------- END func find all order on trans hub------//
+  }
+
 
   // ---- find All order success or fail ------ //
 

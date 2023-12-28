@@ -35,10 +35,10 @@ function ListOrder({ hubId }: Props) {
                 if ([resStayOrder.data.status, resMoveInOrder.data.status].includes('OK')) {
                     setStayOrder(resStayOrder.data.data.length);
                     setMoveInOrder(resMoveInOrder.data.data.length);
-                    if (view == '1') {
+                    if (view == '0') {
                         setOrder(resStayOrder.data.data);
                     }
-                    if (view == '2') {
+                    if (view == '1') {
                         setOrder(resMoveInOrder.data.data);
                     }
 

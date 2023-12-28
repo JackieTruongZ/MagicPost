@@ -177,6 +177,19 @@ export class OrderController {
     return order;
   }
 
+  @Post('find-order-moving-trans-hub')
+  async findAllOrderMovingTransOrHub(
+    @GetUser() user: User,
+    @Body() dto: OrderFindDto,
+  ) {
+    const order =
+      await this.orderService.findAllOrderMovingTransOrHub(
+        user,
+        dto.pointId,
+      );
+    return order;
+  }
+
   @Post('find-order-success-fail-return')
   async findAllOrderSuccessOrFailOrReturn(
     @GetUser() user: User,
