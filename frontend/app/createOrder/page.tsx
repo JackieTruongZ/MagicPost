@@ -84,13 +84,14 @@ const handleSubmit = async (values: any) => {
 
 const FormComponent = () => {
   const [selectedSenderProvince, setSelectedSenderProvince] = useState(null);
-  const [selectedSenderProvinceCode, setSelectedSenderProvinceCode] =
-    useState(null);
+  const [selectedSenderProvinceCode, setSelectedSenderProvinceCode] = useState<
+    string | undefined
+  >(undefined);
 
   const [selectedReceiverProvince, setSelectedReceiverProvince] =
     useState(null);
   const [selectedReceiverProvinceCode, setSelectedReceiverProvinceCode] =
-    useState(null);
+    useState<string | undefined>(undefined);
 
   return (
     <div className="order-creation">
@@ -172,7 +173,7 @@ const FormComponent = () => {
                 className="p-dropdown"
                 placeholder="Select a province"
                 as={Dropdown}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   const senderProvince = e.value;
                   const senderProvinceCode = PROVINCE_ENUM.find(
                     (option) => option.name === senderProvince
@@ -200,7 +201,7 @@ const FormComponent = () => {
                 className="p-dropdown"
                 placeholder="Select a province"
                 as={Dropdown}
-                onChange={(e) => {
+                onChange={(e : any) => {
                   const ReceiverProvince = e.value;
                   const ReceiverProvinceCode = PROVINCE_ENUM.find(
                     (option) => option.name === ReceiverProvince
@@ -437,11 +438,11 @@ const FormComponent = () => {
           </Form>
         )}
       </Formik>
-      <img
+      {/* <img
         className="create-order-image"
         alt="Order Creation image"
         src="./asset/create-order-image.png"
-      />
+      /> */}
     </div>
   );
 };

@@ -17,6 +17,58 @@ export const viewType = [
   { label: "List view", value: "2" },
 ];
 
+export const userFilter = [
+  {label: 'Tất cả mọi người', value: 'all'},
+  {label: 'Trưởng điểm giao dịch', value: '51'},
+  {label: 'Trưởng điểm tập kết', value: '52'},
+  {label: 'Nhân viên giao dịch', value: '511'},
+  {label: 'Nhân viên giao hàng', value: '512'},
+  {label: 'Nhân viên tập kết', value: '521'},
+]
+
+export const transPageFilter = [
+  {label: 'Chung', value: '0'},
+  {label: 'Thêm thành viên', value: '1'},
+  {label: 'Chỉnh sửa thành viên', value: '2'},
+]
+
+export const hubPageFilter = [
+  {label: 'Chung', value: '0'},
+  {label: 'Thêm thành viên', value: '1'},
+  {label: 'Chỉnh sửa thành viên', value: '2'},
+]
+
+export const orderFilter = [
+  {label: 'Tất cả đơn hàng', value: '1'},
+  {label: 'Thống kê số đơn hàng trong tháng', value: '2'},
+  {label: 'Thống kê số đơn hàng trong năm', value: '3'},
+]
+
+export const orderTransFilter = [
+  {label: 'Đơn chờ xác nhận ', value: '1'},
+  {label: 'Đơn sắp đến', value: '2'},
+  {label: 'Đơn đang ở kho', value: '3'},
+  {label: 'Đơn giao thành công', value: '4'},
+  {label: 'Đơn giao không thành công', value: '5'},
+  {label: 'Đơn cần hoàn lại', value: '6'},
+]
+
+export const orderHubFilter = [
+  {label: 'Đơn sắp đến', value: '1'},
+  {label: 'Đơn đang ở kho', value: '2'},
+]
+
+export const orderTypeFilter = [
+  {label: 'Tất cả đơn hàng', value: 'all'},
+  {label: 'Đơn đang chờ xác nhận', value: 'wait'},
+  {label: 'Đơn đang ở điểm', value: 'stay'},
+  {label: 'Đơn đang di chuyển', value: 'move'},
+  {label: 'Đơn đã giao thành công', value: 'sucess'},
+  {label: 'Đơn giao thất bại', value: 'fail'},
+  {label: 'Đơn đang được hoàn trả', value: 'return'},
+]
+
+
 export const findProvinceById = (provinceId: string): string => {
   function findCodeByName(proviceId: string): string {
     const province: AddressProvince | undefined = PROVINCE_ENUM.find(

@@ -4,10 +4,12 @@ import React, { useState, useRef } from "react";
 import Link from "next/link";
 import "./style2.css"; // Import the CSS file
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
-import { Button } from "primereact/button";
-import { BaseService } from "../service/BaseService";
-import { Toast } from "primereact/toast";
+import { Password } from 'primereact/password';
+import { Button } from 'primereact/button';
+import { BaseService } from '../service/BaseService';
+import { Toast } from 'primereact/toast';
+import { UserRolePointInfor } from '@/public/utils/interface';
+
 
 const LogIn = () => {
   const [emailValue, setEmailValue] = useState("");
@@ -51,8 +53,8 @@ const LogIn = () => {
     } else if (!isValidEmail(emailValue)) {
       return "Invalid email";
     }
-    return "";
-  };
+    return '';
+  }
 
   const passwordValidation = () => {
     if (!passwordValue) {
@@ -76,10 +78,10 @@ const LogIn = () => {
     }
 
     // Handle form submission logic here
-    console.log("Email:", emailValue);
-    console.log("Password:", passwordValue);
+    console.log('Email:', emailValue);
+    console.log('Password:', passwordValue);
 
-    // call api
+    // call api 
 
     const formLogin: any = {
       email: emailValue,
@@ -87,31 +89,30 @@ const LogIn = () => {
     };
     try {
       const login = await baseService.login(formLogin);
-      if (login.data.status === "OK") {
-        toast.current?.show({
-          severity: "success",
-          summary: "Success",
-          detail: "Login Success",
-        });
-        window.localStorage.setItem(
-          "access_token",
-          login.data.data.access_token
-        );
-        const userInfor = await baseService.getUser();
-        window.localStorage.setItem(
-          "username",
-          userInfor.data.data.user.username
-        );
-        console.log(userInfor);
-        setTimeout(() => {
-          window.location.href = "/dashboard";
-        }, 1000);
+      if (login.data.status === 'OK') {
+        toast.current?.show({ severity: 'success', summary: 'Success', detail: 'Login Success' });
+        window.localStorage.setItem('access_token', login.data.data.access_token);
+        const resUserInfor: any = await baseService.getUser();
+        if (resUserInfor.status == 200) {
+          const userInfor: UserRolePointInfor = resUserInfor.data.data;
+          window.localStorage.setItem('username', userInfor.user.username);
+          window.localStorage.setItem('firstname', userInfor.user.firstName);
+          window.localStorage.setItem('lastname', userInfor.user.lastName);
+          window.localStorage.setItem('roleId', userInfor.userRole.roleId.toString());
+          if (userInfor.userPoint.transId == '404') {
+            window.localStorage.setItem('point', userInfor.userPoint.hubId);
+            window.localStorage.setItem('pointType', 'HubPoint');
+          }
+          if (userInfor.userPoint.hubId == '404') {
+            window.localStorage.setItem('point', userInfor.userPoint.transId);
+            window.localStorage.setItem('pointType', 'TransactionPoint');
+          }
+          window.localStorage.setItem('type', userInfor.userPoint.type.toString());
+        }
+
+        setTimeout(() => { window.location.href = '/dashboard' }, 1000);
       } else {
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail: `${login.data.message}`,
-        });
+        toast.current?.show({ severity: 'error', summary: 'Error', detail: `${login.data.message}` });
       }
     } catch (error) {
       toast.current?.show({
@@ -177,19 +178,11 @@ const LogIn = () => {
                 placeholder="Enter password"
               />
             </div>
-            {passwordError && (
-              <div className="password-error-message mt-1">{passwordError}</div>
-            )}
+            {passwordError && <div className="password-error-message mt-1">{passwordError}</div>}
           </div>
         </form>
-        <div className="login-button">
-          <Button
-            label="Log In"
-            type="submit"
-            onClick={(e) => {
-              handleSubmit(e);
-            }}
-          />
+        <div className="login-button" >
+          <Button label="Log In" type="submit" onClick={(e) => { handleSubmit(e) }} />
         </div>
       </div>
       <img

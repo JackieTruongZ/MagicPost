@@ -11,6 +11,7 @@ import {
 import { JwtGuard } from '../auth/guard';
 import { OrderService } from './order.service';
 import {
+  GetAllOrders,
   OrderDto,
   OrderFindDto,
   OrderStatusDto,
@@ -116,10 +117,11 @@ export class OrderController {
     return confirm;
   }
 
-  @Get('order')
-  async findAllOrder(@GetUser() user: User) {
+  @Post('order')
+  async findAllOrder(@GetUser() user: User,
+  @Body() dto: GetAllOrders) {
     const order =
-      await this.orderService.findAllOrder(user);
+      await this.orderService.findAllOrder(user, dto);
     return order;
   }
 

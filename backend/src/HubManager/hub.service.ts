@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserService } from '../user/user.service';
-import { ResponseDto } from '../Response.dto';
+import { ResponseDto } from 'src/Response.dto';
 import {
   findProvinceById,
   generateNameOfTransHub,
   indexingProvince,
-} from '../Utils';
+} from 'src/Utils';
 import { HubPoint } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { HubDto } from './dto/hub.dto';
