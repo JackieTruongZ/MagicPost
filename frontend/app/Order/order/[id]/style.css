@@ -1,0 +1,10 @@
+.invoice { 
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.qr-code {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
