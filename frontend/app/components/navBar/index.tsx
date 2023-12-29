@@ -66,7 +66,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="h-auto w-full z-999 top-0 left-0">
+    <div className="h-auto w-full z-999 top-0 left-0 items-center justify-center">
       <Container>
        {
         dashboard ? (

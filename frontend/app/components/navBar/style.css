@@ -2,7 +2,11 @@
   width: 100%;
   display: flex;
   align-items: center;
-  background: linear-gradient(180deg, rgba(255, 114, 94, 0.50) 0%, rgba(217, 217, 217, 0.20) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 114, 94, 0.5) 0%,
+    rgba(217, 217, 217, 0.2) 100%
+  );
 }
 
 .nav-title {
@@ -14,7 +18,10 @@
   font-weight: 800;
   line-height: normal;
 }
-
+.cursor-pointer.nav-title.m-4.flex.left-0 {
+  justify-content: center;
+  align-items: center;
+}
 .nav-user {
   display: flex;
   align-items: center;
@@ -36,6 +43,27 @@
   z-index: 9999;
 }
 
+.nav-bar-items {
+
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease, font-weight 0.3s ease,
+    box-shadow 0.1s ease;
+}
+
+.nav-bar-items:hover {
+  color: #ff6666; /* Light red */
+  font-weight: bolder; /* Make text bolder on hover */
+  transform: translateY(-5px); /* Move up slightly on hover */
+}
+
+.nav-bar-items:active {
+  transform: translateY(2px); /* Move down slightly on click */
+  text-shadow: 0 0 8px rgba(255, 102, 102, 0.7);/* Increase text-shadow to create a more pronounced pressed effect */
+}
+
 @media screen and (max-width: 1024px) {
   .nav-title {
     font-size: 30px;
@@ -55,20 +83,42 @@
   height: 50px;
   position: relative;
   /* transform: rotateY(180deg); */
-  background-image: url('../../favicon.ico');
+  background-image: url("../../favicon.ico");
   animation-name: runPig;
   animation-duration: 10s;
-  animation-direction: alternate;  
+  animation-direction: alternate;
   animation-iteration-count: 1;
   animation-direction: alternate;
   animation-fill-mode: forwards;
 }
 @keyframes runPig {
-  0%   { left: -400px; top: 0px; transform: rotateY(180deg); }
-  28%   {transform: rotateY(180deg);}
-  30% { left: 400px; top: 0px; transform: rotateY(0deg); }
-  58% { transform: rotateY(0deg);}
-  60% {left: -400px; top: 0px; transform: rotateY(180deg);}
-  98%   {transform: rotateY(180deg);}
-  100% { left: 690px; top: 0px; transform: rotateY(0deg); }
-} 
+  0% {
+    left: -400px;
+    top: 0px;
+    transform: rotateY(180deg);
+  }
+  28% {
+    transform: rotateY(180deg);
+  }
+  30% {
+    left: 400px;
+    top: 0px;
+    transform: rotateY(0deg);
+  }
+  58% {
+    transform: rotateY(0deg);
+  }
+  60% {
+    left: -400px;
+    top: 0px;
+    transform: rotateY(180deg);
+  }
+  98% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    left: 690px;
+    top: 0px;
+    transform: rotateY(0deg);
+  }
+}
