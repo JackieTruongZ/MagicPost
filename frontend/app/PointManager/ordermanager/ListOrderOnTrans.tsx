@@ -143,7 +143,7 @@ function ListOrderOnTrans() {
 
             <div className='listorder'>
                 <DataTable value={orders} stripedRows className='cursor-pointer listview' tableStyle={{ minWidth: '50rem' }}>
-                    <Column field="orderId" header="orderId" body={(rowData: Order) => <span>{rowData.id}</span>}></Column>
+                    <Column field="orderId" header="orderId" body={(rowData: Order) => <span onClick={()=>{window.location.href = `/Order/order/${rowData.id}`}}>{rowData.id}</span>}></Column>
                     <Column field="orderId" header="Người tạo đơn" body={(rowData: Order) => <span>{rowData.userId}</span>}></Column>
                     <Column field="orderId" header="Ngày tạo đơn" body={(rowData: Order) => <span>{rowData.createdAt.slice(0, 10)}</span>}></Column>
 

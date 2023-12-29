@@ -119,29 +119,13 @@ function ListOrder({ transId }: Props) {
     return (
         <div className='listorder surface-overlay border-round'>
             {/* <p>ListOrder</p> */}
-<<<<<<< HEAD
-            <div className='flex flex-row'>
-=======
             <div className='flex flex-column md:flex-row '>
->>>>>>> fd77e8a5df74a7bf3c9c15b8598649b060583a45
                 <Dropdown
                     id="orderType"
                     value={view}
                     options={orderTransFilter}
                     onChange={(e) => setView(e.target.value)}
                     placeholder="Đơn đang trong kho"
-<<<<<<< HEAD
-                    className='flex w-20rem mr-4'
-                />
-                <div className='flex align-items-center font-bold'>
-                    <span className='mr-2 text-red-500'>Trong kho : {stayOrder}</span>
-                    <span className='mr-2 text-green-500'>Chờ xác nhận : {waitOrder}</span>
-                    <span className='text-yellow-700'> Đang đến : {moveInOrder}</span>
-                </div>
-            </div>
-
-            <DataTable value={orders} stripedRows className='cursor-pointer listview' tableStyle={{ minWidth: '50rem' }}>
-=======
                     className='flex w-16rem md:w-20rem mr-4'
                 />
                 <div className='flex flex-column md:flex-row mt-1 font-bold'>
@@ -152,8 +136,7 @@ function ListOrder({ transId }: Props) {
             </div>
 
             <DataTable value={orders} stripedRows className='cursor-pointer listview' scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
->>>>>>> fd77e8a5df74a7bf3c9c15b8598649b060583a45
-                <Column field="orderId" header="orderId" body={(rowData: Order) => <span>{rowData.id}</span>}></Column>
+                <Column field="orderId" header="orderId" body={(rowData: Order) => <span onClick={()=>{window.location.href = `/Order/order/${rowData.id}`}}>{rowData.id}</span>}></Column>
                 <Column field="orderId" header="Người tạo đơn" body={(rowData: Order) => <span>{rowData.userId}</span>}></Column>
                 <Column field="orderId" header="Ngày tạo đơn" body={(rowData: Order) => <span>{rowData.createdAt.slice(0,10)}</span>}></Column>
 
