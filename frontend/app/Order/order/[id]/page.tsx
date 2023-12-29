@@ -37,7 +37,7 @@ function OrderPage() {
   };
 
   return (
-    <div>
+    <div className="">
       <div className="form-invoice">
         <div className="form-name ml-8 mb-4"> Invoice</div>
         <div className="invoice grid ml-8 mr-8">
@@ -93,7 +93,7 @@ function OrderPage() {
           </div>
         </div>
       </div>
-      <Button onClick={handleButtonClick}>Generate PDF</Button>
+      <Button className="ml-8 mt-4" onClick={handleButtonClick}>Generate PDF</Button>
     </div>
   );
 }
