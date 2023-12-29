@@ -36,7 +36,7 @@ h4 {
 }
 
 /* Style links in the footer */
-p {
+.footer-section p {
   margin-bottom: 8px;
 }
 
@@ -53,5 +53,11 @@ p {
     flex: 1 0 100%;
     margin-bottom: 20px;
     max-width: 400px;
+  }
+  .footer-section h4 {
+    font-size: 0.9em;
+  }
+  .footer-section p {
+    font-size: 0.8em;
   }
 }
