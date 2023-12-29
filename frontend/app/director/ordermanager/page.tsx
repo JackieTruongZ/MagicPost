@@ -17,7 +17,6 @@ function OrderManager() {
   }
   return (
     <div>
-      <p>Order Manager</p>
       <div className='flex mb-2'>
         <Button label='+ Tạo đơn hàng' className='flex right-0 mr-4 pl-3' onClick={createUser} />
       </div>
