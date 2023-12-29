@@ -24,7 +24,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="copyright">
-        <p>&copy; 2023 Tên Công Ty. Bảo lưu mọi quyền.</p>
+        <p>&copy; 2023 MagicPost. ..................</p>
       </div>
     </footer>
   );
