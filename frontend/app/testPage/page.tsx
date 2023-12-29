@@ -1,19 +1,32 @@
 "use client"
-import React from 'react';
-import { Button } from 'primereact/button';
-import './style.css'; // Tạo file CSS để tùy chỉnh màu sắc
-import { Link } from 'react-router-dom';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-const BottomMenu = () => {
+export default function SimpleBottomNavigation() {
+  const [value, setValue] = React.useState(0);
+
   return (
-    <div className="bottom-menu">
-      <Link to="/home">
-        <Button icon="pi pi-home" className="p-button-rounded p-button-danger" />
-      </Link>
-      <div className='separator'></div>
-      <Button icon="pi pi-search" className="p-button-rounded p-button-danger" />
-    </div>
+    <Box sx={{ width: 500 }}>
+      <BottomNavigation
+        showLabels
+        value={value}
+        onChange={(event, newValue) => {
+          if (newValue == 0)
+            window.location.href = '/director/pointmanager';
+          else if (newValue == 1)
+            window.location.href = '/director/accountmanager';
+          setValue(newValue);
+        }}
+      >
+        <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
+        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+        <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+      </BottomNavigation>
+    </Box>
   );
-};
-
-export default BottomMenu;
+}
