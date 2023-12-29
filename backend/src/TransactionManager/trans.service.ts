@@ -8,13 +8,12 @@ import {
 import {
   findProvinceById,
   generateNameOfTransHub,
-} from '../Utils';
+} from 'src/Utils';
 import { TransactionPoint } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { ResponseDto } from '../Response.dto';
+import { ResponseDto } from 'src/Response.dto';
 import { UserService } from '../user/user.service';
 import { TransInformationDto } from './dto/trans.information.dto';
-import { log } from 'console';
 
 @Injectable()
 export class TransService {
