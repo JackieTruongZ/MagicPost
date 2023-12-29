@@ -10,6 +10,7 @@ import { BaseService } from "../service/BaseService";
 import { Dropdown } from "primereact/dropdown";
 import { PROVINCE_ENUM, CITY_DISTRICT_ENUM } from "@/public/utils/Utils";
 
+
 const initialValues = {
   productName: "",
   massItem: 0,
@@ -101,9 +102,9 @@ const FormComponent = () => {
         onSubmit={handleSubmit}
       >
         {({ values, setFieldValue }) => (
-          <Form className="order-creation-form">
-            <div className="p-field">
-              <div className="senderName">Sender Name</div>
+          <Form className="order-creation-form grid text-center ml-8 mr-8 offset-2">
+            <div className="p-field col-12 md:col-6">
+              <div className="senderName mb-1">Sender Name</div>
               <Field
                 id="senderName"
                 name="senderName"
@@ -117,8 +118,8 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field">
-              <div className="receiverName">Receiver Name</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="receiverName mb-1">Receiver Name</div>
               <Field
                 id="receiverName"
                 name="receiverName"
@@ -132,8 +133,8 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field">
-              <div className="senderAddress">Sender Address</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="senderAddress mb-1">Sender Address</div>
               <Field
                 id="senderAddress"
                 name="senderAddress"
@@ -147,8 +148,8 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field">
-              <div className="receiverAddress">Receiver Address</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="receiverAddress mb-1">Receiver Address</div>
               <Field
                 id="receiverAddress"
                 name="receiverAddress"
@@ -162,13 +163,13 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field">
-              <div className="senderProvince">Sender Province</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="senderProvince mb-1">Sender Province</div>
               <Field
                 id="senderProvince"
                 name="senderProvince"
                 options={PROVINCE_ENUM}
-                optionLabel="name_with_type"
+                optiondiv="name_with_type"
                 optionValue="name"
                 className="p-dropdown"
                 placeholder="Select a province"
@@ -190,18 +191,18 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field">
-              <div className="receiverProvince">Receiver Province</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="receiverProvince mb-1">Receiver Province</div>
               <Field
                 id="receiverProvince"
                 name="receiverProvince"
                 options={PROVINCE_ENUM}
-                optionLabel="name_with_type"
+                optiondiv="name_with_type"
                 optionValue="name"
                 className="p-dropdown"
                 placeholder="Select a province"
                 as={Dropdown}
-                onChange={(e : any) => {
+                onChange={(e: any) => {
                   const ReceiverProvince = e.value;
                   const ReceiverProvinceCode = PROVINCE_ENUM.find(
                     (option) => option.name === ReceiverProvince
@@ -218,15 +219,15 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field">
-              <div className="senderCity">Sender City</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="senderCity mb-1">Sender City</div>
               <Field
                 id="senderCity"
                 name="senderCity"
                 options={CITY_DISTRICT_ENUM.filter(
                   (city) => city.parent_code == selectedSenderProvinceCode
                 )}
-                optionLabel="name_with_type" // Change 'label' to 'name'
+                optiondiv="name_with_type" // Change 'div' to 'name'
                 optionValue="name" // Change 'value' to '_id'
                 className="p-dropdown"
                 placeholder="Select a city"
@@ -238,15 +239,15 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field">
-              <div className="receiverCity">Receiver City</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="receiverCity mb-1">Receiver City</div>
               <Field
                 id="receiverCity"
                 name="receiverCity"
                 options={CITY_DISTRICT_ENUM.filter(
                   (city) => city.parent_code == selectedReceiverProvinceCode
                 )}
-                optionLabel="name_with_type" // Change 'label' to 'name'
+                optiondiv="name_with_type" // Change 'div' to 'name'
                 optionValue="name" // Change 'value' to '_id'
                 className="p-dropdown"
                 placeholder="Select a city"
@@ -258,8 +259,8 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field">
-              <div className="senderNumber">Sender Number</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="senderNumber mb-1">Sender Number</div>
               <Field
                 id="senderNumber"
                 name="senderNumber"
@@ -274,8 +275,8 @@ const FormComponent = () => {
               />
             </div>
 
-            <div className="p-field">
-              <div className="receiverNumber">Receiver Number</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="receiverNumber mb-1">Receiver Number</div>
               <Field
                 id="receiverNumber"
                 name="receiverNumber"
@@ -290,8 +291,8 @@ const FormComponent = () => {
               />
             </div>
 
-            <div className="p-field">
-              <div className="senderPostCode">Sender PostCode</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="senderPostCode mb-1">Sender PostCode</div>
               <Field
                 id="senderPostCode"
                 name="senderPostCode"
@@ -306,8 +307,8 @@ const FormComponent = () => {
               />
             </div>
 
-            <div className="p-field">
-              <div className="receiverPostcode">Receiver PostCode</div>
+            <div className="p-field col-12 md:col-6">
+              <div className="receiverPostcode mb-1">Receiver PostCode</div>
               <Field
                 id="receiverPostCode"
                 name="receiverPostCode"
@@ -321,9 +322,9 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="package-information">
-              <div className="p-field">
-                <label htmlFor="productName">Product Name</label>
+            <div className="package-information grid col-12 text-center">
+              <div className="p-field col-12">
+                <div className="productName mb-1">Product Name</div>
                 <Field
                   id="productName"
                   name="productName"
@@ -337,8 +338,8 @@ const FormComponent = () => {
                   className="p-error"
                 />
               </div>
-              <div className="p-field">
-                <label htmlFor="description">Description</label>
+              <div className="p-field col-12">
+                <div className="description mb-1">Description</div>
                 <Field
                   id="description"
                   name="description"
@@ -352,8 +353,8 @@ const FormComponent = () => {
                   className="p-error"
                 />
               </div>
-              <div className="p-field">
-                <label htmlFor="massOrder">Mass Order</label>
+              <div className="p-field col-12">
+                <div className="massOrder mb-1">Mass Order</div>
                 <Field
                   id="massOrder"
                   name="massOrder"
@@ -367,8 +368,8 @@ const FormComponent = () => {
                   className="p-error"
                 />
               </div>
-              <div className="p-field">
-                <label htmlFor="typeGoods">Type Goods</label>
+              <div className="p-field col-12">
+                <div className="typeGoods mb-1">Type Goods</div>
                 <Field
                   id="typeGoods"
                   name="typeGoods"
@@ -382,8 +383,8 @@ const FormComponent = () => {
                   className="p-error"
                 />
               </div>
-              <div className="p-field">
-                <label htmlFor="quantity">Quantity</label>
+              <div className="p-field col-12">
+                <div className="quantity mb-1">Quantity</div>
                 <Field
                   id="quantity"
                   name="quantity"
@@ -397,8 +398,8 @@ const FormComponent = () => {
                   className="p-error"
                 />
               </div>
-              <div className="p-field">
-                <label htmlFor="descriptionItem">Description Item</label>
+              <div className="p-field col-12">
+                <div className="descriptionItem mb-1">Description Item</div>
                 <Field
                   id="descriptionItem"
                   name="descriptionItem"
@@ -412,8 +413,8 @@ const FormComponent = () => {
                   className="p-error"
                 />
               </div>
-              <div className="p-field">
-                <label htmlFor="massItem">Mass Item</label>
+              <div className="p-field col-12">
+                <div className="massItem mb-1">Mass Item</div>
                 <Field
                   id="massItem"
                   name="massItem"
@@ -428,7 +429,7 @@ const FormComponent = () => {
                 />
               </div>
             </div>
-            <div className="submit-button mt-4">
+            <div className="submit-button col-12">
               <Button
                 type="submit"
                 label="Submit"
