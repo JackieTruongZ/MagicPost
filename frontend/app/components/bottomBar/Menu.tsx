@@ -1,16 +1,17 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import MenuItem from "./MenuItems";
 import "./style.css";
 import "primeicons/primeicons.css";
 import Box from '@mui/material/Box';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import DatasetIcon from '@mui/icons-material/Dataset';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import { usePathname } from "next/navigation";
+import path from "path";
 
 interface Props {
   roleId: string;
@@ -18,6 +19,30 @@ interface Props {
 
 const Menu = ({ roleId }: Props) => {
   const [value, setValue] = React.useState(0);
+  const pathname: string = usePathname();
+
+  useEffect(() => {
+    if (!pathname) {
+      return;
+    }
+
+    if (roleId == '5' && pathname.slice(10, 22) == 'pointmanager') {
+      setValue(0);
+    }
+
+    if (roleId == '5' && pathname.slice(-14) == 'accountmanager') {
+
+      setValue(1);
+    }
+
+    if (roleId == '5' && pathname.slice(-12) == 'ordermanager') {
+      setValue(2);
+    }
+
+
+
+  }, [roleId])
+
   return (
     <div className="h-full align-items-center justify-content-center ">
       {roleId == "5" && (
@@ -30,7 +55,7 @@ const Menu = ({ roleId }: Props) => {
                 window.location.href = "/director/pointmanager";
               else if (newValue == 1)
                 window.location.href = "/director/accountmanager";
-                else window.location.href = "/director/ordermanager";
+              else window.location.href = "/director/ordermanager";
               setValue(newValue);
             }}
           >

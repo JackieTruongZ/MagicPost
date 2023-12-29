@@ -295,6 +295,8 @@ export class BaseService {
       axiosConfig
     );
   }
+
+
   async findOrderMoveInPoint(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {
@@ -310,6 +312,23 @@ export class BaseService {
       axiosConfig
     );
   }
+
+  async findOrderMoveOutPoint(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.post(
+      `${API_URL}${"/order/find-order-moving-trans-hub"}`,
+      formData,
+      axiosConfig
+    );
+  }
+
   async findOrderSuccessFailReturn(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {
