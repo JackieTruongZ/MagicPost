@@ -70,84 +70,17 @@ const TransactionPage = () => {
         </div>
       </div>
 
-<<<<<<< HEAD
-
-      <TabMenu className='flex justify-content-left ml-4' model={transPageFilter} activeIndex={choose} onTabChange={(e) => setChoose(e.index)} />
-      
-      
-=======
       <div className='md:block hidden'>
         <TabMenu className='flex justify-content-left ml-4' model={transPageFilter} activeIndex={choose} onTabChange={(e) => setChoose(e.index)} />
       </div>
 
 
->>>>>>> fd77e8a5df74a7bf3c9c15b8598649b060583a45
       {/* <div className='flex flex-row m-4'>
         <div className='flex ml-4 cursor-pointer' onClick={() => { setChoose(1) }}>Chung</div>
         <div className='flex ml-4 cursor-pointer' onClick={() => { setChoose(2) }}>Thêm thành viên</div>
         <div className='flex ml-4 cursor-pointer' onClick={() => { setChoose(3) }}>Chỉnh sửa thành viên</div>
       </div> */}
 
-
-<<<<<<< HEAD
-      <div className="hub-stories flex grid">
-        <Card className="hub-info border-round col-12 md:col-4 ml-4 mr-4">
-          <p className='font-italic font-bold text-xl'>Thông tin cơ bản </p>
-          <div className='mb-1'><span><strong>Mã điểm: </strong></span>{inforTrans?.id}</div>
-          <div className='mb-1'><span><strong>SĐT: </strong></span>{inforTrans?.numberPhone}</div>
-          {/* <div className='mb-1'><span><strong>{(transId?.province === 'Hà Nội' || transId?.province === 'Hồ Chí Minh') ? 'Quận:' : ': '} </strong></span>{transId?.cityDistrict}</div> */}
-          <div className='mb-1'><span><strong>{(inforTrans?.province === 'Hà Nội' || inforTrans?.province === 'Hồ Chí Minh') ? 'Thành Phố: ' : 'Tỉnh: '}</strong></span>{inforTrans?.province}</div>
-          <div className=''><span><strong>Địa chỉ: </strong></span>{inforTrans?.address}</div>
-          <p className='font-italic font-bold text-xl'>Thông tin trưởng điểm và nhân viên </p>
-          <div className="card flex flex-column gap-2">
-            {
-              (!user) && (
-                <div>
-                  <p>Không có nhân viên ở đây hãy <span className='cursor-pointer text-red-500 font-italic' onClick={() => { setChoose(2) }}>thêm nhân viên</span></p>
-                </div>
-              )
-            }
-            {user?.map((user) => (
-              <div key={user.username}>
-                {(user.UserPoint[0].type == 5) && (
-                  <Chip label={user.username + '    (Giám đốc)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
-                )}
-                  <div key={user.username}>
-                {(user.UserPoint[0].type == 51) && (
-                  <Chip label={user.username + '    (Trưởng điểm)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
-                )}
-              </div>
-                 {( [512,511].includes(user.UserPoint[0].type) ) && (
-                  <Chip label={user.username + '    (Nhân viên)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
-                )}
-              </div>
-            ))}
-          </div>
-        </Card>
-        {
-          (choose == 0) && (
-            <Card className='hub-order col-12 md:col-6'>
-              <p className='font-italic font-bold text-xl'>Thông tin Order </p>
-              <ListOrder transId={inforTrans?.id}/>
-            </Card>
-          )
-        }
-        {
-          (choose == 1) && (
-            <Card className='hub-order col-12 md:col-6'>
-              <p className='font-italic font-bold text-xl'>Thêm thành viên cho Điểm tập kết {inforTrans?.name}</p>
-              <FormAddAuth transId={inforTrans?.id} />
-            </Card>
-          )
-        }
-        {
-          (choose == 2) && (
-            <Card className='hub-order col-12 md:col-6'>
-              <p className='font-italic font-bold text-xl'>chinh sua nguoi dung</p>
-            </Card>
-          )
-        }
-=======
       <div className="trans-stories flex grid mt-1">
         <div className='trans-info border-round col-10 md:col-4 ml-4 mr-4'>
           <Card className="">
@@ -229,7 +162,6 @@ const TransactionPage = () => {
           </Card>
         </div>
 
->>>>>>> fd77e8a5df74a7bf3c9c15b8598649b060583a45
 
       </div>
     </div>
