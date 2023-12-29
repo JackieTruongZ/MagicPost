@@ -67,6 +67,9 @@ npm run dev // chạy dev
                     - đồng thời phụ trách phần API tương ứng để đẩy những dữ liệu cần thiết lên trên cở sở dữ liệu cũng như
                     - nhận dữ liệu từ cơ sở dữ liệu. cũng như các Components khác của frontend.
 
+
+Link Github : https://github.com/JackieTruongZ/MagicPost
+
 Link Demo: https://main--visionary-muffin-079907.netlify.app/
 
 Link Video Thuyết trình: https://drive.google.com/file/d/1kdLOIE3UbrBRvLq1xdM9jE6Qsqv-jqwF/view?fbclid=IwAR2ubhKC5n-tqG6MW1dJNDaup5a8vfKGSB82NbhcQpFdp0jEaQFd1UpH4QI
