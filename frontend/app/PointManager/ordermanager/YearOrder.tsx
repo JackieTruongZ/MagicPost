@@ -19,19 +19,19 @@ function YearOrder() {
             datasets: [
                 {
                     type: 'bar',
-                    label: 'Dataset 1',
+                    label: 'Deliverd',
                     backgroundColor: documentStyle.getPropertyValue('--blue-500'),
                     data: [50, 25, 12, 48, 90, 76, 42]
                 },
                 {
                     type: 'bar',
-                    label: 'Dataset 2',
+                    label: 'Returned',
                     backgroundColor: documentStyle.getPropertyValue('--green-500'),
                     data: [21, 84, 24, 75, 37, 65, 34]
                 },
                 {
                     type: 'bar',
-                    label: 'Dataset 3',
+                    label: 'Processing',
                     backgroundColor: documentStyle.getPropertyValue('--yellow-500'),
                     data: [41, 52, 24, 74, 23, 21, 32]
                 }
