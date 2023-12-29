@@ -54,7 +54,7 @@ const Menu = ({ roleId }: Props) => {
                 window.location.href = "/director/pointmanager";
               else if (newValue == 1)
                 window.location.href = "/director/accountmanager";
-              else window.location.href = "/PointManager/ordermanager";
+              else window.location.href = "/director/ordermanager";
               setValue(newValue);
             }}
           >
