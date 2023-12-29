@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import * as dotenv from "dotenv";
 
 dotenv.config();
-const API_URL = "https://magicpost-60b7.onrender.com";
+const API_URL = "https://magicpost-183b.onrender.com";
 
 export class BaseService {
   // auth service ---------------------------------------------------------------------------------//
