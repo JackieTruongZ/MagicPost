@@ -1,48 +1,46 @@
-.order-creation {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  margin: auto;
-}
-
 .form-name {
-  position: relative;
-  color: #000000;
-  font-family: "Inter-SemiBold", Helvetica;
-  font-size: 40px;
-  font-weight: 600;
-  height: 48px;
-  letter-spacing: 0;
-  line-height: normal;
-  white-space: nowrap;
+  font-weight: bold;
+  font-size: xx-large;
+}
+.order-creation-form {
+  border: 1px solid rgb(192, 191, 191);
+  border-radius: 5px;
 }
 
-.order-creation .order-creation-form {
-  display: inline-grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: minmax(auto, auto);
-  width: auto;
-  position: relative;
+.order-creation-form div{
+  font-weight: bold;
 }
 
+.p-inputtext.p-component {
+  width: 60%;
+}
+
+.p-dropdown.p-component.p-inputwrapper {
+  width: 60%;
+  font-weight: normal;
+}
 .p-field .p-error {
   display: block;
+  font-weight: normal;
 }
 
-.p-field .p-inputtext.p-component {
-  display: block;
-  height: 37px;
-  min-width: 350px;
-  margin-right: 32px;
+.submit-button {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  height: 50px;
+}
+.submit-button Button {
+  background-color: #ff725e;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.order-creation-form .package-information{
-  grid-column-start: 1;
-  grid-column-end: 3;
+.p-button-label.p-c {
+color: #000000;
 }
 
-.package-information .p-field .p-inputtext.p-component {
-  display: block;
-  height: 37px;
-  min-width: 550px;
+.p-button.p-component {
+  width: 30%;
 }
+
