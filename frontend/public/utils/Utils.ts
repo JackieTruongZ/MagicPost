@@ -48,14 +48,16 @@ export const orderTransFilter = [
   {label: 'Đơn chờ xác nhận', value: '1'},
   {label: 'Đơn sắp đến', value: '2'},
   {label: 'Đơn đang ở kho', value: '3'},
-  {label: 'Đơn giao thành công', value: '4'},
-  {label: 'Đơn giao không thành công', value: '5'},
-  {label: 'Đơn cần hoàn lại', value: '6'},
+  {label: 'Đơn đang di chuyển', value: '4'},
+  {label: 'Đơn giao thành công', value: '5'},
+  {label: 'Đơn giao không thành công', value: '6'},
+  {label: 'Đơn cần hoàn lại', value: '7'},
 ]
 
 export const orderHubFilter = [
   {label: 'Đơn sắp đến', value: '1'},
   {label: 'Đơn đang ở kho', value: '2'},
+  {label: 'Đơn đang di chuyển', value: '3'},
 ]
 
 export const orderTypeFilter = [

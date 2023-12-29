@@ -28,6 +28,7 @@ const HubStaffPage = () => {
 
     const [stayOrder, setStayOrder] = useState<number | undefined>(0);
     const [moveInOrder, setMoveInOrder] = useState<number | undefined>(0);
+    const [moveOutOrder, setMoveOutOrder] = useState<number | undefined>(0);
     const [orders, setOrder] = useState<Order[] | undefined>();
     const [pointType, setPointType] = useState('');
     const [point, setPoint] = useState('');
@@ -59,7 +60,7 @@ const HubStaffPage = () => {
 
     const ButtonConfirm = ({ rowData }: ButtonConfirmProps) => {
         return (
-            <div className="card flex justify-content-center">
+            <div className="card flex">
                 <Button label="Xác nhận" icon="pi pi-verified" onClick={() => { buttonConfirmHandle(rowData) }} />
                 {/* <Dialog header="Xác nhận đơn hàng" visible={visiblePopUpConfirm} style={{ width: '50vw' }} onHide={() => setVisiblePopUpConfirm(false)} footer={footerContent}>
                     <p>Nhập Id đơn hàng hoặc quét mã đơn hàng</p>
@@ -179,16 +180,21 @@ const HubStaffPage = () => {
 
                 const resStayOrder: any = await baseService.findOrderOnPoint(formData);
                 const resMoveInOrder: any = await baseService.findOrderMoveInPoint(formData);
+                const resMoveOutOrder: any = await baseService.findOrderMoveOutPoint(formData);
 
-                if ([resStayOrder.data.status, resMoveInOrder.data.status].includes('OK')) {
+                if ([resStayOrder.data.status, resMoveInOrder.data.status, resMoveOutOrder.data.status].includes('OK')) {
                     setStayOrder(resStayOrder.data.data.length);
                     setMoveInOrder(resMoveInOrder.data.data.length);
+                    setMoveOutOrder(resMoveOutOrder.data.data.length);
 
                     if (activeIndex == 0) {
                         setOrder(resMoveInOrder.data.data);
                     }
                     if (activeIndex == 1) {
                         setOrder(resStayOrder.data.data);
+                    }
+                    if (activeIndex == 2) {
+                        setOrder(resMoveOutOrder.data.data);
                     }
 
                 }
@@ -282,7 +288,7 @@ const HubStaffPage = () => {
             </div>
 
             <div className='listorder'>
-                <DataTable value={orders} stripedRows className='cursor-pointer listview' tableStyle={{ minWidth: '50rem' }}>
+                <DataTable value={orders} stripedRows className='cursor-pointer listview' scrollable scrollHeight="800px" tableStyle={{ minWidth: '50rem' }}>
                     <Column field="orderId" header="orderId" body={(rowData: Order) => <span>{rowData.id}</span>}></Column>
                     <Column field="userId" header="Người tạo đơn" body={(rowData: Order) => <span>{rowData.userId}</span>}></Column>
                     <Column field="date" header="Ngày tạo đơn" body={(rowData: Order) => <span>{rowData.createdAt.slice(0, 10)}</span>}></Column>
