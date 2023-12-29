@@ -1,5 +1,5 @@
 .component-container {
-    background-image: url("https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/bg01.jpg?alt=media&token=3f1550c9-cb02-4396-adda-ad409c84c922"); /* Đường dẫn đến bức ảnh background */
+    background-image: url("https://l.facebook.com/l.php?u=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fmagicpost-480e1.appspot.com%2Fo%2FArtboard%25201.png%3Falt%3Dmedia%26token%3D1fab6620-960a-4c04-badc-ae972a41cbe4%26fbclid%3DIwAR1h7h14FdXvQSpPRVHz8KwlfVwhl6trQAjPnOlPSkcsuHTW0Z-mzg3ErOg&h=AT3O0Pq-KVy7ue3KDJaSf9Boak1y0lKR2CYkuf4MT2Z8baUGoucG8Hnk88hKJ31mYc9A_tEdWbjLcUlK74JleELdVldW7PD4ySLVcBkKNpL5mqJbAltbfWoaJEhQiMrEAcqfQA");
     background-size: cover; /* Hiển thị bức ảnh cover toàn bộ phần tử */
     background-repeat: repeat; /* Lặp lại bức ảnh để đạt đến độ rộng màn hình */
   }
