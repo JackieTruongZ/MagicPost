@@ -1,10 +1,9 @@
 .bottom-bar {
     z-index: 9999;
-    color: white;
     bottom: 0;
     width: 100%;
-    height: 80px;
-    background: #f38c8c
+    background: #f38c8c;
+    margin-top: 1px grey !important;
 }
 
 
@@ -18,4 +17,23 @@
     .bottom-bar {
         display: none;
     }
+}
+
+.pi {
+    font-size: 1.5rem !important;
+}
+
+MenuItem Button {
+    height: 100%;
+}
+
+Box {
+    width: 100%;
+    height: 100%;
+    border-top: 2px;
+    border-color: gray;
+}
+
+.css-1bjk3jo-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected {
+    color: #f38c8c !important;
 }
