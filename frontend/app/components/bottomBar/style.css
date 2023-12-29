@@ -34,5 +34,6 @@ Box {
 
 .css-1bjk3jo-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected {
     color: #f38c8c !important;
+    font-size: 1.5rem;
 }
 

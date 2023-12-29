@@ -1,16 +1,17 @@
-"use client"
+"use client";
 import React, { useEffect } from "react";
 import MenuItem from "./MenuItems";
 import "./style.css";
 import "primeicons/primeicons.css";
-import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import DatasetIcon from '@mui/icons-material/Dataset';
-import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
+import Box from "@mui/material/Box";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import DatasetIcon from "@mui/icons-material/Dataset";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import { usePathname } from "next/navigation";
+import HomeIcon from "@mui/icons-material/Home";
 import path from "path";
 
 interface Props {
@@ -25,23 +26,25 @@ const Menu = ({ roleId }: Props) => {
     if (!pathname) {
       return;
     }
-
-    if (roleId == '5' && pathname.slice(10, 22) == 'pointmanager') {
-      setValue(0);
-    }
-
-    if (roleId == '5' && pathname.slice(-14) == 'accountmanager') {
-
+    else if (roleId == "5" && pathname.slice(10, 22) == "pointmanager") {
       setValue(1);
     }
 
-    if (roleId == '5' && pathname.slice(-12) == 'ordermanager') {
+    else if (roleId == "5" && pathname.slice(-14) == "accountmanager") {
       setValue(2);
     }
 
-
-
-  }, [roleId])
+    else if (roleId == "5" && pathname.slice(-12) == "ordermanager") {
+      setValue(3);
+    }
+    else if (pathname.slice(-9) == "dashboard")
+     setValue(0);
+    else if (["51", "52"].includes(roleId) && pathname.slice(-14) == "accountmanager")
+    setValue(1);
+    else if (["51", "52"].includes(roleId) && pathname.slice(-12) == "ordermanager")
+    setValue(2);
+  else setValue(1);
+  }, [roleId]);
 
   return (
     <div className="h-full align-items-center justify-content-center ">
@@ -51,16 +54,21 @@ const Menu = ({ roleId }: Props) => {
             showLabels
             value={value}
             onChange={(event, newValue) => {
-              if (newValue == 0)
+              if (newValue == 1)
                 window.location.href = "/director/pointmanager";
-              else if (newValue == 1)
+              else if (newValue == 2)
                 window.location.href = "/director/accountmanager";
+              else if (newValue == 0) window.location.href = "/dashboard";
               else window.location.href = "/director/ordermanager";
               setValue(newValue);
             }}
           >
+            <BottomNavigationAction label="Home" icon={<HomeIcon />} />
             <BottomNavigationAction label="Point" icon={<LocationOnIcon />} />
-            <BottomNavigationAction label="Account" icon={<SupervisedUserCircleIcon />} />
+            <BottomNavigationAction
+              label="Account"
+              icon={<SupervisedUserCircleIcon />}
+            />
             <BottomNavigationAction label="Order" icon={<DatasetIcon />} />
           </BottomNavigation>
         </Box>
@@ -68,35 +76,46 @@ const Menu = ({ roleId }: Props) => {
 
       {["51", "52"].includes(roleId) && (
         <Box>
-        <BottomNavigation
-          showLabels
-          value={value}
-          onChange={(event, newValue) => {
-            if (newValue == 0)
-              window.location.href = "/PointManager/accountmanager";
-            else window.location.href = "/PointManager/ordermanager";
-            setValue(newValue);
-          }}
-        >
-          <BottomNavigationAction label="Account" icon={<SupervisedUserCircleIcon />} />
-          <BottomNavigationAction label="Order" icon={<DatasetIcon />} />
-        </BottomNavigation>
-      </Box>
+          <BottomNavigation
+            showLabels
+            value={value}
+            onChange={(event, newValue) => {
+              if (newValue == 1)
+                window.location.href = "/PointManager/accountmanager";
+              else if (newValue == 0) window.location.href = "/dashboard";
+              else window.location.href = "/PointManager/ordermanager";
+              setValue(newValue);
+            }}
+          >
+            <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+            <BottomNavigationAction
+              label="Account"
+              icon={<SupervisedUserCircleIcon />}
+            />
+            <BottomNavigationAction label="Order" icon={<DatasetIcon />} />
+          </BottomNavigation>
+        </Box>
       )}
 
       {["511", "512", "521"].includes(roleId) && (
         <Box>
-        <BottomNavigation
-          showLabels
-          value={value}
-          onChange={(event, newValue) => {
-            window.location.href = "/Staff";
-            setValue(newValue);
-          }}
-        >
-          <BottomNavigationAction className="special" label="Có làm thì mới có ăn" icon={<PendingActionsIcon />} />
-        </BottomNavigation>
-      </Box>
+          <BottomNavigation
+            showLabels
+            value={value}
+            onChange={(event, newValue) => {
+              if (newValue == 0) window.location.href = "/dashboard";
+              else window.location.href = "/Staff";
+              setValue(newValue);
+            }}
+          >
+            <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+            <BottomNavigationAction
+              className="special"
+              label="Staff"
+              icon={<PendingActionsIcon />}
+            />
+          </BottomNavigation>
+        </Box>
       )}
     </div>
   );
