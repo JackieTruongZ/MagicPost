@@ -81,89 +81,89 @@ const HubPage = () => {
       </div> */}
 
 
-      <div className="hub-stories flex grid mt-1">
-        <div className='hub-info border-round col-10 md:col-4 ml-4 mr-4'>
-          <Card className="">
-            <p className='font-italic font-bold text-xl'>Thông tin cơ bản </p>
-            <div className='mb-1'><span><strong>Mã điểm: </strong></span>{inforHub?.id}</div>
-            <div className='mb-1'><span><strong>SĐT: </strong></span>{inforHub?.numberPhone}</div>
-            {/* <div className='mb-1'><span><strong>{(inforHub?.province === 'Hà Nội' || inforHub?.province === 'Hồ Chí Minh') ? 'Quận:' : ': '} </strong></span>{inforHub?.cityDistrict}</div> */}
-            <div className='mb-1'><span><strong>{(inforHub?.province === 'Hà Nội' || inforHub?.province === 'Hồ Chí Minh') ? 'Thành Phố: ' : 'Tỉnh: '}</strong></span>{inforHub?.province}</div>
-            <div className=''><span><strong>Địa chỉ: </strong></span>{inforHub?.address}</div>
-            <p className='font-italic font-bold text-xl'>Thông tin trưởng điểm và nhân viên </p>
-            <div className="card flex flex-column gap-2">
-              {
-                (!user) && (
-                  <div>
-                    <p>Không có nhân viên ở đây hãy <span className='cursor-pointer text-red-500 font-italic' onClick={() => { setChoose(2) }}>thêm nhân viên</span></p>
-                  </div>
-                )
-              }
-              {user?.map((user) => (
-                <div key={user.username}>
-                  {(user.UserPoint[0].type == 5) && (
-                    <Chip label={user.username + '    (Giám đốc)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
-                  )}
+        <div className="hub-stories flex grid mt-1">
+          <div className='hub-info border-round col-10 md:col-4 ml-4 mr-4'>
+            <Card className="">
+              <p className='font-italic font-bold text-xl'>Thông tin cơ bản </p>
+              <div className='mb-1'><span><strong>Mã điểm: </strong></span>{inforHub?.id}</div>
+              <div className='mb-1'><span><strong>SĐT: </strong></span>{inforHub?.numberPhone}</div>
+              {/* <div className='mb-1'><span><strong>{(inforHub?.province === 'Hà Nội' || inforHub?.province === 'Hồ Chí Minh') ? 'Quận:' : ': '} </strong></span>{inforHub?.cityDistrict}</div> */}
+              <div className='mb-1'><span><strong>{(inforHub?.province === 'Hà Nội' || inforHub?.province === 'Hồ Chí Minh') ? 'Thành Phố: ' : 'Tỉnh: '}</strong></span>{inforHub?.province}</div>
+              <div className=''><span><strong>Địa chỉ: </strong></span>{inforHub?.address}</div>
+              <p className='font-italic font-bold text-xl'>Thông tin trưởng điểm và nhân viên </p>
+              <div className="card flex flex-column gap-2">
+                {
+                  (!user) && (
+                    <div>
+                      <p>Không có nhân viên ở đây hãy <span className='cursor-pointer text-red-500 font-italic' onClick={() => { setChoose(2) }}>thêm nhân viên</span></p>
+                    </div>
+                  )
+                }
+                {user?.map((user) => (
                   <div key={user.username}>
-                    {(user.UserPoint[0].type == 52) && (
-                      <Chip label={user.username + '    (Trưởng điểm)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
+                    {(user.UserPoint[0].type == 5) && (
+                      <Chip label={user.username + '    (Giám đốc)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
+                    )}
+                    <div key={user.username}>
+                      {(user.UserPoint[0].type == 52) && (
+                        <Chip label={user.username + '    (Trưởng điểm)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
+                      )}
+                    </div>
+                    {([521].includes(user.UserPoint[0].type)) && (
+                      <Chip label={user.username + '    (Nhân viên)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
                     )}
                   </div>
-                  {([521].includes(user.UserPoint[0].type)) && (
-                    <Chip label={user.username + '    (Nhân viên)'} image="https://firebasestorage.googleapis.com/v0/b/magicpost-480e1.appspot.com/o/ava1.png?alt=media&token=f97025a6-5cf0-437e-a664-1f563d7860e6" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </Card>
-        </div>
+                ))}
+              </div>
+            </Card>
+          </div>
 
-        <div className='hub-order col-10 md:col-6 md:block hidden'>
-          {
-            (choose == 0) && (
-              <Card className=''>
-                <p className='font-italic font-bold text-xl'>Thông tin Order </p>
-                <ListOrder hubId={inforHub?.id} />
-              </Card>
-            )
-          }
-          {
-            (choose == 1) && (
-              <Card className=''>
-                <p className='font-italic font-bold text-xl'>Thêm thành viên cho Điểm tập kết {inforHub?.name}</p>
-                <FormAddAuth hubId={inforHub?.id} />
-              </Card>
-            )
-          }
-          {
-            (choose == 2) && (
-              <Card className=''>
-                <p className='font-italic font-bold text-xl'>chinh sua nguoi dung</p>
-              </Card>
-            )
-          }
-        </div>
+          <div className='hub-order col-10 md:col-6 md:block hidden'>
+            {
+              (choose == 0) && (
+                <Card className=''>
+                  <p className='font-italic font-bold text-xl'>Thông tin Order </p>
+                  <ListOrder hubId={inforHub?.id} />
+                </Card>
+              )
+            }
+            {
+              (choose == 1) && (
+                <Card className=''>
+                  <p className='font-italic font-bold text-xl'>Thêm thành viên cho Điểm tập kết {inforHub?.name}</p>
+                  <FormAddAuth hubId={inforHub?.id} />
+                </Card>
+              )
+            }
+            {
+              (choose == 2) && (
+                <Card className=''>
+                  <p className='font-italic font-bold text-xl'>chinh sua nguoi dung</p>
+                </Card>
+              )
+            }
+          </div>
 
-        <div className='hub-order col-10 md:col-6 block md:hidden ml-4'>
-          <Card className=''>
-            <p className='font-italic font-bold text-xl'>Thêm thành viên cho Điểm tập kết {inforHub?.name}</p>
-            <FormAddAuth hubId={inforHub?.id} />
-          </Card>
-        </div>
-        <div className='hub-order col-10 md:col-6 block md:hidden ml-4'>
-          <Card className=''>
-            <p className='font-italic font-bold text-xl'>chinh sua nguoi dung</p>
-          </Card>
-        </div>
-        <div className='hub-order col-10 md:col-6 block md:hidden ml-4'>
-          <Card className=''>
-            <p className='font-italic font-bold text-xl'>Thông tin Order </p>
-            <ListOrder hubId={inforHub?.id} />
-          </Card>
-        </div>
+          <div className='hub-order col-10 md:col-6 block md:hidden ml-4'>
+            <Card className=''>
+              <p className='font-italic font-bold text-xl'>Thêm thành viên cho Điểm tập kết {inforHub?.name}</p>
+              <FormAddAuth hubId={inforHub?.id} />
+            </Card>
+          </div>
+          <div className='hub-order col-10 md:col-6 block md:hidden ml-4'>
+            <Card className=''>
+              <p className='font-italic font-bold text-xl'>chinh sua nguoi dung</p>
+            </Card>
+          </div>
+          <div className='hub-order col-10 md:col-6 block md:hidden ml-4'>
+            <Card className=''>
+              <p className='font-italic font-bold text-xl'>Thông tin Order </p>
+              <ListOrder hubId={inforHub?.id} />
+            </Card>
+          </div>
 
 
-      </div>
+        </div>
     </div>
   )
 }

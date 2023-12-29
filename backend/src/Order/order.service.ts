@@ -1071,7 +1071,7 @@ export class OrderService {
                 road: true,
               },
             });
-            
+
           if (!order[0]) {
             orderResponseDto.setStatusFail();
             orderResponseDto.setMessage(
@@ -1084,7 +1084,16 @@ export class OrderService {
           orderResponseDto.setData(order);
           return orderResponseDto;
         }
-        if (['fail','success','return','stay','move','wait'].includes(dto.type)) {
+        if (
+          [
+            'fail',
+            'success',
+            'return',
+            'stay',
+            'move',
+            'wait',
+          ].includes(dto.type)
+        ) {
           const order: OrderRoad[] =
             await prisma.orderRoad.findMany({
               where: {
@@ -1109,7 +1118,6 @@ export class OrderService {
           orderResponseDto.setData(order);
           return orderResponseDto;
         }
-        
       } catch (err) {
         orderResponseDto.setStatusFail();
         orderResponseDto.setMessage(
@@ -1141,16 +1149,8 @@ export class OrderService {
         return orderResponseDto;
       }
 
-      if (userRoleId == 5) {
-        return findOrderById(this.prisma);
-      } else {
-        orderResponseDto.setStatusFail();
-        orderResponseDto.setMessage(
-          'You are not authorized!',
-        );
-        orderResponseDto.setData(null);
-        return orderResponseDto;
-      }
+      return findOrderById(this.prisma);
+      
     } catch (err) {
       console.log(
         'find Order by id get ERROR : ',
@@ -1628,7 +1628,6 @@ export class OrderService {
     }
     // --------- END func find all order on trans hub------//
   }
-
 
   // ---- find All order success or fail ------ //
 

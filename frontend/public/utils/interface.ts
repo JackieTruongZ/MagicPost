@@ -129,7 +129,36 @@ export interface Road {
   status: string;
 }
 
+export interface InforOrder {
+    id: number;
+    orderId: string;
+    description: string;
+    senderName: string;
+    senderNumber: string;
+    senderAddress: string;
+    senderPostCode: string;
+    receiverName: string;
+    receiverNumber: string;
+    receiverAddress: string;
+    receiverPostCode: string;
+    mass: string;
+    typeGoods: string;
+    baseFee: number;
+    additionalFee: number;
+    VAT: number;
+    cost: number;
+    Othercharge: number;
+    reveiverCOD: number;
+    reveicerOthercharge: number;
+}
+
 export interface AllOrderInforWithRoad {
   order: Order;
+  road: Road;
+}
+
+export interface OrderAllInfor {
+  order: Order;
+  inforOder: InforOrder;
   road: Road;
 }

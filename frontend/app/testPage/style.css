@@ -1,74 +1,31 @@
-/* Style for form container */
-form {
-    width: 80%;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.9);
-  }
-  
-  /* Style for form fields */
-  .p-field {
-    margin-bottom: 20px;
-  }
-  
-  /* Style for labels */
-  label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  /* Style for input fields */
-  .p-inputtext {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-sizing: border-box;
-  }
-  
-  /* Style for checkbox */
-  .p-checkbox {
-    margin-top: 5px;
-  }
-  
-  /* Style for dropdown */
-  .p-dropdown {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    box-sizing: border-box;
-    background-color: white;
-  }
-  
-  /* Style for error messages */
-  .p-error {
-    color: #e60000;
-    margin-top: 5px;
-    font-size: 12px;
-  }
-  
-  /* Style for submit button */
-  .p-button {
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(227, 14, 14);
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .p-button:hover {
-    background-color: rgb(245, 6, 6);
-  }
+.bottom-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #ee4962; 
+  padding: 10px;
+}
+.line {
+  line-height: 100%;
+}
 
-  .form-name {
-    font-weight: bolder;
-    font-size: larger;
-  }
+.p-button-rounded {
+  margin: 0;
+}
+
+.bottom-menu Button { 
+  flex: 1;
+}
+
+.separator {
+  height: 3rem; /* Điều chỉnh chiều cao của đường kẻ */
+  border-left: 1px solid white; /* Màu sắc và chiều rộng của đường kẻ */
+  margin: 0 10px; /* Khoảng cách giữa đường kẻ và các nút */
+}
+
+.bottom-menu .pi {
+  font-size: 2rem;
+}

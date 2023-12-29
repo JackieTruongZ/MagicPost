@@ -15,7 +15,7 @@ function AccountManager() {
   }
   return (
     <div>
-      <p>AccountManager</p>
+      {/* <p>AccountManager</p> */}
       <div className='flex flex-row mb-2'>
         
         <Button label='+ Thêm thành viên' className='flex right-0 mr-4 pl-3' onClick={createUser}/>

@@ -27,8 +27,7 @@ function ListOrder({ hubId }: Props) {
                 const formData = {
                     pointId: hubId,
                 }
-                console.log('check', hubId);
-
+            
                 const resStayOrder: any = await baseService.findOrderOnPoint(formData);
                 const resMoveInOrder: any = await baseService.findOrderMoveInPoint(formData);
 
@@ -79,7 +78,7 @@ function ListOrder({ hubId }: Props) {
                     <span className='text-yellow-700'> Đang đến : {moveInOrder}</span>
                 </div>
             </div>
-            <DataTable value={orders} stripedRows className='cursor-pointer listview' tableStyle={{ minWidth: '50rem' }}>
+            <DataTable value={orders} stripedRows className='cursor-pointer listview' scrollable scrollHeight="400px" tableStyle={{ minWidth: '50rem' }}>
                 <Column field="orderId" header="orderId" body={(rowData: Order) => <span>{rowData.id}</span>}></Column>
                 <Column field="orderId" header="Người tạo đơn" body={(rowData: Order) => <span>{rowData.userId}</span>}></Column>
                 <Column field="orderId" header="Ngày tạo đơn" body={(rowData: Order) => <span>{rowData.createdAt.slice(0, 10)}</span>}></Column>
