@@ -68,12 +68,14 @@ async function request(values: any) {
 }
 
 export default function MyForm() {
-  const handleSubmit = (values: any, { setSubmitting }) => {
+  const handleSubmit = (values: any,) => {
     // Gửi dữ liệu nếu hợp lệ
     console.log('Form submitted:', values);
 
     //Dùng axios để gọi API
     request(values);
+
+    // setSubmitting(false);
   };
 
   return (

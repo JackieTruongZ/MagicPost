@@ -35,6 +35,7 @@ const TransStaffPage = () => {
     const [stayOrder, setStayOrder] = useState<number | undefined>(0);
     const [waitOrder, setWaitOrder] = useState<number | undefined>(0);
     const [moveInOrder, setMoveInOrder] = useState<number | undefined>(0);
+    const [moveOutOrder, setMoveOutOrder] = useState<number | undefined>(0);
     const [orders, setOrder] = useState<Order[] | undefined>();
     const [pointType, setPointType] = useState('');
     const [point, setPoint] = useState('');
@@ -157,6 +158,7 @@ const TransStaffPage = () => {
             }
             setRefresh(!resfresh);
         }
+        
     }
 
     const ClearHandle = () => {
@@ -187,8 +189,9 @@ const TransStaffPage = () => {
                 const resStayOrder: any = await baseService.findOrderOnPoint(formData);
                 const resWaitOrder: any = await baseService.findOrderWaitOnTrans(formData);
                 const resMoveInOrder: any = await baseService.findOrderMoveInPoint(formData);
+                const resMoveOutOrder: any = await baseService.findOrderMoveOutPoint(formData);
 
-                if ([resStayOrder.data.status, resMoveInOrder.data.status, resWaitOrder.data.status].includes('OK')) {
+                if ([resStayOrder.data.status, resMoveInOrder.data.status, resWaitOrder.data.status, resMoveOutOrder.data.status].includes('OK')) {
                     setStayOrder(resStayOrder.data.data.length);
                     setWaitOrder(resWaitOrder.data.data.length);
                     setMoveInOrder(resMoveInOrder.data.data.length);
@@ -202,6 +205,9 @@ const TransStaffPage = () => {
                         setOrder(resStayOrder.data.data);
                     }
                     if (activeIndex == 3) {
+                        setOrder(resMoveOutOrder.data.data);
+                    }
+                    if (activeIndex == 4) {
                         const formData = {
                             pointId: point,
                             status: 'success',
@@ -209,7 +215,7 @@ const TransStaffPage = () => {
                         const resSuccessOrder: any = await baseService.findOrderSuccessFailReturn(formData);
                         setOrder(resSuccessOrder.data.data);
                     }
-                    if (activeIndex == 4) {
+                    if (activeIndex == 5) {
                         const formData = {
                             pointId: point,
                             status: 'fail',
@@ -217,7 +223,7 @@ const TransStaffPage = () => {
                         const resFailOrder: any = await baseService.findOrderSuccessFailReturn(formData);
                         setOrder(resFailOrder.data.data);
                     }
-                    if (activeIndex == 5) {
+                    if (activeIndex == 6) {
                         const formData = {
                             pointId: point,
                             status: 'return',

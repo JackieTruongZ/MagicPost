@@ -2,7 +2,8 @@ import axios, { AxiosRequestConfig } from "axios";
 import * as dotenv from "dotenv";
 
 dotenv.config();
-const API_URL = "https://magicpost-183b.onrender.com";
+ const API_URL = "https://magicpost-183b.onrender.com";
+//const API_URL = "http://localhost:3333";
 
 export class BaseService {
   // auth service ---------------------------------------------------------------------------------//
@@ -10,7 +11,7 @@ export class BaseService {
     let axiosConfig: AxiosRequestConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
-        // "Access-Control-Allow-Origin": API_URL,
+        "Access-Control-Allow-Origin": API_URL,
       },
     };
     console.log(formData);
@@ -54,6 +55,25 @@ export class BaseService {
       `${API_URL}${"/order/order/"}${orderId}`,
       axiosConfig
     );
+  }
+
+  async createOrder(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig: AxiosRequestConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": API_URL,
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    console.log(formData);
+
+    const res = await axios.post(
+      `${API_URL}/order/add-order`,
+      formData,
+      axiosConfig
+    );
+    return res;
   }
 
   // order service ---------------------------------------------------------------------------------//
@@ -106,24 +126,8 @@ export class BaseService {
     );
   }
 
-  async createOrder(formData: any) {
-    const bearver = window.localStorage.getItem("access_token");
-    let axiosConfig: AxiosRequestConfig = {
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": API_URL,
-        Authorization: `Bearer ${bearver}`,
-      },
-    };
-    console.log(formData);
+  // point Service --------------------------------------------------------------------------------//
 
-    const res = await axios.post(
-      `${API_URL}/order/add-order`,
-      formData,
-      axiosConfig
-    );
-    return res;
-  }
   async createTrans(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {
@@ -291,6 +295,8 @@ export class BaseService {
       axiosConfig
     );
   }
+
+
   async findOrderMoveInPoint(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {
@@ -306,6 +312,23 @@ export class BaseService {
       axiosConfig
     );
   }
+
+  async findOrderMoveOutPoint(formData: any) {
+    const bearver = window.localStorage.getItem("access_token");
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${bearver}`,
+      },
+    };
+    return await axios.post(
+      `${API_URL}${"/order/find-order-moving-trans-hub"}`,
+      formData,
+      axiosConfig
+    );
+  }
+
   async findOrderSuccessFailReturn(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {
