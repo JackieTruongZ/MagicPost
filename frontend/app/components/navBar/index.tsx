@@ -71,7 +71,7 @@ const NavBar = () => {
        {
         dashboard ? (
           <div className="nav h-5rem fixed " onClick={handleClick} >
-          <div className="cursor-pointer nav-title m-4 flex absolute left-0"> <p> MagicPost</p> </div>
+          <div className="cursor-pointer nav-title m-4 flex absolute left-0" onClick={()=>{window.location.href='/dashboard'}}> <p> MagicPost</p> </div>
           {/* <div id="pig" className="pig m-10"></div> */}
           <div className="w-4"></div>
 
@@ -85,7 +85,7 @@ const NavBar = () => {
         </div>
         ) : (
           <div className="nav h-5rem relative flex-row" onClick={handleClick} >
-          <div className="cursor-pointer nav-title m-4 flex absolute left-0"> <p> MagicPost</p> </div>
+          <div className="cursor-pointer nav-title m-4 flex absolute left-0" onClick={()=>{window.location.href='/dashboard'}}> <p> MagicPost</p> </div>
           {/* <div id="pig" className="pig m-10"></div> */}
           <div className="w-4"></div>
 
