@@ -30,6 +30,7 @@ export default function RootLayout({
           <main className='w-full'>
             {children}
           </main>
+        <div className='h-4rem'></div>
           <Footer/>
         </body>
     </html>
