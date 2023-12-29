@@ -12,7 +12,6 @@ function PointManager() {
   const [view, setView] = useState(viewType.at(1)?.value);
   return (
     <div>
-      <p>PointManager</p>
       <Dropdown
         id="userType"
         value={view}

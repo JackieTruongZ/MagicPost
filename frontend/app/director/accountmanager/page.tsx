@@ -15,7 +15,6 @@ function AccountManager() {
   }
   return (
     <div>
-      <p>AccountManager</p>
       <div className='flex flex-row mb-2'>
         <Dropdown
           id="userType"

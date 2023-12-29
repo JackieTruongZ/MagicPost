@@ -167,6 +167,7 @@ const TransStaffPage = () => {
     }
 
     useEffect(() => {
+
         const storedpointType: string | null = window.localStorage.getItem('pointType');
         const storedpoint: string | null = window.localStorage.getItem('point');
         if (storedpointType) {
@@ -252,7 +253,6 @@ const TransStaffPage = () => {
     return (
         <div>
             <Toast ref={toast} />
-            <p>Order Manager</p>
             {
                 visiblePopUpConfirm && (
                     <div className='popup-overlay'>

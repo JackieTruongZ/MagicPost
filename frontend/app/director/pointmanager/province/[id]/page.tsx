@@ -65,7 +65,6 @@ const PointManagerDetail = () => {
   return (
     <div>
       <p>{findProvinceById(pathname.slice(-2))}</p>
-      <p>Hub Point</p>
       <Button label='Tạo điểm tập kết' onClick={() => { setCreateHub(!createHub) }} />
       {
         createHub && (

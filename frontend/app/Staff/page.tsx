@@ -14,7 +14,6 @@ function StaffPage() {
     }, [])
     return (
         <div>
-            <p>StaffPage</p>
             {
                 (roleId && (['511', '512'].includes(roleId))) && (
                     <TransStaffPage />

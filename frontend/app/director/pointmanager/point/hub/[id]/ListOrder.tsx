@@ -27,8 +27,7 @@ function ListOrder({ hubId }: Props) {
                 const formData = {
                     pointId: hubId,
                 }
-                console.log('check', hubId);
-
+            
                 const resStayOrder: any = await baseService.findOrderOnPoint(formData);
                 const resMoveInOrder: any = await baseService.findOrderMoveInPoint(formData);
 

@@ -217,7 +217,6 @@ const HubStaffPage = () => {
     return (
         <div>
             <Toast ref={toast} />
-            <p>Order Manager</p>
             {
                 visiblePopUpConfirm && (
                     <div className='popup-overlay'>
