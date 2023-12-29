@@ -3,7 +3,7 @@
     bottom: 0;
     width: 100%;
     background: #f38c8c;
-    margin-top: 1px grey !important;
+    border-top: solid 1px #f38c8c;
 }
 
 
@@ -30,10 +30,9 @@ MenuItem Button {
 Box {
     width: 100%;
     height: 100%;
-    border-top: 2px;
-    border-color: gray;
 }
 
 .css-1bjk3jo-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected {
     color: #f38c8c !important;
 }
+
