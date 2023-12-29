@@ -1,8 +1,16 @@
-.invoice { 
+.form-name { 
     font-size: xx-large;
     font-weight: bold;
 }
 
+.order-id, .description, .sender, .receiver, .details {
+    border: 1px solid gray;
+    font-weight: bold;
+}
+
+ul li {
+    font-weight: normal !important;
+}
 .qr-code {
     display: flex;
     justify-content: center;

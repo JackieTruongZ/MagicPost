@@ -33,9 +33,9 @@ function OrderPage() {
   return (
     <div>
       <div>
-        <div className="invoice"> Invoice</div>
-        <div>
-          <div className="qr-code">
+        <div className="form-name ml-8 mb-4"> Invoice</div>
+        <div className="invoice grid ml-8 mr-8">
+          <div className="qr-code col-12 mb-4">
             <QRCode
               className="ml-4"
               size={300}
@@ -45,36 +45,46 @@ function OrderPage() {
             />
           </div>
 
-          <h3 className="md:text-base text-sm ">Order ID: {order?.order.id}</h3>
-          <p>Description: {order?.inforOder?.description}</p>
-          <p>Sender:</p>
-          <ul>
-            <li>Name: {order?.inforOder?.senderName}</li>
-            <li>Phone Number: {order?.inforOder?.senderNumber}</li>
-            <li>Address: {order?.inforOder?.senderAddress}</li>
-            <li>Post Code: {order?.inforOder?.senderPostCode}</li>
-          </ul>
-          <p>Receiver:</p>
-          <ul>
-            <li>Name: {order?.inforOder?.receiverName}</li>
-            <li>Phone Number: {order?.inforOder?.receiverNumber}</li>
-            <li>Address: {order?.inforOder?.receiverAddress}</li>
-            <li>Post Code: {order?.inforOder?.receiverPostCode}</li>
-          </ul>
-          <p>Details:</p>
-          <ul>
-            <li>Mass: {order?.inforOder?.mass}</li>
-            <li>Type of Goods: {order?.inforOder?.typeGoods}</li>
-            <li>Base Fee: {order?.inforOder?.baseFee}</li>
-            <li>Additional Fee: {order?.inforOder?.additionalFee}</li>
-            <li>VAT: {order?.inforOder?.VAT}</li>
-            <li>Cost: {order?.inforOder?.cost}</li>
-            <li>Other Charges: {order?.inforOder?.Othercharge}</li>
-            <li>Receiver COD: {order?.inforOder?.reveiverCOD}</li>
-            <li>
-              Receiver Other Charges: {order?.inforOder?.reveicerOthercharge}
-            </li>
-          </ul>
+          <div className="order-id col-12 md:text-base text-sm text-center">
+            Order ID: {order?.order.id}
+          </div>
+          <div className="description col-12 text-center">
+            Description: {order?.inforOder?.description}
+          </div>
+          <div className="sender col-12 md:col-4">
+            Sender
+            <ul>
+              <li>Name: {order?.inforOder?.senderName}</li>
+              <li>Phone Number: {order?.inforOder?.senderNumber}</li>
+              <li>Address: {order?.inforOder?.senderAddress}</li>
+              <li>Post Code: {order?.inforOder?.senderPostCode}</li>
+            </ul>
+          </div>
+          <div className="receiver col-12 md:col-4">
+            Receiver
+            <ul>
+              <li>Name: {order?.inforOder?.receiverName}</li>
+              <li>Phone Number: {order?.inforOder?.receiverNumber}</li>
+              <li>Address: {order?.inforOder?.receiverAddress}</li>
+              <li>Post Code: {order?.inforOder?.receiverPostCode}</li>
+            </ul>
+          </div>
+          <div className="details col-12 md:col-4">
+            Details
+            <ul>
+              <li>Mass: {order?.inforOder?.mass}</li>
+              <li>Type of Goods: {order?.inforOder?.typeGoods}</li>
+              <li>Base Fee: {order?.inforOder?.baseFee}</li>
+              <li>Additional Fee: {order?.inforOder?.additionalFee}</li>
+              <li>VAT: {order?.inforOder?.VAT}</li>
+              <li>Cost: {order?.inforOder?.cost}</li>
+              <li>Other Charges: {order?.inforOder?.Othercharge}</li>
+              <li>Receiver COD: {order?.inforOder?.reveiverCOD}</li>
+              <li>
+                Receiver Other Charges: {order?.inforOder?.reveicerOthercharge}
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
