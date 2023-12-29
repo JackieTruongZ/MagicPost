@@ -73,3 +73,4 @@ Link Github : https://github.com/JackieTruongZ/MagicPost
 Link Demo: https://main--visionary-muffin-079907.netlify.app/
 
 Link Video Thuyết trình: https://drive.google.com/file/d/1kdLOIE3UbrBRvLq1xdM9jE6Qsqv-jqwF/view?fbclid=IwAR2ubhKC5n-tqG6MW1dJNDaup5a8vfKGSB82NbhcQpFdp0jEaQFd1UpH4QI
+
