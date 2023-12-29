@@ -10,7 +10,6 @@ import { BaseService } from "../service/BaseService";
 import { Dropdown } from "primereact/dropdown";
 import { PROVINCE_ENUM, CITY_DISTRICT_ENUM } from "@/public/utils/Utils";
 
-
 const initialValues = {
   productName: "",
   massItem: 0,
@@ -35,8 +34,12 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
   productName: Yup.string().required("Product Name is required"),
-  massItem: Yup.number().required("Mass Item is required"),
-  quantity: Yup.number().required("Quantity is required"),
+  massItem: Yup.string()
+    .matches(/^(?!-)\d+$/, "Quantity must be a non-negative integer")
+    .required("Mass Item is required"),
+  quantity: Yup.string()
+    .matches(/^(?!-)\d+$/, "Quantity must be a non-negative integer")
+    .required("Quantity is required"),
   descriptionItem: Yup.string().required("Description Item is required"),
   senderCity: Yup.string().required("Sender City is required"),
   senderProvince: Yup.string().required("Sender Province is required"),
@@ -44,11 +47,15 @@ const validationSchema = Yup.object().shape({
   receiverProvince: Yup.string().required("Receiver Province is required"),
   description: Yup.string().required("Description is required"),
   senderName: Yup.string().required("Sender Name is required"),
-  senderNumber: Yup.string().required("Sender Number is required"),
+  senderNumber: Yup.string()
+    .matches(/^(09|03|08|07|05)\d{8}$/, "Invalid phone number")
+    .required("Sender Number is required"),
   senderAddress: Yup.string().required("Sender Address is required"),
   senderPostCode: Yup.string().required("Sender Post Code is required"),
   receiverName: Yup.string().required("Receiver Name is required"),
-  receiverNumber: Yup.string().required("Receiver Number is required"),
+  receiverNumber: Yup.string()
+    .matches(/^(09|03|08|07|05)\d{8}$/, "Invalid phone number")
+    .required("Receiver Number is required"),
   receiverAddress: Yup.string().required("Receiver Address is required"),
   receiverPostCode: Yup.string().required("Receiver Post Code is required"),
   massOrder: Yup.string().required("Mass Order is required"),
@@ -88,22 +95,25 @@ const FormComponent = () => {
   const [selectedSenderProvinceCode, setSelectedSenderProvinceCode] = useState<
     string | undefined
   >(undefined);
+  const [selectedSenderCity, setSelectedSenderCity] = useState(null);
 
   const [selectedReceiverProvince, setSelectedReceiverProvince] =
     useState(null);
+  const [selectedReceiverCity, setSelectedReceiverCity] = useState(null);
   const [selectedReceiverProvinceCode, setSelectedReceiverProvinceCode] =
-    useState<string | undefined>(undefined);
+    useState<string | undefined>("");
 
   return (
     <div className="order-creation">
+      <div className="form-name ml-8">Order Form</div>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ values, setFieldValue }) => (
-          <Form className="order-creation-form grid text-center ml-8 mr-8 offset-2">
-            <div className="p-field col-12 md:col-6">
+          <Form className="order-creation-form grid ml-8 mr-8 mt-4">
+            <div className="p-field col-12 md:col-5 col-offset-1 mt-4">
               <div className="senderName mb-1">Sender Name</div>
               <Field
                 id="senderName"
@@ -118,7 +128,7 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1 mt-4">
               <div className="receiverName mb-1">Receiver Name</div>
               <Field
                 id="receiverName"
@@ -133,7 +143,7 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="senderAddress mb-1">Sender Address</div>
               <Field
                 id="senderAddress"
@@ -148,7 +158,7 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="receiverAddress mb-1">Receiver Address</div>
               <Field
                 id="receiverAddress"
@@ -163,27 +173,27 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="senderProvince mb-1">Sender Province</div>
-              <Field
+              <Dropdown
                 id="senderProvince"
                 name="senderProvince"
-                options={PROVINCE_ENUM}
-                optiondiv="name_with_type"
-                optionValue="name"
-                className="p-dropdown"
-                placeholder="Select a province"
-                as={Dropdown}
-                onChange={(e: any) => {
-                  const senderProvince = e.value;
-                  const senderProvinceCode = PROVINCE_ENUM.find(
-                    (option) => option.name === senderProvince
+                value={selectedSenderProvince}
+                onChange={(e) => {
+                  const selectedSenderProvince = e.value;
+                  const selectedSenderProvinceCode = PROVINCE_ENUM.find(
+                    (province) => province.name === selectedSenderProvince.name
                   )?.code;
-                  setSelectedSenderProvince(senderProvince);
-                  setSelectedSenderProvinceCode(senderProvinceCode);
-                  setFieldValue("senderProvince", senderProvince);
-                  setFieldValue("senderCity", null); // Reset the city selection when the province changes
+
+                  setSelectedSenderProvince(selectedSenderProvince);
+                  setSelectedSenderProvinceCode(selectedSenderProvinceCode);
+                  setFieldValue("senderProvince", selectedSenderProvince.name);
+                  setFieldValue("senderCity", null);
+                  // Reset the city selection when the province changes
                 }}
+                options={PROVINCE_ENUM}
+                optionLabel="name_with_type"
+                placeholder="Select a Province"
               />
               <ErrorMessage
                 name="senderProvince"
@@ -191,27 +201,31 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="receiverProvince mb-1">Receiver Province</div>
-              <Field
+              <Dropdown
                 id="receiverProvince"
                 name="receiverProvince"
-                options={PROVINCE_ENUM}
-                optiondiv="name_with_type"
-                optionValue="name"
-                className="p-dropdown"
-                placeholder="Select a province"
-                as={Dropdown}
-                onChange={(e: any) => {
-                  const ReceiverProvince = e.value;
-                  const ReceiverProvinceCode = PROVINCE_ENUM.find(
-                    (option) => option.name === ReceiverProvince
+                value={selectedReceiverProvince}
+                onChange={(e) => {
+                  const selectedReceiverProvince = e.value;
+                  const selectedReceiverProvinceCode = PROVINCE_ENUM.find(
+                    (province) =>
+                      province.name === selectedReceiverProvince.name
                   )?.code;
-                  setSelectedReceiverProvince(ReceiverProvince);
-                  setSelectedReceiverProvinceCode(ReceiverProvinceCode);
-                  setFieldValue("receiverProvince", ReceiverProvince);
-                  setFieldValue("receiverCity", null); // Reset the city selection when the province changes
+
+                  setSelectedReceiverProvince(selectedReceiverProvince);
+                  setSelectedReceiverProvinceCode(selectedReceiverProvinceCode);
+                  setFieldValue(
+                    "receiverProvince",
+                    selectedReceiverProvince.name
+                  );
+                  setFieldValue("receiverCity", null);
+                  // Reset the city selection when the province changes
                 }}
+                options={PROVINCE_ENUM}
+                optionLabel="name_with_type"
+                placeholder="Select a Province"
               />
               <ErrorMessage
                 name="receiverProvince"
@@ -219,19 +233,22 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="senderCity mb-1">Sender City</div>
-              <Field
+              <Dropdown
                 id="senderCity"
                 name="senderCity"
+                value={selectedSenderCity}
+                onChange={(e) => {
+                  const selectedSenderCity = e.value;
+                  setSelectedSenderCity(selectedSenderCity);
+                  setFieldValue("senderCity", selectedSenderCity.name);
+                }}
                 options={CITY_DISTRICT_ENUM.filter(
                   (city) => city.parent_code == selectedSenderProvinceCode
                 )}
-                optiondiv="name_with_type" // Change 'div' to 'name'
-                optionValue="name" // Change 'value' to '_id'
-                className="p-dropdown"
+                optionLabel="name_with_type"
                 placeholder="Select a city"
-                as={Dropdown}
               />
               <ErrorMessage
                 name="senderCity"
@@ -239,19 +256,22 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="receiverCity mb-1">Receiver City</div>
-              <Field
+              <Dropdown
                 id="receiverCity"
                 name="receiverCity"
+                value={selectedReceiverCity}
+                onChange={(e) => {
+                  const selectedReceiverCity = e.value;
+                  setSelectedReceiverCity(selectedReceiverCity);
+                  setFieldValue("receiverCity", selectedReceiverCity.name);
+                }}
                 options={CITY_DISTRICT_ENUM.filter(
                   (city) => city.parent_code == selectedReceiverProvinceCode
                 )}
-                optiondiv="name_with_type" // Change 'div' to 'name'
-                optionValue="name" // Change 'value' to '_id'
-                className="p-dropdown"
+                optionLabel="name_with_type"
                 placeholder="Select a city"
-                as={Dropdown}
               />
               <ErrorMessage
                 name="receiverCity"
@@ -259,7 +279,7 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="senderNumber mb-1">Sender Number</div>
               <Field
                 id="senderNumber"
@@ -275,7 +295,7 @@ const FormComponent = () => {
               />
             </div>
 
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="receiverNumber mb-1">Receiver Number</div>
               <Field
                 id="receiverNumber"
@@ -291,7 +311,7 @@ const FormComponent = () => {
               />
             </div>
 
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="senderPostCode mb-1">Sender PostCode</div>
               <Field
                 id="senderPostCode"
@@ -307,7 +327,7 @@ const FormComponent = () => {
               />
             </div>
 
-            <div className="p-field col-12 md:col-6">
+            <div className="p-field col-12 md:col-5 col-offset-1">
               <div className="receiverPostcode mb-1">Receiver PostCode</div>
               <Field
                 id="receiverPostCode"
@@ -322,114 +342,113 @@ const FormComponent = () => {
                 className="p-error"
               />
             </div>
-            <div className="package-information grid col-12 text-center">
-              <div className="p-field col-12">
-                <div className="productName mb-1">Product Name</div>
-                <Field
-                  id="productName"
-                  name="productName"
-                  type="text"
-                  as={InputText}
-                  className="p-inputtext"
-                />
-                <ErrorMessage
-                  name="productName"
-                  component="small"
-                  className="p-error"
-                />
-              </div>
-              <div className="p-field col-12">
-                <div className="description mb-1">Description</div>
-                <Field
-                  id="description"
-                  name="description"
-                  type="text"
-                  as={InputText}
-                  className="p-inputtext"
-                />
-                <ErrorMessage
-                  name="description"
-                  component="small"
-                  className="p-error"
-                />
-              </div>
-              <div className="p-field col-12">
-                <div className="massOrder mb-1">Mass Order</div>
-                <Field
-                  id="massOrder"
-                  name="massOrder"
-                  type="text"
-                  as={InputText}
-                  className="p-inputtext"
-                />
-                <ErrorMessage
-                  name="massOrder"
-                  component="small"
-                  className="p-error"
-                />
-              </div>
-              <div className="p-field col-12">
-                <div className="typeGoods mb-1">Type Goods</div>
-                <Field
-                  id="typeGoods"
-                  name="typeGoods"
-                  type="text"
-                  as={InputText}
-                  className="p-inputtext"
-                />
-                <ErrorMessage
-                  name="typeGoods"
-                  component="small"
-                  className="p-error"
-                />
-              </div>
-              <div className="p-field col-12">
-                <div className="quantity mb-1">Quantity</div>
-                <Field
-                  id="quantity"
-                  name="quantity"
-                  type="number"
-                  as={InputText}
-                  className="p-inputtext"
-                />
-                <ErrorMessage
-                  name="quantity"
-                  component="small"
-                  className="p-error"
-                />
-              </div>
-              <div className="p-field col-12">
-                <div className="descriptionItem mb-1">Description Item</div>
-                <Field
-                  id="descriptionItem"
-                  name="descriptionItem"
-                  type="text"
-                  as={InputText}
-                  className="p-inputtext"
-                />
-                <ErrorMessage
-                  name="descriptionItem"
-                  component="small"
-                  className="p-error"
-                />
-              </div>
-              <div className="p-field col-12">
-                <div className="massItem mb-1">Mass Item</div>
-                <Field
-                  id="massItem"
-                  name="massItem"
-                  type="number"
-                  as={InputText}
-                  className="p-inputtext"
-                />
-                <ErrorMessage
-                  name="massItem"
-                  component="small"
-                  className="p-error"
-                />
-              </div>
+
+            <div className="p-field col-12 text-center">
+              <div className="productName mb-1">Product Name</div>
+              <Field
+                id="productName"
+                name="productName"
+                type="text"
+                as={InputText}
+                className="p-inputtext"
+              />
+              <ErrorMessage
+                name="productName"
+                component="small"
+                className="p-error"
+              />
             </div>
-            <div className="submit-button col-12">
+            <div className="p-field col-12 text-center">
+              <div className="description mb-1">Description</div>
+              <Field
+                id="description"
+                name="description"
+                type="text"
+                as={InputText}
+                className="p-inputtext"
+              />
+              <ErrorMessage
+                name="description"
+                component="small"
+                className="p-error"
+              />
+            </div>
+            <div className="p-field col-12 text-center">
+              <div className="massOrder mb-1">Mass Order</div>
+              <Field
+                id="massOrder"
+                name="massOrder"
+                type="text"
+                as={InputText}
+                className="p-inputtext"
+              />
+              <ErrorMessage
+                name="massOrder"
+                component="small"
+                className="p-error"
+              />
+            </div>
+            <div className="p-field col-12 text-center">
+              <div className="typeGoods mb-1">Type Goods</div>
+              <Field
+                id="typeGoods"
+                name="typeGoods"
+                type="text"
+                as={InputText}
+                className="p-inputtext"
+              />
+              <ErrorMessage
+                name="typeGoods"
+                component="small"
+                className="p-error"
+              />
+            </div>
+            <div className="p-field col-12 text-center">
+              <div className="quantity mb-1">Quantity</div>
+              <Field
+                id="quantity"
+                name="quantity"
+                type="number"
+                as={InputText}
+                className="p-inputtext"
+              />
+              <ErrorMessage
+                name="quantity"
+                component="small"
+                className="p-error"
+              />
+            </div>
+            <div className="p-field col-12 text-center">
+              <div className="descriptionItem mb-1">Description Item</div>
+              <Field
+                id="descriptionItem"
+                name="descriptionItem"
+                type="text"
+                as={InputText}
+                className="p-inputtext"
+              />
+              <ErrorMessage
+                name="descriptionItem"
+                component="small"
+                className="p-error"
+              />
+            </div>
+            <div className="p-field col-12 text-center">
+              <div className="massItem mb-1">Mass Item</div>
+              <Field
+                id="massItem"
+                name="massItem"
+                type="number"
+                as={InputText}
+                className="p-inputtext"
+              />
+              <ErrorMessage
+                name="massItem"
+                component="small"
+                className="p-error"
+              />
+            </div>
+            <div className="submit-button col-12 mb-4">
               <Button
                 type="submit"
                 label="Submit"

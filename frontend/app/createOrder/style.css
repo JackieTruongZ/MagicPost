@@ -1,26 +1,46 @@
+.form-name {
+  font-weight: bold;
+  font-size: xx-large;
+}
 .order-creation-form {
   border: 1px solid rgb(192, 191, 191);
   border-radius: 5px;
 }
 
+.order-creation-form div{
+  font-weight: bold;
+}
+
 .p-inputtext.p-component {
-  width: 80%;
+  width: 60%;
 }
 
 .p-dropdown.p-component.p-inputwrapper {
-  width: 80%;
+  width: 60%;
+  font-weight: normal;
 }
 .p-field .p-error {
   display: block;
+  font-weight: normal;
 }
 
 .submit-button {
   display: flex;
   justify-content: center;
   text-align: center;
+  height: 50px;
 }
 .submit-button Button {
   background-color: #ff725e;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
+
+.p-button-label.p-c {
+color: #000000;
+}
+
+.p-button.p-component {
+  width: 30%;
+}
+
