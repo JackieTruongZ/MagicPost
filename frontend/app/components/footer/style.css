@@ -45,7 +45,7 @@ footer, footer * {
   /* Responsive styles */
   @media screen and (max-width: 500px) {
     .footer-section {
-      flex: 1 0 100%;
+      flex: 1;
       margin-bottom: 20px;
       margin-left: 5px;
     }

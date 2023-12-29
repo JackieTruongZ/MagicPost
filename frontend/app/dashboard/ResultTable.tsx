@@ -24,9 +24,27 @@ const ResultTable = ({childState, setChildState}) => {
 
     let status = childState.data.data.road.status;
     let statusMessage;
+// wait
+// move
+// drive
+// success
+// fail
+// return
     switch(status) {
       case 'wait':
-        statusMessage = 'waiting '
+        statusMessage = 'waiting ';
+        break;
+      case 'move':
+        statusMessage = `Your commodity is moving from ${arrayOfDes[stepId]} to next point`
+        break;
+      case 'drive':
+        statusMessage = 'Your commodity is drived to receiver';
+        break;
+      case 'success':
+        statusMessage = 'Successfully delivered';
+        break;
+      case 'fail':
+        statusMessage = 'Fail to deliver, it will be delivered again soon';
         break;
     }
   return (

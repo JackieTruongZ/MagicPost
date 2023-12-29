@@ -22,8 +22,9 @@
   }
   
   .step_container {
-    width: 80%;
-    margin: 20px;
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 50px;
   }
 
   .step_container .p-steps-number {
@@ -31,7 +32,28 @@
   }
 
   .status_message_container {
+    font-weight: bold;
     text-align: center;
+    padding: 0 10%;
+    margin-top: 20px;
+    margin-left: auto auto;
+  }
+
+  @media screen and (max-width: 500px){ 
+    .custom-table {
+      font-size: small;
+    }
+    .step_container {
+      width: 100%;
+      margin: 20px 0 0 0;
+    }
   }
  
+  .step_container Steps {
+    width: 100%;
+  }
+
+  .p-steps-title {
+    font-size: smaller;
+  }
   
