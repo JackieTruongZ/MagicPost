@@ -69,7 +69,7 @@ const Menu = ({ roleId }: Props) => {
             setValue(newValue);
           }}
         >
-          <BottomNavigationAction label="Có làm thì mới có ăn" icon={<PendingActionsIcon />} />
+          <BottomNavigationAction className="special" label="Có làm thì mới có ăn" icon={<PendingActionsIcon />} />
         </BottomNavigation>
       </Box>
       )}
