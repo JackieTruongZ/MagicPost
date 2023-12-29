@@ -43,7 +43,7 @@ const Menu = ({ roleId }: Props) => {
     setValue(1);
     else if (["51", "52"].includes(roleId) && pathname.slice(-12) == "ordermanager")
     setValue(2);
-  else setValue(1);
+  else setValue(100);
   }, [roleId]);
 
   return (

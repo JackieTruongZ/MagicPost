@@ -57,6 +57,7 @@ async function request(values: any) {
         text: "Khoi tao thanh cong",
         icon: "success"
       });
+      set
     }
   } catch (error:any) {
     Swal.fire({
@@ -68,12 +69,14 @@ async function request(values: any) {
 }
 
 export default function MyForm() {
-  const handleSubmit = (values: any,) => {
+  const handleSubmit = (values: any, {resetForm} : any) => {
     // Gửi dữ liệu nếu hợp lệ
     console.log('Form submitted:', values);
 
     //Dùng axios để gọi API
     request(values);
+
+    resetForm();
 
     // setSubmitting(false);
   };
