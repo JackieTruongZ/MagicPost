@@ -48,7 +48,7 @@ const [view, setView] = useState(orderTypeFilter.at(0)?.value);
           className='flex'
         />
       <DataTable value={orders} stripedRows className='cursor-pointer listview' tableStyle={{ minWidth: '50rem' }}>
-      <Column field="orderId" header="orderId" body={(rowData: AllOrderInforWithRoad) => <span>{rowData.order.id}</span>}></Column>
+      <Column field="orderId" header="orderId" body={(rowData: AllOrderInforWithRoad) => <span onClick={()=>{window.location.href = `/Order/order/${rowData.order.id}`}}>{rowData.order.id}</span>}></Column>
       <Column field="orderId" header="orderId" body={(rowData: AllOrderInforWithRoad) => <span>{rowData.order.userId}</span>}></Column>
       <Column field="orderId" header="orderId" body={(rowData: AllOrderInforWithRoad) => <span>{rowData.order.createdAt.slice(0,10)}</span>}></Column>
       <Column field="orderId" header="orderId" 

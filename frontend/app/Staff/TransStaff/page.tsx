@@ -323,7 +323,7 @@ const TransStaffPage = () => {
 
             <div className='listorder'>
                 <DataTable value={orders} stripedRows className='cursor-pointer listview' scrollable scrollHeight="800px" tableStyle={{ minWidth: '50rem' }}>
-                    <Column field="orderId" header="orderId" body={(rowData: Order) => <span className="text-center">{rowData.id}</span>} headerClassName="text-center"></Column>
+                    <Column field="orderId" header="orderId" body={(rowData: Order) => <span className="text-center" onClick={()=>{window.location.href = `/Order/order/${rowData.id}`}}>{rowData.id}</span>} headerClassName="text-center"></Column>
                     <Column field="userId" header="Người tạo đơn" body={(rowData: Order) => <span className="text-center">{rowData.userId}</span>} headerClassName="text-center"></Column>
                     <Column field="date" header="Ngày tạo đơn" body={(rowData: Order) => <span className="text-center">{rowData.createdAt.slice(0, 10)}</span>} headerClassName="text-center"></Column>
                     <Column field="Button" header="Xác nhận" body={(rowData: Order) => <ButtonConfirm rowData={rowData} />} headerClassName="text-center"></Column>
