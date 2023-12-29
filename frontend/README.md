@@ -1,34 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MagicPost - ứng dụng quản lý vận đơn cho công ty giao hàng
 
-## Getting Started
+## Công nghệ chính sử dụng
 
-First, run the development server:
+### Ngôn ngữ và framework :
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+    Sử dụng javascript/typescript => sử dụng TS giúp code theo hướng đối tượng dễ dàng hơn
+    Đối với Backend : sử  dụng NestJS + Prisma + Postgresql , sử dụng ts giúp code back end hướng đối tượng
+    dễ dàng hơn cộng với trình quản lý model prisma giúp tiện lợi trong quá trình thiết lập quan hệ giữa
+    các model
+    Postgresql là hệ quản trị cơ sở dữ liệu mã nguồn mở giúp linh hoạt trong các khâu xử lý phân cấp và graphic
+
+    Đối với Frontend : sử dụng NextJs để làm framework chính, với sự linh hoạt kèm khả năng
+    SSR (Server Side Rendering) giúp cho hệ thống chạy ổn định và mượt hơn
+
+### Công cụ deploy :
+
+    Sử dụng 2 công cụ chính là render và netify giúp deploy và tối ưu hóa performance cho hệ thống
+    về lưu trữ asset thì firebase là công cụ giúp làm việc đó một cách thoải mái
+
+## Cách chạy :
+
+### Đối với backend
+
+```typescript
+cd backend // vào thư mục backend
+yarn // cài đặt gói
+yarn start:dev // chạy dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Đối với frontend
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```typescript
+cd frontend // vào thư mục
+npm i // cài đặt gói
+npm run dev // chạy dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Phân chia công việc :
 
-## Learn More
+### 1 - Backend
 
-To learn more about Next.js, take a look at the following resources:
+    Họ và tên:      Nguyễn Trường Đạt - Trưởng nhóm
+    Mã sinh viên:   21020300
+    Nhiệm vụ:       - Phân công công việc
+                    - Phụ trách xây dựng, hình thành mô hình cơ sở dữ liệu, các biểu đồ cần thiết để hình dung ra cách vận
+                    hành cơ sở dữ liệu sử dụng cho dự án - Phụ trách chủ yếu back end, trực tiếp xây dựng và quản lí cơ sở
+                    dữ liệu mà dự án sử dụng.
+                    - Hỗ trợ code front end, tạo các giao diện liên quan tới thống kê tài khoản
+                    điểm giao dịch, điểm tập kết, ... cũng như phát triển một số tính năng khác
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2 - Frontend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+    Họ và tên:      Nguyễn Khánh Duy
+    Mã sinh viên:
+    Nhiệm vụ:       - Phụ trách front end, tìm hiểu template và layout cho các page tùy theo các ca sử dụng khác nhau của người dùng.
+                    - Sử dụng các công cụ thiết kế để vẽ ra layout front end đơn giản trước khi bắt tay vào code.
+                    - Thực hiện code giao diện các trang tương tác với người dùng: Menu, Footer, Cấp tài khoản, tìm kiếm đơn hàng, ...
+                    - đồng thời phụ trách phần API tương ứng để đẩy những dữ liệu cần thiết lên trên cở sở dữ liệu
+                    cũng như nhận dữ liệu từ cơ sở dữ liệu cũng như các Components khác của frontend.
 
-## Deploy on Vercel
+    Họ và tên:      Nguyễn Hữu Việt Cương
+    Mã sinh viên:   21020538
+    Nhiệm vụ:       - Phụ trách front end, tìm hiểu template và layout cho các page tùy theo các ca sử dụng khác nhau của người dùng.
+                    - Sử dụng các công cụ thiết kế để vẽ ra layout front end đơn giản trước khi bắt tay vào code.
+                    - Thực hiện code giao diện các trang tương tác với người dùng: Menu, Header, Đăng nhập, tạo đơn, ...
+                    - đồng thời phụ trách phần API tương ứng để đẩy những dữ liệu cần thiết lên trên cở sở dữ liệu cũng như
+                    - nhận dữ liệu từ cơ sở dữ liệu. cũng như các Components khác của frontend.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Link Demo: https://main--visionary-muffin-079907.netlify.app/
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Link Video Thuyết trình: https://drive.google.com/file/d/1kdLOIE3UbrBRvLq1xdM9jE6Qsqv-jqwF/view?fbclid=IwAR2ubhKC5n-tqG6MW1dJNDaup5a8vfKGSB82NbhcQpFdp0jEaQFd1UpH4QI
