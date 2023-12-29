@@ -125,9 +125,6 @@ export class BaseService {
       axiosConfig
     );
   }
-
-  // point Service --------------------------------------------------------------------------------//
-
   async createTrans(formData: any) {
     const bearver = window.localStorage.getItem("access_token");
     let axiosConfig = {

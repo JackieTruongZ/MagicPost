@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import React, { useState, useRef } from 'react';
-import Link from 'next/link';
-import './style2.css'; // Import the CSS file
+import React, { useState, useRef } from "react";
+import Link from "next/link";
+import "./style2.css"; // Import the CSS file
 import { InputText } from "primereact/inputtext";
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
@@ -10,11 +10,12 @@ import { BaseService } from '../service/BaseService';
 import { Toast } from 'primereact/toast';
 import { UserRolePointInfor } from '@/public/utils/interface';
 
+
 const LogIn = () => {
-  const [emailValue, setEmailValue] = useState('');
-  const [passwordValue, setPasswordValue] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [emailValue, setEmailValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const baseService = new BaseService();
   const toast = useRef<Toast | null>(null);
 
@@ -30,41 +31,40 @@ const LogIn = () => {
 
   const handleEmailBlur = () => {
     if (!emailValue) {
-      setEmailError('Email is required');
+      setEmailError("Email is required");
     } else if (!isValidEmail(emailValue)) {
-      setEmailError('Invalid email address');
+      setEmailError("Invalid email address");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
   const handlePasswordBlur = () => {
     if (!passwordValue) {
-      setPasswordError('Password is required');
+      setPasswordError("Password is required");
     } else {
-      setPasswordError('');
+      setPasswordError("");
     }
   };
 
   const emailValidation = () => {
     if (!emailValue) {
-      return 'Email is required';
+      return "Email is required";
     } else if (!isValidEmail(emailValue)) {
-      return 'Invalid email';
+      return "Invalid email";
     }
     return '';
   }
 
   const passwordValidation = () => {
     if (!passwordValue) {
-      return 'Password is required';
+      return "Password is required";
     }
-    return '';
-  }
+    return "";
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-
 
     const emailErrorText = emailValidation();
     const passwordErrorText = passwordValidation();
@@ -85,8 +85,8 @@ const LogIn = () => {
 
     const formLogin: any = {
       email: emailValue,
-      password: passwordValue
-    }
+      password: passwordValue,
+    };
     try {
       const login = await baseService.login(formLogin);
       if (login.data.status === 'OK') {
@@ -115,26 +115,29 @@ const LogIn = () => {
         toast.current?.show({ severity: 'error', summary: 'Error', detail: `${login.data.message}` });
       }
     } catch (error) {
-      toast.current?.show({ severity: 'error', summary: 'Error', detail: `login error` });
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: `login error`,
+      });
     }
 
     // Reset form values
-    setEmailValue('');
-    setPasswordValue('');
-    setEmailError('');
-    setPasswordError('');
+    setEmailValue("");
+    setPasswordValue("");
+    setEmailError("");
+    setPasswordError("");
   };
 
   const handleEmailChange = (e: any) => {
     setEmailValue(e.target.value);
-    setEmailError('');
+    setEmailError("");
   };
 
   const handlePasswordChange = (e: any) => {
     setPasswordValue(e.target.value);
-    setPasswordError('');
+    setPasswordError("");
   };
-
 
   return (
     <div className="log-in ">
@@ -154,12 +157,16 @@ const LogIn = () => {
                 placeholder="Enter email"
               />
             </div>
-            {emailError && <div className="email-error-message mt-1">{emailError}</div>}
+            {emailError && (
+              <div className="email-error-message mt-1">{emailError}</div>
+            )}
           </div>
 
           <div className="password mb-5">
             <div className="text-wrapper-2 mb-2">Password</div>
-            <Link href="" className="text-wrapper-3">Forgot Password?</Link>
+            <Link href="" className="text-wrapper-3">
+              Forgot Password?
+            </Link>
             <div className="card flex justify-content-center mt-2">
               <Password
                 className="password-content"
@@ -178,7 +185,11 @@ const LogIn = () => {
           <Button label="Log In" type="submit" onClick={(e) => { handleSubmit(e) }} />
         </div>
       </div>
-      <img className="log-in-image" alt="Log in image" src="./asset/login-image.png" />
+      <img
+        className="log-in-image"
+        alt="Log in image"
+        src="./asset/login-image.png"
+      />
     </div>
   );
 };
