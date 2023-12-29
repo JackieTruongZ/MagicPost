@@ -6,6 +6,9 @@
 .order-id, .description, .sender, .receiver, .details {
     border: 1px solid gray;
     font-weight: bold;
+
+    text-wrap: wrap;
+    overflow-wrap: anywhere;
 }
 
 ul li {
