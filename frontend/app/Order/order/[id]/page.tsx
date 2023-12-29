@@ -1,11 +1,11 @@
-"use client";
-
+'use client'
 import { BaseService } from "@/app/service/BaseService";
 import { OrderAllInfor } from "@/public/utils/interface";
 import { usePathname } from "next/navigation";
 import { Button } from "primereact/button";
 import QRCode from "react-qr-code";
 import React, { useEffect, useState } from "react";
+import { pdfFromReact } from "generate-pdf-from-react-html";
 import "./style.css";
 
 function OrderPage() {
@@ -14,6 +14,7 @@ function OrderPage() {
 
   const [order, setOrder] = useState<OrderAllInfor | undefined>(undefined);
   const [orderId, setOrderId] = useState<string>("");
+
   useEffect(() => {
     const fetchData = async () => {
       if (!pathname) {
@@ -22,22 +23,27 @@ function OrderPage() {
       const orderId = pathname.slice(-42);
 
       const resOrder = await baseService.getOrderById(orderId);
-      if (resOrder.data.status == "OK") {
+      if (resOrder.data.status === "OK") {
         setOrder(resOrder.data.data);
         setOrderId(resOrder.data.data.order.id);
       }
     };
+
     fetchData();
   }, []);
 
+  const handleButtonClick = () => {
+    pdfFromReact(".form-invoice", "My-file", "p", true, false);
+  };
+
   return (
     <div>
-      <div>
+      <div className="form-invoice">
         <div className="form-name ml-8 mb-4"> Invoice</div>
         <div className="invoice grid ml-8 mr-8">
           <div className="qr-code col-12 mb-4">
             <QRCode
-              className="ml-4"
+              className=""
               size={300}
               bgColor="white"
               fgColor="black"
@@ -87,6 +93,7 @@ function OrderPage() {
           </div>
         </div>
       </div>
+      <Button onClick={handleButtonClick}>Generate PDF</Button>
     </div>
   );
 }
