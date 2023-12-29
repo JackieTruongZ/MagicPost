@@ -36,6 +36,18 @@
   z-index: 9999;
 }
 
+@media screen and (max-width: 1024px) {
+  .nav-title {
+    font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .menu {
+    display: none;
+  }
+}
+
 /* pig hero  */
 
 .pig {

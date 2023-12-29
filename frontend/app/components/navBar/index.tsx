@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import './style.css';
 import Menu from "./Menu";
 import { BaseService } from "@/app/service/BaseService";
+import { TabMenu } from "primereact/tabmenu";
+import { menuDirector } from "@/public/utils/Utils";
 
 const NavBar = () => {
   const [username, setUsername] = useState('');
@@ -16,6 +18,8 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [visiblePopup, setVisiblePopup] = useState<boolean>(false);
   const baseService = new BaseService();
+
+  const [activeIndex, setActiveIndex] = useState(0);
   useEffect(() => {
     const storedUsername: string | null = window.localStorage.getItem('username');
     const storedroleId: string | null = window.localStorage.getItem('roleId')
@@ -50,11 +54,13 @@ const NavBar = () => {
   return (
     <div className="h-auto w-full z-999 top-0 left-0">
       <Container>
-        <div className="nav h-5rem relative" onClick={handleClick} >
+        <div className="nav h-5rem relative flex-row" onClick={handleClick} >
           <div className="cursor-pointer nav-title m-4 flex absolute left-0"> <p> MagicPost</p> </div>
           {/* <div id="pig" className="pig m-10"></div> */}
-
-          <Menu roleId={roleId} />
+          <div className="w-4"></div>
+          <div className="menu">
+            <Menu roleId={roleId} />
+          </div>
 
           <div className="user-menu flex absolute right-0">
             <UserMenu isOpen={isOpen} setIsOpen={setIsOpen} username={username} />

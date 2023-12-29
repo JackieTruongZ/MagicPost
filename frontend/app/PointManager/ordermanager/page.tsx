@@ -13,10 +13,16 @@ import ListOrderOnHub from './ListOrderOnHub';
 function OrderManager() {
   const [view, setView] = useState();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [roleId,setRoleId] = useState<string>('');
   const createUser = () => {
     window.location.href = '/createOrder';
   }
-  const roleIdStore = window.localStorage.getItem('roleId');
+  useState(()=> {
+    const roleIdStore = window.localStorage.getItem('roleId');
+    if (roleIdStore) {
+      setRoleId(roleIdStore);
+    }
+  })
   return (
     <div>
       <p>Order Manager</p>
@@ -35,12 +41,12 @@ function OrderManager() {
         (activeIndex == 0) && (
           <div>
             {
-              (roleIdStore == '51') && (
+              (roleId == '51') && (
                 <ListOrderOnTrans />
               )
             }
               {
-              (roleIdStore == '52') && (
+              (roleId == '52') && (
                 <ListOrderOnHub />
               )
             }

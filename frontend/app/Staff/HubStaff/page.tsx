@@ -12,6 +12,7 @@ import { BaseService } from '@/app/service/BaseService';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import QRCodeScanner from '@/app/components/qrcode';
+import { Dropdown } from 'primereact/dropdown';
 
 
 
@@ -21,6 +22,7 @@ interface ButtonConfirmProps {
 
 const HubStaffPage = () => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [view, setView] = useState(orderHubFilter.at(0)?.value);
 
     const baseService = new BaseService();
 
@@ -113,14 +115,14 @@ const HubStaffPage = () => {
                 orderId: orderId
             }
             try {
-                const resConfirm: any = await baseService.confirmOrderOnTrans(formData);
+                const resConfirm: any = await baseService.confirmOrderOnHub(formData);
                 if (resConfirm.data.status == 'OK') {
                     ClearHandle();
                     toast.current?.show({ severity: 'success', summary: 'Success', detail: `Xác nhận thành công` });
 
                 } else {
                     ClearHandle();
-                    toast.current?.show({ severity: 'error', summary: 'Error', detail: `${resConfirm.data.data}` });
+                    toast.current?.show({ severity: 'error', summary: 'Error', detail: `${resConfirm.data.message}` });
                 }
             } catch (error) {
                 ClearHandle();
@@ -133,14 +135,14 @@ const HubStaffPage = () => {
                 orderId: orderId
             }
             try {
-                const resConfirm: any = await baseService.confirmOrderFromTrans(formData);
+                const resConfirm: any = await baseService.confirmOrderFromHub(formData);
                 if (resConfirm.data.status == 'OK') {
                     ClearHandle();
                     toast.current?.show({ severity: 'success', summary: 'Success', detail: `Xác nhận thành công` });
 
                 } else {
                     ClearHandle();
-                    toast.current?.show({ severity: 'error', summary: 'Error', detail: `${resConfirm.data.data}` });
+                    toast.current?.show({ severity: 'error', summary: 'Error', detail: `${resConfirm.data.message}` });
                 }
             } catch (error) {
                 ClearHandle();
@@ -261,7 +263,23 @@ const HubStaffPage = () => {
         ))}
       </div> */}
 
-            <TabMenu className='flex justify-content-center' model={orderHubFilter} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+            <div className='tab-menu'>
+                <TabMenu className='flex justify-content-center' model={orderHubFilter} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+            </div>
+
+            <div className='dropdown-menu'>
+                <Dropdown
+                    id="OrderType"
+                    value={view}
+                    options={orderHubFilter}
+                    onChange={(e) => {
+                        setView((e.target.value).toString());
+                        setActiveIndex(e.target.value - 1);
+                    }}
+                    placeholder="Đơn chờ xác nhận"
+                    className='flex'
+                />
+            </div>
 
             <div className='listorder'>
                 <DataTable value={orders} stripedRows className='cursor-pointer listview' tableStyle={{ minWidth: '50rem' }}>

@@ -45,7 +45,7 @@ export const orderFilter = [
 ]
 
 export const orderTransFilter = [
-  {label: 'Đơn chờ xác nhận ', value: '1'},
+  {label: 'Đơn chờ xác nhận', value: '1'},
   {label: 'Đơn sắp đến', value: '2'},
   {label: 'Đơn đang ở kho', value: '3'},
   {label: 'Đơn giao thành công', value: '4'},
@@ -66,6 +66,23 @@ export const orderTypeFilter = [
   {label: 'Đơn đã giao thành công', value: 'sucess'},
   {label: 'Đơn giao thất bại', value: 'fail'},
   {label: 'Đơn đang được hoàn trả', value: 'return'},
+]
+
+export const menuDirector = [
+  {label : 'Point',value : '1'},
+  {label : 'Account',value : '2'},
+  {label : 'Order',value : '3'}
+]
+
+
+export const menuPointManager = [
+  {label : 'Account',value : '1'},
+  {label : 'Order',value : '2'}
+]
+
+
+export const menuStaff = [
+  {label : 'Làm việc thôi nào',value : '1'},
 ]
 
 

@@ -14,6 +14,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import QRCodeScanner from '@/app/components/qrcode';
 import { TextResult } from 'dynamsoft-javascript-barcode';
+import { Dropdown } from 'primereact/dropdown';
 
 
 
@@ -23,6 +24,8 @@ interface ButtonConfirmProps {
 
 const TransStaffPage = () => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [view, setView] = useState(orderTransFilter.at(0)?.value);
+
     const createOrder = () => {
         window.location.href = '/createOrder';
     }
@@ -63,7 +66,7 @@ const TransStaffPage = () => {
 
     const ButtonConfirm = ({ rowData }: ButtonConfirmProps) => {
         return (
-            <div className="card flex justify-content-center">
+            <div className="card flex">
                 <Button label="Xác nhận" icon="pi pi-verified" onClick={() => { buttonConfirmHandle(rowData) }} />
                 {/* <Dialog header="Xác nhận đơn hàng" visible={visiblePopUpConfirm} style={{ width: '50vw' }} onHide={() => setVisiblePopUpConfirm(false)} footer={footerContent}>
                     <p>Nhập Id đơn hàng hoặc quét mã đơn hàng</p>
@@ -114,7 +117,7 @@ const TransStaffPage = () => {
             setErrorMessage('Sai OrderId !');
             return 0;
         }
-        if (0 == typeOfConfirm || 1 == typeOfConfirm ) {
+        if (0 == typeOfConfirm || 1 == typeOfConfirm) {
             const formData = {
                 orderId: orderId
             }
@@ -126,7 +129,7 @@ const TransStaffPage = () => {
 
                 } else {
                     ClearHandle();
-                    toast.current?.show({ severity: 'error', summary: 'Error', detail: `${resConfirm.data.data}` });
+                    toast.current?.show({ severity: 'error', summary: 'Error', detail: `${resConfirm.data.message}` });
                 }
             } catch (error) {
                 ClearHandle();
@@ -146,7 +149,7 @@ const TransStaffPage = () => {
 
                 } else {
                     ClearHandle();
-                    toast.current?.show({ severity: 'error', summary: 'Error', detail: `${resConfirm.data.data}` });
+                    toast.current?.show({ severity: 'error', summary: 'Error', detail: `${resConfirm.data.message}` });
                 }
             } catch (error) {
                 ClearHandle();
@@ -294,15 +297,30 @@ const TransStaffPage = () => {
           <div className='flex m-2 justify-content-center'><p>{order.label}</p></div>
         ))}
       </div> */}
+            <div className='tab-menu'>
+                <TabMenu className='flex justify-content-center' model={orderTransFilter} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+            </div>
 
-            <TabMenu className='flex justify-content-center' model={orderTransFilter} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
+            <div className='dropdown-menu'>
+                <Dropdown
+                    id="OrderType"
+                    value={view}
+                    options={orderTransFilter}
+                    onChange={(e) => {
+                        setView((e.target.value).toString());
+                        setActiveIndex(e.target.value - 1);
+                    }}
+                    placeholder="Đơn chờ xác nhận"
+                    className='flex'
+                />
+            </div>
 
             <div className='listorder'>
-                <DataTable value={orders} stripedRows className='cursor-pointer listview' tableStyle={{ minWidth: '50rem' }}>
-                    <Column field="orderId" header="orderId" body={(rowData: Order) => <span>{rowData.id}</span>}></Column>
-                    <Column field="userId" header="Người tạo đơn" body={(rowData: Order) => <span>{rowData.userId}</span>}></Column>
-                    <Column field="date" header="Ngày tạo đơn" body={(rowData: Order) => <span>{rowData.createdAt.slice(0, 10)}</span>}></Column>
-                    <Column field="Button" header="Xác nhận" body={(rowData: Order) => <ButtonConfirm rowData={rowData} />}></Column>
+                <DataTable value={orders} stripedRows className='cursor-pointer listview' scrollable scrollHeight="800px" tableStyle={{ minWidth: '50rem' }}>
+                    <Column field="orderId" header="orderId" body={(rowData: Order) => <span className="text-center">{rowData.id}</span>} headerClassName="text-center"></Column>
+                    <Column field="userId" header="Người tạo đơn" body={(rowData: Order) => <span className="text-center">{rowData.userId}</span>} headerClassName="text-center"></Column>
+                    <Column field="date" header="Ngày tạo đơn" body={(rowData: Order) => <span className="text-center">{rowData.createdAt.slice(0, 10)}</span>} headerClassName="text-center"></Column>
+                    <Column field="Button" header="Xác nhận" body={(rowData: Order) => <ButtonConfirm rowData={rowData} />} headerClassName="text-center"></Column>
                 </DataTable>
             </div>
         </div>
