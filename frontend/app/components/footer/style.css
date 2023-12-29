@@ -1,53 +1,57 @@
 /* Reset some default styles for the footer */
-footer, footer * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Footer styles */
-  footer {
-    background-color: #ff4d4d; /* Màu đỏ, bạn có thể thay đổi theo theme của bạn */
-    color: #fff; /* Màu chữ trắng */
-    padding: 20px 0;
-  }
-  
-  .footer-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-  }
-  
+footer,
+footer * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Footer styles */
+footer {
+  background-color: #ff4d4d;
+  /* Màu đỏ, bạn có thể thay đổi theo theme của bạn */
+  color: #fff;
+  /* Màu chữ trắng */
+  padding: 20px 0;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.footer-section {
+  flex: 1;
+  padding: 0 20px;
+  max-width: 300px;
+  text-wrap: wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Style headings in the footer */
+h4 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+/* Style links in the footer */
+p {
+  margin-bottom: 8px;
+}
+
+/* Copyright section */
+.copyright {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.8em;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 500px) {
   .footer-section {
-    flex: 1;
-    padding: 0 20px;
-    max-width: 300px;
+    flex: 1 0 100%;
+    margin-bottom: 20px;
+    max-width: 400px;
   }
-  
-  /* Style headings in the footer */
-  h4 {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-  }
-  
-  /* Style links in the footer */
-  p {
-    margin-bottom: 8px;
-  }
-  
-  /* Copyright section */
-  .copyright {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 0.8em;
-  }
-  
-  /* Responsive styles */
-  @media screen and (max-width: 500px) {
-    .footer-section {
-      flex: 1;
-      margin-bottom: 20px;
-      margin-left: 5px;
-    }
-  }
-  
+}
